@@ -7,19 +7,25 @@
 
 import UIKit
 import AVFoundation
-import Photos
 class PlayViewController: UIViewController{
     var videoPlayer: AVPlayer!
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var duration:Float=0
     var currTime:UILabel?
     var timer: Timer!
-    var playingFlag:Bool = false
-    var pHAsset: PHAsset?
-    
-    
-    func addVideoLayer(playerItem:AVPlayerItem?, _: [AnyHashable : Any]?) {
-        duration=Float(CMTimeGetSeconds(playerItem!.duration))
+     var playingFlag:Bool=false
+    lazy var seekBar = UISlider()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Create AVPlayerItem
+        //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
+        //    fatalError("Movie file can not find.")
+        //            }
+        let fileURL = URL(fileURLWithPath: TempFilePath)
+        //    let fileURL = URL(fileURLWithPath: path)
+        let avAsset = AVURLAsset(url: fileURL)
+        duration=Float(CMTimeGetSeconds(avAsset.duration))
+        let playerItem: AVPlayerItem = AVPlayerItem(asset: avAsset)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
         // Add AVPlayer
@@ -32,9 +38,11 @@ class PlayViewController: UIViewController{
         seekBar.frame = CGRect(x: 0, y: 0, width: view.bounds.maxX - 40, height: 50)
         seekBar.layer.position = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 100)
         seekBar.minimumValue = 0
-        seekBar.maximumValue = duration
+        seekBar.maximumValue = Float(CMTimeGetSeconds(avAsset.duration))
         seekBar.addTarget(self, action: #selector(onSliderValueChange), for: UIControl.Event.valueChanged)
         view.addSubview(seekBar)
+        // Processing to synchronize the seek bar with the movie.
+        
         // Set SeekBar Interval
         let interval : Double = Double(0.5 * seekBar.maximumValue) / Double(seekBar.bounds.maxX)
         // ConvertCMTime
@@ -47,21 +55,6 @@ class PlayViewController: UIViewController{
             let value = Float(self.seekBar.maximumValue - self.seekBar.minimumValue) * Float(time) / Float(duration) + Float(self.seekBar.minimumValue)
             self.seekBar.value = value
         })
-        
-    }
-    
-    lazy var seekBar = UISlider()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Create AVPlayerItem
-        //            guard let path = Bundle.main.path(forResource: "movie", ofType: "mp4") else {
-        //    fatalError("Movie file can not find.")
-        //            }
-        let option = PHVideoRequestOptions()
-        option.deliveryMode = .highQualityFormat
-        let manager = PHImageManager.default()
-        manager.requestPlayerItem(forVideo: pHAsset!, options: option, resultHandler: addVideoLayer)
-
         let ww=view.bounds.width
         let butW=(ww-20*4)/3
         // Create Movie Start Button
@@ -100,7 +93,7 @@ class PlayViewController: UIViewController{
         view.addSubview(currTime)
         playingFlag=true
         seekBar.value=0
-        //onStartButtonTapped()//まだvideoPlayerが生成されてないので自動再生はできない
+        onStartButtonTapped()
     }
     // Start Button Tapped
     @objc func onStartButtonTapped(){
@@ -120,7 +113,5 @@ class PlayViewController: UIViewController{
         
         self.performSegue(withIdentifier: "fromPlay", sender: self)
     }
-    
-
 }
 
