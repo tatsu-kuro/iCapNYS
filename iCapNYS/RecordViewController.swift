@@ -18,7 +18,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
     var soundIdx:SystemSoundID = 0
-
+    let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     let motionManager = CMMotionManager()
@@ -35,14 +35,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     var newFilePath: String = ""
-    var iCapNYSAlbum: PHAssetCollection? // アルバムをオブジェクト化
-//    let ALBUMTITLE = "iCapNYS" // アルバム名
-    // for video resolution/fps (constants)
     var iCapNYSWidth: Int32 = 0
     var iCapNYSHeight: Int32 = 0
     var iCapNYSFPS: Float64 = 0
-//    var focusF:Float = 0
-    
     //for gyro and face drawing
     var gyro = Array<Double>()
 
@@ -131,7 +126,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        camera_alert()
+//        camera_alert()
         set_rpk_ppk()
         setMotion()
         initSession(fps: 30)//60)//遅ければ30fpsにせざるを得ないかも
@@ -156,6 +151,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setFlashlevel(level: LEDBar.value)
  
         setButtons(type: true)
+        makeAlbum(albumTitle: albumName)
     }
     func getUserDefault(str:String,ret:Float) -> Float{
         if (UserDefaults.standard.object(forKey: str) != nil){
@@ -254,22 +250,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func drawHead(width w:CGFloat, height h:CGFloat, radius r:CGFloat, qOld0:CGFloat, qOld1:CGFloat, qOld2:CGFloat, qOld3:CGFloat)->UIImage{
-        //        var ppk:[CGFloat]=[]
 //        print(String(format:"%.3f,%.3f,%.3f,%.3f",qOld0,qOld1,qOld2,qOld3))
         var ppk = Array(repeating: CGFloat(0), count:500)
-        //  pk_ken = &pk_ken2[0][0];//no smile
         let faceX0:CGFloat = w/2;
         let faceY0:CGFloat = h/2;//center
         let faceR:CGFloat = r;//hankei
         let defaultRadius:CGFloat = 40.0
         let size = CGSize(width:w, height:h)
 //        // イメージ処理の開始
-//        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-
-        
         for i in 0..<facePoints.count/3 {
-            //RotateQuat(&ppk[i][0], &ppk[i][1], &ppk[i][2],ppk1[i][0],ppk1[i][1],ppk1[i][2], q0, q1, q2, q3);
-            //   func rotateQuat(){//(fl *x, fl *y, fl *z,fl x0,fl y0,fl z0, fl q0, fl q1, fl q2, fl q3)
             let x0:CGFloat=ppk1[i*3]
             let y0:CGFloat=ppk1[i*3+1]
             let z0:CGFloat=ppk1[i*3+2]
@@ -295,9 +284,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         let drawPath = UIBezierPath(arcCenter: CGPoint(x: faceX0, y:faceY0), radius: faceR, startAngle: 0, endAngle: CGFloat(Double.pi)*2, clockwise: true)
         // 内側の色
-//        UIColor(red: 1, green: 1, blue:1, alpha: 0.8).setFill()
-        UIColor.white.setFill()// (red: 1, green: 1, blue:1, alpha: 0.8).setFill()
-
+        UIColor.white.setFill()
 //        // 内側を塗りつぶす
         drawPath.fill()
 
@@ -338,21 +325,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func setVideoFormat(desiredFps: Double)->Bool {
-
         var retF:Bool=false
-
         // 取得したフォーマットを格納する変数
         var selectedFormat: AVCaptureDevice.Format! = nil
         // そのフレームレートの中で一番大きい解像度を取得する
-        var maxWidth: Int32 = 0
-        
         // フォーマットを探る
-//        var getDesiedformat:Bool=false
         for format in videoDevice!.formats {
             // フォーマット内の情報を抜き出す (for in と書いているが1つの format につき1つの range しかない)
-//            if getDesiedformat==true{
-//                break
-//            }
             for range: AVFrameRateRange in format.videoSupportedFrameRateRanges {
                 let description = format.formatDescription as CMFormatDescription    // フォーマットの説明
                 let dimensions = CMVideoFormatDescriptionGetDimensions(description)  // 幅・高さ情報を抜き出す
@@ -360,10 +339,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                print(dimensions.width,dimensions.height)
                 if desiredFps == range.maxFrameRate && width == 1280{//}>= maxWidth {
                     selectedFormat = format
-                    maxWidth = width
- //                   getDesiedformat=true
                     print(range.maxFrameRate,dimensions.width,dimensions.height)
- //                   break
                 }
             }
         }
@@ -376,7 +352,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             do {
                 try videoDevice!.lockForConfiguration()
                 videoDevice!.activeFormat = selectedFormat
-//                videoDevice!.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
                 videoDevice!.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: Int32(desiredFps))
                 videoDevice!.unlockForConfiguration()
                 
@@ -400,48 +375,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         return retF
     }
- 
-    // アルバムが既にあるか確認し、iCapNYSAlbumに代入
-    func albumExists(albumTitle: String) -> Bool {
-        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
-        // [core] "Error returned from daemon: Error Domain=com.apple.accounts Code=7 "(null)""
-        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
-            PHAssetCollectionSubtype.albumRegular, options: nil)
-        for i in 0 ..< albums.count {
-            let album = albums.object(at: i)
-            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
-                iCapNYSAlbum = album
-                return true
-            }
-        }
-        return false
-    }
-    
-    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
-    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
-        if self.albumExists(albumTitle: albumTitle) {
-            callback(true)
-        } else {
-            PHPhotoLibrary.shared().performChanges({
-                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-            }) { (isSuccess, error) in
-                callback(isSuccess)
-            }
-        }
-    }
-    
-    func camera_alert(){
-        if PHPhotoLibrary.authorizationStatus() != .authorized {
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-                } else if status == .denied {
-                }
-            }
-        } else {
-            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-        }
-    }
+
+//    func camera_alert(){
+//        if PHPhotoLibrary.authorizationStatus() != .authorized {
+//            PHPhotoLibrary.requestAuthorization { status in
+//                if status == .authorized {
+//                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//                } else if status == .denied {
+//                }
+//            }
+//        } else {
+//            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//        }
+//    }
     
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
@@ -473,15 +419,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         captureSession.startRunning()
         
         // ファイル出力設定
-//        fileOutput = AVCaptureMovieFileOutput()
-//        fileOutput.maxRecordedDuration = CMTimeMake(value:5*60, timescale: 1)//最長録画時間
-//        session.addOutput(fileOutput)
-        //ファイル出力設定　writer使用
-//        print ("TempFilePATH",TempFilePath)
         startTimeStamp = 0
         //一時ファイルはこの時点で必ず消去
-        //start recordのところで消去でも動くようだ。Exitで抜けた時は消さないように下行はコメントアウト
-//        try? FileManager.default.removeItem(atPath: TempFilePath)
         let fileURL = NSURL(fileURLWithPath: TempFilePath)
         setMotion()//作動中ならそのまま戻る
         fileWriter = try? AVAssetWriter(outputURL: fileURL as URL, fileType: AVFileType.mov)
@@ -506,7 +445,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     override func viewDidAppear(_ animated: Bool) {
-//        setButtons(type: true)
+
     }
     func setProperty(label:UILabel,radius:CGFloat){
         label.layer.masksToBounds = true
@@ -524,8 +463,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let bh=bw//:Int=60
         currentTime.frame = CGRect(x:0,y: 0 ,width:ww/5, height: ww/10)
         currentTime.layer.position=CGPoint(x:ww-bw*11/60,y:topY+ww/20+10)//wh-bh*4/5)
-  //      currentTime.layer.masksToBounds = true
-//        currentTime.layer.cornerRadius = 10
         setProperty(label: currentTime, radius: 10)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: 25*view.bounds.width/320, weight: .medium)
 
@@ -552,21 +489,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         quaternionView.layer.position=CGPoint(x:ww/12+10,y:topY + ww/12+10)
 
     }
-    func albumCheck(){//ここでもチェックしないとダメのよう
-        if albumExists(albumTitle: "iCapNYS")==false{
-            createNewAlbum(albumTitle: "iCapNYS") { (isSuccess) in
-                if isSuccess{
-                    print("iCapNYS_album can be made,")
-                } else{
-                    print("iCapNYS_album can't be made.")
-                }
-            }
-        }else{
-            print("iCapNYS_album exist already.")
-        }
-    }
+  
     @IBAction func onClickStopButton(_ sender: Any) {
-        albumCheck()//start&stopでチェックしないとダメのよう
         // stop recording
         debugPrint("onClickStopButton")
         recordingFlag=false
@@ -592,10 +516,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
         //let avAsset = AVAsset(url: fileURL)
-        PHPhotoLibrary.shared().performChanges({
+        PHPhotoLibrary.shared().performChanges({ [self] in
             //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
             let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
-            let albumChangeRequest = PHAssetCollectionChangeRequest(for: (self.iCapNYSAlbum)!)
+            let albumChangeRequest = PHAssetCollectionChangeRequest(for: getPHAssetcollection(albumTitle: albumName))
             let placeHolder = assetRequest.placeholderForCreatedAsset
             albumChangeRequest?.addAssets([placeHolder!] as NSArray)
             //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
@@ -612,23 +536,70 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                print(error)
                 self.saved2album=true
             }
-//            _ = try? FileManager.default.removeItem(atPath: self.TempFilePath)
         }
         motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
         killTimer()
         performSegue(withIdentifier: "fromRecord", sender: self)
     }
+    func albumExists(albumTitle: String) -> Bool {
+        // ここで以下のようなエラーが出るが、なぜか問題なくアルバムが取得できている
+        let albums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype:
+            PHAssetCollectionSubtype.albumRegular, options: nil)
+        for i in 0 ..< albums.count {
+            let album = albums.object(at: i)
+            if album.localizedTitle != nil && album.localizedTitle == albumTitle {
+                return true
+            }
+        }
+        return false
+    }
     
+    //何も返していないが、ここで見つけたor作成したalbumを返したい。そうすればグローバル変数にアクセスせずに済む
+    func createNewAlbum(albumTitle: String, callback: @escaping (Bool) -> Void) {
+        if self.albumExists(albumTitle: albumTitle) {
+            callback(true)
+        } else {
+            PHPhotoLibrary.shared().performChanges({
+                let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
+            }) { (isSuccess, error) in
+                callback(isSuccess)
+            }
+        }
+    }
+    func makeAlbum(albumTitle:String){
+        if albumExists(albumTitle: albumName)==false{
+            createNewAlbum(albumTitle: albumName) { [self] (isSuccess) in
+                if isSuccess{
+                    print(albumName," can be made,")
+                } else{
+                    print(albumName," can't be made.")
+                }
+            }
+        }else{
+            print(albumName," exist already.")
+        }
+    }
     @IBAction func onClickStartButton(_ sender: Any) {
-
+//        if ( UIDevice.current.model.range(of: "iPad") != nil){//universalized
+//            print("iPad")
+//            let alert: UIAlertController = UIAlertController(title: "iPadでは使えません。", message: "ゴーグルでiPhoneを顔面に固定し、眼球の動きを撮影するアプリです。詳細は、使い方ページをご覧ください。", preferredStyle:  UIAlertController.Style.alert)
+//            
+//            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+//                // ボタンが押された時の処理を書く（クロージャ実装）
+//                (action: UIAlertAction!) -> Void in
+//                print("OK")
+//            })
+//            alert.addAction(defaultAction)
+//            present(alert, animated: true, completion: nil)
+//            return
+//        }
         focusNear.isHidden=true
         focusFar.isHidden=true
         focusBar.isHidden=true
         LEDLow.isHidden=true
         LEDHigh.isHidden=true
         LEDBar.isHidden=true
-        albumCheck()//record start stopでチェックする
         //sensorをリセットし、正面に
         motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
@@ -641,7 +612,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         try? FileManager.default.removeItem(atPath: TempFilePath)
 
         timerCnt=0
-//        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         UIApplication.shared.isIdleTimerDisabled = true//スリープしない
         //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         if let soundUrl = URL(string:
@@ -786,7 +756,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
 //    var lastFrameTime: Int64 = 0
-    
+    func getPHAssetcollection(albumTitle:String)->PHAssetCollection{
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        requestOptions.isNetworkAccessAllowed = false
+        requestOptions.deliveryMode = .highQualityFormat //これでもicloud上のvideoを取ってしまう
+        //アルバムをフェッチ
+        let assetFetchOptions = PHFetchOptions()
+        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumTitle)
+        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
+        //アルバムはviewdidloadで作っているのであるはず？
+//        if (assetCollections.count > 0) {
+        //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
+        return assetCollections.object(at:0)
+    }
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
      
         if fileWriter.status == .writing && startTimeStamp == 0 {
@@ -825,10 +808,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         //frameの時間計算, sampleBufferの時刻から算出
         let frameTime:CMTime = CMTimeMake(value: sampleBuffer.outputPresentationTimeStamp.value - startTimeStamp, timescale: sampleBuffer.outputPresentationTimeStamp.timescale)
-
-        //var frameCGImage: CGImage?
-        //VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &frameCGImage)
-        //let frameUIImage = UIImage(cgImage: frameCGImage!)
         let frameUIImage = UIImage(ciImage: rotatedCIImage)
 //        print(frameUIImage.size.width,frameUIImage.size.height)
         UIGraphicsBeginImageContext(CGSize(width: CGFloat(iCapNYSHeight), height: CGFloat(iCapNYSWidth)))
@@ -846,9 +825,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if (recordingFlag == true && startTimeStamp != 0 && fileWriter!.status == .writing) {
             if fileWriterInput?.isReadyForMoreMediaData != nil{
                 //for speed check
-//                print(frameTime.value - lastFrameTime)
-//                lastFrameTime = frameTime.value
-                //
                 fileWriterAdapter.append(renderedBuffer, withPresentationTime: frameTime)
             }
         } else {
