@@ -441,22 +441,34 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         movieTimerCnt += 1
         if isPositional==false{
             if movieTimerCnt == 1{
-                playMoviePath("steel1")
+                if someFunctions.firstLang().contains("ja"){
+                    playMoviePath("steel1")
+                }else{
+                    playMoviePath("steel1eng")
+                }
                 videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 13{
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 videoPlayer.pause()
-//                skipButton.isHidden=true
-                sound(snd: "steel2a", fwd: 0)
+                //                skipButton.isHidden=true
+                if someFunctions.firstLang().contains("ja"){
+                    sound(snd: "steel2a", fwd: 0)
+                }else{
+                    sound(snd: "steel2a_eng", fwd: 0)
+                }
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
-            if movieTimerCnt == 13+9{
+            if movieTimerCnt == 13+10{
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 videoPlayer.pause()
                 skipButton.isHidden=true
-                sound(snd: "steel2b", fwd: 0)
+                if someFunctions.firstLang().contains("ja"){
+                    sound(snd: "steel2b", fwd: 0)
+                }else{
+                    sound(snd: "steel2b_eng", fwd: 0)
+                }
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
@@ -470,7 +482,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 print("stop")
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3")
+                if someFunctions.firstLang().contains("ja"){
+                    playMoviePath("steel3")
+                }else{
+                    playMoviePath("steel3_eng")
+                }
 //                videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 25+22+1{
