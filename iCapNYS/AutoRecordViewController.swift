@@ -581,7 +581,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 100{
                 videoPlayer.pause()
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
-                sound(snd: "pos2a", fwd: 0)
+                sound(snd: "pos2a_eng", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
@@ -589,7 +589,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 videoPlayer.pause()
                 skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
-                sound(snd: "pos2b", fwd: 0)
+                sound(snd: "pos2b_eng", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
@@ -600,13 +600,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 onClickStartButton()
             }
             if movieTimerCnt == 100+12+23{
-                sound(snd: "pos3", fwd: 0)
+                sound(snd: "pos3_eng", fwd: 0)
             }
             if movieTimerCnt == 100+12+23+23{
-                sound(snd: "pos4", fwd: 0)
+                sound(snd: "pos4_eng", fwd: 0)
             }
             if movieTimerCnt == 100+12+23+23+22{
-                sound(snd: "pos5", fwd: 0)
+                sound(snd: "pos5_eng", fwd: 0)
             }
             if movieTimerCnt == 100+12+23+23+22+25{
                 exitButton.alpha=0.5
