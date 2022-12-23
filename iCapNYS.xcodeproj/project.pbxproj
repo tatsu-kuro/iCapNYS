@@ -23,6 +23,7 @@
 		69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 69E2289C2518344C0004E53C /* LaunchScreen.storyboard */; };
 		69EA8BBA2953C7AB006A3734 /* steel1eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8BB92953C7AA006A3734 /* steel1eng.mov */; };
 		69EA8BBE2954A897006A3734 /* steel3_eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8BBD2954A897006A3734 /* steel3_eng.mov */; };
+		69EA8BC029565D69006A3734 /* positional_eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69EA8BBF29565D69006A3734 /* positional_eng.mov */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		69E2289F2518344C0004E53C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69EA8BB92953C7AA006A3734 /* steel1eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1eng.mov; sourceTree = "<group>"; };
 		69EA8BBD2954A897006A3734 /* steel3_eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3_eng.mov; sourceTree = "<group>"; };
+		69EA8BBF29565D69006A3734 /* positional_eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional_eng.mov; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				690ECCBA290AB509008A317F /* steel3.mov */,
 				69EA8BBD2954A897006A3734 /* steel3_eng.mov */,
 				6915B65728A5EA81004D3EBF /* positional.mov */,
+				69EA8BBF29565D69006A3734 /* positional_eng.mov */,
 				69EA8BB92953C7AA006A3734 /* steel1eng.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
@@ -165,6 +168,7 @@
 				690ECCBB290AB509008A317F /* steel3.mov in Resources */,
 				6915B65828A5EA81004D3EBF /* positional.mov in Resources */,
 				69EA8BBA2953C7AB006A3734 /* steel1eng.mov in Resources */,
+				69EA8BC029565D69006A3734 /* positional_eng.mov in Resources */,
 				69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */,
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
