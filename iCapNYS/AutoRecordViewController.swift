@@ -576,13 +576,13 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 print("stop")
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3_eng")
+                playMoviePath("steel3_eng_new")
             }
             if movieTimerCnt == 25+22+1{
                 
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 25+22+22{
+            if movieTimerCnt == 25+22+22-4{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }else{
@@ -624,12 +624,12 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 100+12+23+23+22+25-20+1{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3_eng")
+                playMoviePath("steel3_eng_new")
             }
             if movieTimerCnt == 100+12+23+23+22+25+1-20+1{
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 100+12+23+23+22+25+22-20+1{
+            if movieTimerCnt == 100+12+23+23+22+25+22-20-3{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
