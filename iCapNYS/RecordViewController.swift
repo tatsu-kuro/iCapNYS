@@ -24,6 +24,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let camera = myFunctions()
     var cameraType:Int = 0
     
+    @IBOutlet weak var defaultButton: UIButton!
+    @IBOutlet weak var urlLabel: UILabel!
+  //  @IBOutlet weak var maxTimeLabel: UILabel!
+ //   @IBOutlet weak var exitButton: UIButton!
+ //   @IBOutlet weak var maxTimeSwitch: UISwitch!
+    @IBOutlet weak var urlInputField: UITextField!
+    
+    @IBAction func onEnterButton(_ sender: Any) {
+        urlInputField.endEditing(true)
+    }
+    @IBOutlet weak var enterButton: UIButton!
+    @IBAction func onDefaultButton(_ sender: Any) {
+        // キーボードを閉じる
+     }
+    
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -888,6 +903,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
+        
+        
+        myFunctions().setButtonProperty(defaultButton, x: leftPadding+2*sp, y: topPadding+3*sp, w: bw, h: bh, UIColor.darkGray)
+        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:topPadding+3*sp,w:bw,h:bh,UIColor.darkGray)
+        urlInputField.frame=CGRect(x:defaultButton.frame.maxX+sp,y:topPadding+3*sp,width:exitButton.frame.minX-defaultButton.frame.maxX-2*sp,height: bh)
+        urlInputField.layer.borderWidth = 1.0
+        urlInputField.layer.cornerRadius=5
+        urlInputField.layer.masksToBounds = true
+        urlLabel.frame=CGRect(x:defaultButton.frame.maxX+sp,y:urlInputField.frame.maxY,width:exitButton.frame.minX-defaultButton.frame.maxX-2*sp,height: bh)
+
+        
         if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         }else{
