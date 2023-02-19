@@ -336,6 +336,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
+        urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//decimalPad//asciiCapableNumberPad
+//        urlInputField.keyboardType = UIKeyboardType.asciiCapableNumberPad//.asciiCapable
+
      }
  
     override var prefersStatusBarHidden: Bool {
@@ -676,7 +679,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     cameraType=1//telephoto
     cameraType=2//ultraWide--focusが効かない、広角、ズームを効かせる。
     */
-    
+    func setButtons5(_ f:Bool){
+        if f==true{
+            enterButton.isHidden=false
+            defaultButton.isHidden=false
+            urlInputField.isHidden=false
+        }else{
+            enterButton.isHidden=true
+            defaultButton.isHidden=true
+            urlInputField.isHidden=true
+        }
+    }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         if cameraType==0{
             cameraType=1
@@ -687,15 +700,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 cameraType=3
             }else{
                 cameraType=0
+                cameraType=5
             }
         }else if cameraType==2{
             if ultrawideCamera==true{
                 cameraType=3//ultraWide
             }else{
                 cameraType=0
-            }
+                cameraType=5
+          }
+        }else if cameraType==3{
+            cameraType=0
+            cameraType=5//wideAngle
         }else{
-            cameraType=0//wideAngle
+            cameraType=0
+        }
+        if cameraType==5{
+            setButtons5(true)
+            return
+        }else{
+            setButtons5(false)
+            return
         }
         print("camera:",cameraType)
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
@@ -965,19 +990,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDValueLabel.isHidden=true
         }
-/*     if autoRecordMode==true{
- //            cameraType=0
- //            cameraChangeButton.isEnabled=false
- //            explanationLabel.isHidden=true
- //        }
- //
- //        if setteiMode==2{//setteibuttonAuto
- //            cameraType=0
- //            cameraChangeButton.isEnabled=false
- //            previewSwitch.isHidden=true
- //            previewLabel.isHidden=true
- //        }
- */
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
