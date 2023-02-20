@@ -684,10 +684,46 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             enterButton.isHidden=false
             defaultButton.isHidden=false
             urlInputField.isHidden=false
+            urlLabel.isHidden=false
+            
+            explanationLabel.isHidden=true
+            previewLabel.isHidden=true
+            focusLabel.isHidden=true
+            focusBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDBar.isHidden=true
+            zoomLabel.isHidden=true
+            zoomBar.isHidden=true
+            exposeBar.isHidden=true
+            exposeLabel.isHidden=true
+            exposeValueLabel.isHidden=true
+            zoomValueLabel.isHidden=true
+            focusValueLabel.isHidden=true
+            LEDValueLabel.isHidden=true
+            currentTime.isHidden=true
+            quaternionView.isHidden=true
         }else{
             enterButton.isHidden=true
             defaultButton.isHidden=true
             urlInputField.isHidden=true
+            urlLabel.isHidden=true
+            
+            explanationLabel.isHidden=false
+            previewLabel.isHidden=false
+            focusLabel.isHidden=false
+            focusBar.isHidden=false
+            LEDLabel.isHidden=false
+            LEDBar.isHidden=false
+            zoomLabel.isHidden=false
+            zoomBar.isHidden=false
+            exposeBar.isHidden=false
+            exposeLabel.isHidden=false
+            exposeValueLabel.isHidden=false
+            zoomValueLabel.isHidden=false
+            focusValueLabel.isHidden=false
+            LEDValueLabel.isHidden=false
+            currentTime.isHidden=false
+            quaternionView.isHidden=false
         }
     }
     @IBAction func onCameraChangeButton(_ sender: Any) {
@@ -720,7 +756,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return
         }else{
             setButtons5(false)
-            return
+//            return
         }
         print("camera:",cameraType)
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
