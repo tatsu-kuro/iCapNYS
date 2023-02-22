@@ -706,7 +706,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UIScreen.main.brightness = currentBrightness
         }
 
-        if cameraType==0{
+        if cameraType==0 || setteiMode==0{
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
@@ -719,8 +719,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         enterButton.isHidden=true
         urlLabel.isHidden=true
         urlInputField.isHidden=true
+        previewLabel.isHidden=true
+        previewSwitch.isHidden=true
+        zoomBar.isHidden=false
+        zoomLabel.isHidden=false
+        zoomValueLabel.isHidden=false
+        exposeBar.isHidden=false
+        exposeLabel.isHidden=false
+        exposeValueLabel.isHidden=false
+         
         if cameraType==0{
-            
+            if setteiMode==1{
+                previewLabel.isHidden=false
+                previewSwitch.isHidden=false
+            }
         }else if cameraType==1{
             
         }else if cameraType==2{
@@ -732,30 +744,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             enterButton.isHidden=false
             urlLabel.isHidden=false
             urlInputField.isHidden=false
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
+            zoomBar.isHidden=true
+            zoomLabel.isHidden=true
+            zoomValueLabel.isHidden=true
+            exposeBar.isHidden=true
+            exposeLabel.isHidden=true
+            exposeValueLabel.isHidden=true
+      
+//            hideButtonsSlides()
+//            currentTime.isHidden=true
+//            cameraChangeButton.isHidden=false
         }
-        if setteiMode==2{
-            previewLabel.isHidden=true
-            previewSwitch.isHidden=true
-        }else{
-            previewLabel.isHidden=false
-            previewLabel.isHidden=false
-        }
-//       if cameraType==0{
-//           if autoRecordMode==true{
-////               previewLabel.isEnabled=false
-////               previewSwitch.isEnabled=false
-////               previewSwitch.isOn=false
-//               previewSwitch.isHidden=true
-//               previewLabel.isHidden=true
-//           }else{
-//               previewSwitch.isHidden=false
-//               previewLabel.isHidden=false
-//           }
-//       }else if cameraType<5{
-//           previewSwitch.isHidden=true
-//           previewLabel.isHidden=true
-//       }
-        
+ 
     }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         cameraType = cameraChange(cameraType)
@@ -985,7 +988,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
 //        let ex1=realWinWidth/3
         let ey1=sp
-        explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
+//        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
+
+        explanationLabel.frame=CGRect(x:0,y:y0,width:view.bounds.width,height:bh)
         var explanationText = cameraTypeStrings[cameraType]
         if explanationLabeltextColor==UIColor.systemOrange{
            explanationText=""
