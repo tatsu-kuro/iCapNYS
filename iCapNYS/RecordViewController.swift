@@ -724,33 +724,50 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             quaternionView.isHidden=false
         }
     }
-    @IBAction func onCameraChangeButton(_ sender: Any) {
-        if cameraType==0{
-            cameraType=1
-        }else if cameraType==1{
+    //"frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
+    func cameraChange(_ cameraType:Int)->Int{
+        var type=cameraType
+        if type==0{
+            type=1//wideAngle
+        }else if type==1{
             if telephotoCamera == true{
-                cameraType=2//telephoto
+                type=2//ultraWide
             }else if ultrawideCamera == true{
-                cameraType=3
+                type=3//telePhoto
             }else{
-                cameraType=0
-                cameraType=5
+                type=5
             }
-        }else if cameraType==2{
+        }else if type==2{
             if ultrawideCamera==true{
-                cameraType=3//ultraWide
+                type=3
             }else{
-                cameraType=0
-                cameraType=5
+                type=5
           }
-        }else if cameraType==3{
-            cameraType=0
-            cameraType=5//wideAngle
+        }else if type==3{
+            type=5//wifiCamera
         }else{
-            cameraType=0
+            type=0//frontCamera
         }
+        return type
+    }
+//    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
+    func setButtonsDisplay(){
+        if cameraType==0{
+            
+        }else if cameraType==1{
+            
+        }else if cameraType==2{
+            
+        }else if cameraType==3{
+            
+        }else{//cameraType:5
+            
+        }
+    }
+    @IBAction func onCameraChangeButton(_ sender: Any) {
+        cameraType = cameraChange(cameraType)
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
-
+        
         if cameraType==5{
             captureSession.stopRunning()
             setButtons5(true)
@@ -758,9 +775,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return
         }else{
             setButtons5(false)
-//            return
         }
- //       print("camera:",cameraType)
         captureSession.stopRunning()
         set_rpk_ppk()
         initSession(fps: 60)
@@ -803,7 +818,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             explanationLabel.text=explanationText + "Record Settings"
         }
-     }
+    }
     
     func initSession(fps:Double) {
         // カメラ入力 : 背面カメラ
@@ -1028,7 +1043,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isHidden=true
             previewLabel.isHidden=true
         }
-  
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
