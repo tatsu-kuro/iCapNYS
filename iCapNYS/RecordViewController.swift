@@ -261,7 +261,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
         explanationLabel.textColor=explanationLabeltextColor
-
+        print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
         getCameras()
         camera.makeAlbum()
 
@@ -321,9 +321,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
         }
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-        }
         onExposeValueChange()
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -332,7 +329,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isEnabled=false
         urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
         setButtonsLocation()
-        setButtons()
+        setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
             //ここからwifiCapnys
@@ -665,65 +662,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             telephotoCamera=true
         }
     }
-    
-    /*
-    iCapNYS---
-     cameraType=0//front
-    cameraType=1//wideAngle
-    cameraType=2//telephoto
-    cameraType3//ultraWide
-    vHIT96da-------
-    cameraType=0//wideAngle
-    cameraType=1//telephoto
-    cameraType=2//ultraWide--focusが効かない、広角、ズームを効かせる。
-    */
-    func setButtons5(_ f:Bool){
-        if f==true{
-            enterButton.isHidden=false
-            defaultButton.isHidden=false
-            urlInputField.isHidden=false
-            urlLabel.isHidden=false
-            
-            explanationLabel.isHidden=true
-            previewLabel.isHidden=true
-            focusLabel.isHidden=true
-            focusBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDBar.isHidden=true
-            zoomLabel.isHidden=true
-            zoomBar.isHidden=true
-            exposeBar.isHidden=true
-            exposeLabel.isHidden=true
-            exposeValueLabel.isHidden=true
-            zoomValueLabel.isHidden=true
-            focusValueLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-            currentTime.isHidden=true
-            quaternionView.isHidden=true
-        }else{
-            enterButton.isHidden=true
-            defaultButton.isHidden=true
-            urlInputField.isHidden=true
-            urlLabel.isHidden=true
-            
-            explanationLabel.isHidden=false
-            previewLabel.isHidden=false
-            focusLabel.isHidden=false
-            focusBar.isHidden=false
-            LEDLabel.isHidden=false
-            LEDBar.isHidden=false
-            zoomLabel.isHidden=false
-            zoomBar.isHidden=false
-            exposeBar.isHidden=false
-            exposeLabel.isHidden=false
-            exposeValueLabel.isHidden=false
-            zoomValueLabel.isHidden=false
-            focusValueLabel.isHidden=false
-            LEDValueLabel.isHidden=false
-            currentTime.isHidden=false
-            quaternionView.isHidden=false
-        }
-    }
+ 
     //"frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     func cameraChange(_ cameraType:Int)->Int{
         var type=cameraType
@@ -752,63 +691,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     func setButtonsDisplay(){
-        if cameraType==0{
-            
-        }else if cameraType==1{
-            
-        }else if cameraType==2{
-            
-        }else if cameraType==3{
-            
-        }else{//cameraType:5
-            
-        }
-    }
-    @IBAction func onCameraChangeButton(_ sender: Any) {
-        cameraType = cameraChange(cameraType)
-        UserDefaults.standard.set(cameraType, forKey: "cameraType")
-        
-        if cameraType==5{
-            captureSession.stopRunning()
-            setButtons5(true)
-            //ここからwifiCapnys
-            return
-        }else{
-            setButtons5(false)
-        }
-        captureSession.stopRunning()
-        set_rpk_ppk()
-        initSession(fps: 60)
-        onLEDValueChange()
-        onFocusValueChange()
-        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
-        setZoom(level: zoomBar.value)
-        if cameraType==0{
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-        }else{
-            LEDBar.isHidden=false
-            LEDLabel.isHidden=false
-            LEDValueLabel.isHidden=false
-        }
-        if focusChangeable==false{
-            focusBar.isHidden=true
-            focusLabel.isHidden=true
-            focusValueLabel.isHidden=true
-        }else{
-            focusBar.isHidden=false
-            focusLabel.isHidden=false
-            focusValueLabel.isHidden=false
-        }
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-        }else{
-            UIScreen.main.brightness = currentBrightness
-        }
-        onExposeValueChange()
-        setButtons()
-        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
         var explanationText = cameraTypeStrings[cameraType]
         if explanationLabeltextColor==UIColor.systemOrange{
             explanationText=""
@@ -818,6 +700,114 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             explanationLabel.text=explanationText + "Record Settings"
         }
+        if cameraType==0{
+            UIScreen.main.brightness = 1
+        }else{
+            UIScreen.main.brightness = currentBrightness
+        }
+
+        if cameraType==0{
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
+        }else{
+            LEDBar.isHidden=false
+            LEDLabel.isHidden=false
+            LEDValueLabel.isHidden=false
+        }
+        defaultButton.isHidden=true
+        enterButton.isHidden=true
+        urlLabel.isHidden=true
+        urlInputField.isHidden=true
+        if cameraType==0{
+            
+        }else if cameraType==1{
+            
+        }else if cameraType==2{
+            
+        }else if cameraType==3{
+            
+        }else{//cameraType:5
+            defaultButton.isHidden=false
+            enterButton.isHidden=false
+            urlLabel.isHidden=false
+            urlInputField.isHidden=false
+        }
+        if setteiMode==2{
+            previewLabel.isHidden=true
+            previewSwitch.isHidden=true
+        }else{
+            previewLabel.isHidden=false
+            previewLabel.isHidden=false
+        }
+//       if cameraType==0{
+//           if autoRecordMode==true{
+////               previewLabel.isEnabled=false
+////               previewSwitch.isEnabled=false
+////               previewSwitch.isOn=false
+//               previewSwitch.isHidden=true
+//               previewLabel.isHidden=true
+//           }else{
+//               previewSwitch.isHidden=false
+//               previewLabel.isHidden=false
+//           }
+//       }else if cameraType<5{
+//           previewSwitch.isHidden=true
+//           previewLabel.isHidden=true
+//       }
+        
+    }
+    @IBAction func onCameraChangeButton(_ sender: Any) {
+        cameraType = cameraChange(cameraType)
+        UserDefaults.standard.set(cameraType, forKey: "cameraType")
+        setButtonsDisplay()
+        if cameraType==5{
+            captureSession.stopRunning()
+            //ここからwifiCapnys
+            return
+        }
+        captureSession.stopRunning()
+        set_rpk_ppk()
+        initSession(fps: 60)
+        onLEDValueChange()
+        onFocusValueChange()
+        zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
+        setZoom(level: zoomBar.value)
+//        if cameraType==0{
+//            LEDBar.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDValueLabel.isHidden=true
+//        }else{
+//            LEDBar.isHidden=false
+//            LEDLabel.isHidden=false
+//            LEDValueLabel.isHidden=false
+//        }
+        if focusChangeable==false{
+            focusBar.isHidden=true
+            focusLabel.isHidden=true
+            focusValueLabel.isHidden=true
+        }else{
+            focusBar.isHidden=false
+            focusLabel.isHidden=false
+            focusValueLabel.isHidden=false
+        }
+//        if cameraType==0{
+//            UIScreen.main.brightness = 1
+//        }else{
+//            UIScreen.main.brightness = currentBrightness
+//        }
+        onExposeValueChange()
+//        setButtons()
+//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
+//        var explanationText = cameraTypeStrings[cameraType]
+//        if explanationLabeltextColor==UIColor.systemOrange{
+//            explanationText=""
+//        }
+//        if someFunctions.firstLang().contains("ja"){
+//            explanationLabel.text=explanationText + "録画設定"
+//        }else{
+//            explanationLabel.text=explanationText + "Record Settings"
+//        }
     }
     
     func initSession(fps:Double) {
@@ -938,7 +928,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 changedButtonHeight = 0
             }
             UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
-            setButtons()//,changedButtonHeight)
+//            setButtons()//,changedButtonHeight)
         }else if sender.state == .ended{
         }
     }
@@ -958,7 +948,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
- 
+        myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray)
+        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray)
+        urlLabel.frame=CGRect(x:x0+bw+sp,y:y0+bh,width:bw*5+sp*4,height: bh)
+        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
+        urlInputField.layer.borderWidth = 1.0
+        urlInputField.layer.cornerRadius=5
+        urlInputField.layer.masksToBounds = true
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         
@@ -987,7 +983,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-        let ex1=realWinWidth/3
+//        let ex1=realWinWidth/3
         let ey1=sp
         explanationLabel.frame=CGRect(x:0,y:ey1,width:view.bounds.width,height:bh)
         var explanationText = cameraTypeStrings[cameraType]
@@ -1016,34 +1012,31 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDLabel.isHidden=true
             LEDBar.isHidden=true
             LEDValueLabel.isHidden=true
-        }
-        myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray)
-        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray)
-        urlLabel.frame=CGRect(x:x0+bw+sp,y:y0+bh,width:bw*5+sp*4,height: bh)
-        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
-        urlInputField.layer.borderWidth = 1.0
-        urlInputField.layer.cornerRadius=5
-        urlInputField.layer.masksToBounds = true
-    }
-    func setButtons(){
-         if cameraType==5{
-            setButtons5(true)
-            return
-        }
-        if cameraType==0{
-            if autoRecordMode==true{
-                previewLabel.isEnabled=false
-                previewSwitch.isEnabled=false
-                previewSwitch.isOn=false
-            }else{
-                previewSwitch.isHidden=false
-                previewLabel.isHidden=false
-            }
-        }else if cameraType<5{
-            previewSwitch.isHidden=true
-            previewLabel.isHidden=true
+            urlLabel.isHidden=true
+            urlInputField.isHidden=true
+            enterButton.isHidden=true
+            defaultButton.isHidden=true
         }
     }
+//    func setButtons(){
+//         if cameraType==5{
+//            setButtons5(true)
+//            return
+//        }
+//        if cameraType==0{
+//            if autoRecordMode==true{
+//                previewLabel.isEnabled=false
+//                previewSwitch.isEnabled=false
+//                previewSwitch.isOn=false
+//            }else{
+//                previewSwitch.isHidden=false
+//                previewLabel.isHidden=false
+//            }
+//        }else if cameraType<5{
+//            previewSwitch.isHidden=true
+//            previewLabel.isHidden=true
+//        }
+//    }
   
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
