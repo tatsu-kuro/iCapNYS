@@ -708,6 +708,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel.text=explanationText + "録画設定"
         }else{
             explanationLabel.text=explanationText + "Record Settings"
+            urlLabel.text = "Set the URL of the wifi camera in the upper frame."
         }
         if cameraType==0{
             UIScreen.main.brightness = 1
@@ -746,10 +747,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
-            if setteiMode==1{
+//            if setteiMode==1{
                 previewLabel.isHidden=false
                 previewSwitch.isHidden=false
-            }
+//            }
         }else if cameraType==1{
             
         }else if cameraType==2{
@@ -983,7 +984,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLabel.frame.size.height=bh
         myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray)
         myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray)
-        urlLabel.frame=CGRect(x:x0+bw+sp,y:y0+bh,width:bw*5+sp*4,height: bh)
+        urlLabel.frame=CGRect(x:x0,y:y0+bh,width:realWinWidth-sp*4,height: bh*2)
         urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
         urlInputField.layer.borderWidth = 1.0
         urlInputField.layer.cornerRadius=5
