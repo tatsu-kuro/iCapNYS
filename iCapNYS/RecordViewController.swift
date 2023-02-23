@@ -739,7 +739,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDBar.isHidden=false
         LEDLabel.isHidden=false
         LEDValueLabel.isHidden=false
-       
+        cameraView.isHidden=false
+        quaternionView.isHidden=false
+
         if cameraType==0{
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
@@ -768,6 +770,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exposeBar.isHidden=true
             exposeLabel.isHidden=true
             exposeValueLabel.isHidden=true
+            cameraView.isHidden=true
+            quaternionView.isHidden=true
         }
         if setteiMode==0{
             zoomBar.isHidden=true
@@ -782,6 +786,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     func wifiCam(){
+//        cameraView.isHidden=true
         
     }
     @IBAction func onCameraChangeButton(_ sender: Any) {
