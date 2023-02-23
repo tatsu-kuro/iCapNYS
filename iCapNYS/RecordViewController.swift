@@ -26,18 +26,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBOutlet weak var defaultButton: UIButton!
     @IBOutlet weak var urlLabel: UILabel!
-  //  @IBOutlet weak var maxTimeLabel: UILabel!
- //   @IBOutlet weak var exitButton: UIButton!
- //   @IBOutlet weak var maxTimeSwitch: UISwitch!
-    @IBOutlet weak var urlInputField: UITextField!
     
+    @IBOutlet weak var urlInputField: UITextField!
+    var tempURL:String=""
     @IBAction func onEnterButton(_ sender: Any) {
         urlInputField.endEditing(true)
+        UserDefaults.standard.set(urlInputField.text,forKey: "cameraURL")
     }
+    
     @IBOutlet weak var enterButton: UIButton!
     @IBAction func onDefaultButton(_ sender: Any) {
-        // キーボードを閉じる
-     }
+        if urlInputField.text=="http://192.168.82.1"{
+            urlInputField.text=tempURL
+        }else{
+            tempURL=urlInputField.text!
+            urlInputField.text="http://192.168.82.1"
+        }
+        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
+    }
     
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
@@ -262,6 +268,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
+        urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
+
         getCameras()
         camera.makeAlbum()
 
@@ -332,6 +340,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
+            wifiCam()
             //ここからwifiCapnys
         }
      }
@@ -706,15 +715,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UIScreen.main.brightness = currentBrightness
         }
 
-        if cameraType==0 || setteiMode==0{
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-        }else{
-            LEDBar.isHidden=false
-            LEDLabel.isHidden=false
-            LEDValueLabel.isHidden=false
-        }
+//        if cameraType==0 || setteiMode==0{
+//            LEDBar.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDValueLabel.isHidden=true
+//        }else{
+//            LEDBar.isHidden=false
+//            LEDLabel.isHidden=false
+//            LEDValueLabel.isHidden=false
+//        }
         defaultButton.isHidden=true
         enterButton.isHidden=true
         urlLabel.isHidden=true
@@ -727,8 +736,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=false
         exposeLabel.isHidden=false
         exposeValueLabel.isHidden=false
-         
+        LEDBar.isHidden=false
+        LEDLabel.isHidden=false
+        LEDValueLabel.isHidden=false
+       
         if cameraType==0{
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
             if setteiMode==1{
                 previewLabel.isHidden=false
                 previewSwitch.isHidden=false
@@ -753,12 +768,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             exposeBar.isHidden=true
             exposeLabel.isHidden=true
             exposeValueLabel.isHidden=true
-      
-//            hideButtonsSlides()
-//            currentTime.isHidden=true
-//            cameraChangeButton.isHidden=false
         }
- 
+        if setteiMode==0{
+            zoomBar.isHidden=true
+            zoomLabel.isHidden=true
+            zoomValueLabel.isHidden=true
+            exposeBar.isHidden=true
+            exposeLabel.isHidden=true
+            exposeValueLabel.isHidden=true
+            LEDBar.isHidden=true
+            LEDLabel.isHidden=true
+            LEDValueLabel.isHidden=true
+        }
+    }
+    func wifiCam(){
+        
     }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         cameraType = cameraChange(cameraType)
@@ -766,6 +790,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
+            wifiCam()
             //ここからwifiCapnys
             return
         }

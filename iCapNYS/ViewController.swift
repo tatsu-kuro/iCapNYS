@@ -418,7 +418,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let wh:CGFloat=view.bounds.height-topPadding-bottomPadding
         let sp=ww/120//間隙
 //        let bw=(ww-sp*10)/7//ボタン幅
-         let x0=leftPadding+sp*2
+//         let x0=leftPadding+sp*2
         let x0but=view.bounds.width-rightPadding-wh*3/4
         let x1but=x0but+wh/2-wh/40
         let bw=view.bounds.width-x1but-rightPadding-2*sp
