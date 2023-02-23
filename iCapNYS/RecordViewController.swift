@@ -1155,6 +1155,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBAction func onClickStartButton(_ sender: Any) {
         hideButtonsSlides()
+        if cameraType==5{
+            let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
+            self.present(nextView1, animated: true, completion: nil)
+        }
         if cameraType==0{
             UIScreen.main.brightness = 1
         }

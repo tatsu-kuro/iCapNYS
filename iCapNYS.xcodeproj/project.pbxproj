@@ -15,6 +15,7 @@
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
 		69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913828A1C3BD00E1C065 /* steel1.mov */; };
+		69D7C99729A70A69008B3D16 /* WifiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D7C99629A70A69008B3D16 /* WifiViewController.swift */; };
 		69DF84E42957C9260062134F /* steel3_eng_new.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69DF84E32957C9260062134F /* steel3_eng_new.mov */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
 		69E22894251834490004E53C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22893251834490004E53C /* SceneDelegate.swift */; };
@@ -35,6 +36,7 @@
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
+		69D7C99629A70A69008B3D16 /* WifiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewController.swift; sourceTree = "<group>"; };
 		69DF84E32957C9260062134F /* steel3_eng_new.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3_eng_new.mov; sourceTree = "<group>"; };
 		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				69E22891251834490004E53C /* AppDelegate.swift */,
 				69E22893251834490004E53C /* SceneDelegate.swift */,
 				69E22895251834490004E53C /* ViewController.swift */,
+				69D7C99629A70A69008B3D16 /* WifiViewController.swift */,
 				6945B1A625EB207400A52272 /* myFunctions.swift */,
 				6961FBEA257E756D004B6A8C /* How2ViewController.swift */,
 				69E22897251834490004E53C /* Main.storyboard */,
@@ -185,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */,
+				69D7C99729A70A69008B3D16 /* WifiViewController.swift in Sources */,
 				69E22896251834490004E53C /* ViewController.swift in Sources */,
 				6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */,
 				6945B1A725EB207400A52272 /* myFunctions.swift in Sources */,

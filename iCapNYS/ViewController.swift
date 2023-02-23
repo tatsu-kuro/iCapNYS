@@ -193,11 +193,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     @IBAction func onCameraButton(_ sender: Any) {
         stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=0
-        nextView.autoRecordMode=false
-        nextView.currentBrightness=UIScreen.main.brightness
-        self.present(nextView, animated: true, completion: nil)
+          let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
+        if cameraType==5{
+            let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
+            self.present(nextView1, animated: true, completion: nil)
+        }else{
+            let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+            nextView.setteiMode=0
+            nextView.autoRecordMode=false
+            nextView.currentBrightness=UIScreen.main.brightness
+            self.present(nextView, animated: true, completion: nil)
+        }
     }
     
     @IBAction func onSetteiButtonAuto(_ sender: Any) {
