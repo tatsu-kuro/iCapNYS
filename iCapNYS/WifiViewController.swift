@@ -281,8 +281,8 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         }
     */
     func takeScreenShot() -> UIImage {
-        let width: CGFloat = UIScreen.main.bounds.size.width
-        let height: CGFloat = UIScreen.main.bounds.size.height
+//        let width: CGFloat = UIScreen.main.bounds.size.width
+//        let height: CGFloat = UIScreen.main.bounds.size.height
         let bW=view.bounds.width
         let bH=view.bounds.height
         let sp=realWidth/120//間隙
@@ -301,7 +301,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
     }
     func takeScreenShot1() -> UIImage {
         let width: CGFloat = UIScreen.main.bounds.size.width
-        let height: CGFloat = UIScreen.main.bounds.size.height
+//        let height: CGFloat = UIScreen.main.bounds.size.height
         let capHeight=view.bounds.height-topPadding-bottomPadding
         let capWidth=capHeight*4/3
         let size = CGSize(width: capWidth, height: capHeight)
@@ -372,7 +372,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
     
     func set_rpk_ppk() {
         let faceR:CGFloat = 40//hankei
-        var frontBack:Int = 0
+        let frontBack:Int = 0
         cameraType=1
 //        if cameraType == 0{//front camera
 //            frontBack = 180
@@ -564,10 +564,10 @@ print("stopbutton******")
         motionManager.stopDeviceMotionUpdates()
         killTimer()
         //動画生成終了を呼び出してURLを得る -> Playerにのせる
-        var capFinishedFlag=false
+//        var capFinishedFlag=false
         self.finished { (url) in
             DispatchQueue.main.async{
-                capFinishedFlag=true
+//                capFinishedFlag=true
                 print("url:",url)
 //                let avPlayer = AVPlayer(url:url)
 //                self.avPlayerVC.player = avPlayer
@@ -718,7 +718,7 @@ print("stopbutton******")
             fatalError("AVAssetWriter error")
         }
         videoWriter = firstVideoWriter
-        print(capUrl)
+//        print(capUrl)
         //画像サイズを変える
         let width = size.width
         let height = size.height
@@ -768,7 +768,7 @@ print("stopbutton******")
         // 動画の時間を生成(その画像の表示する時間/開始時点と表示時間を渡す)
         let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
         //時間経過を確認(確認用)
-        let second = CMTimeGetSeconds(frameTime)
+//        let second = CMTimeGetSeconds(frameTime)
 //        print(second)
         
         //画像のリサイズと整形
@@ -805,7 +805,7 @@ print("stopbutton******")
         // 動画の時間を生成(その画像の表示する時間/開始時点と表示時間を渡す)
         let frameTime: CMTime = CMTimeMake(value: Int64(__int32_t(frameCount) * __int32_t(time)), timescale: fps)
         //時間経過を確認(確認用)
-        let second = CMTimeGetSeconds(frameTime)
+//        let second = CMTimeGetSeconds(frameTime)
 //        print(second)
         
         // CGImageからBufferを生成

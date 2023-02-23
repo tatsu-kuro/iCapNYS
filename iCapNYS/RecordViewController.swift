@@ -1017,7 +1017,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
 //        let ex1=realWinWidth/3
-        let ey1=sp
+//        let ey1=sp
 //        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
 
         explanationLabel.frame=CGRect(x:0,y:y0,width:view.bounds.width,height:bh)

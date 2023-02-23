@@ -349,7 +349,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         //初回起動時にdefaultを設定
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
-        let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
+//        let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
         
         UIApplication.shared.isIdleTimerDisabled = false//スリープする
         NotificationCenter.default.addObserver(self,
