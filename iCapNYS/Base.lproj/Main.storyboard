@@ -121,6 +121,9 @@
                                 <color key="tintColor" systemColor="systemOrangeColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="stop.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="onClickStopButton:" destination="ob0-JB-p0y" eventType="touchUpInside" id="XXd-zD-Eqm"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBx-yf-Wg3">
                                 <rect key="frame" x="433" y="35" width="38" height="22"/>
@@ -143,6 +146,9 @@
                                 <color key="tintColor" systemColor="systemRedColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="circle.inset.filled" catalog="system"/>
+                                <connections>
+                                    <action selector="onClickStartButton:" destination="ob0-JB-p0y" eventType="touchUpInside" id="Zi7-Qb-ORt"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hl4-8l-qi2"/>
@@ -153,8 +159,8 @@
                         <outlet property="exitButton" destination="b8u-qq-9Ct" id="2Sg-PE-eY0"/>
                         <outlet property="mjpegImage" destination="WPR-mh-Vj3" id="9HW-Ah-VBo"/>
                         <outlet property="quaternionView" destination="xhY-cw-eWY" id="77U-gV-Qem"/>
-                        <outlet property="startButton" destination="z0W-VH-ssw" id="9de-tU-wA4"/>
-                        <outlet property="stopButton" destination="FND-zm-jI0" id="vBp-0z-abR"/>
+                        <outlet property="startButton" destination="z0W-VH-ssw" id="gEh-yd-NAv"/>
+                        <outlet property="stopButton" destination="FND-zm-jI0" id="M6w-Ef-PxQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u8g-fF-Edx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

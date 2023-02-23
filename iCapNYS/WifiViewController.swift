@@ -555,7 +555,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
  
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
-
+print("stopbutton******")
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
@@ -610,11 +610,11 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
             sleep(UInt32(0.1))
         }
  //        isFirstTap = true
-        performSegue(withIdentifier: "fromRecord", sender: self)
+        performSegue(withIdentifier: "mainView", sender: self)
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-
+        print("startbutton******")
         timerCnt=0
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
