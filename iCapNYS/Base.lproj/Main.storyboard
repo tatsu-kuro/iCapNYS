@@ -112,7 +112,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Exit"/>
                                 <connections>
-                                    <segue destination="BMR-xu-L60" kind="unwind" unwindAction="unwindActionWithSegue:" id="xkk-jF-TwY"/>
+                                    <segue destination="BMR-xu-L60" kind="unwind" identifier="WIFIRECORD" unwindAction="unwindActionWithSegue:" id="xkk-jF-TwY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FND-zm-jI0">

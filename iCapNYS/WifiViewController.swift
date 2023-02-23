@@ -41,7 +41,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
     var soundIdx:SystemSoundID = 0
-    let albumName:String = "wifiCapNYS"
+    let albumName:String = "iCapNYS"
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
@@ -95,6 +95,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
     var quater3:Double=0
     var readingFlag = false
     var timer:Timer?
+    var timer_Start:Timer?
     var timer_motion:Timer?
     var tapFlag:Bool=false//??
     var flashFlag=false
@@ -136,6 +137,9 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         }
         if timer_motion?.isValid == true {
             timer_motion!.invalidate()
+        }
+        if timer_Start?.isValid == true{
+            timer_Start!.invalidate()
         }
     }
     
@@ -200,7 +204,14 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
         maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
-
+        if recordingFlag==true{
+            exitButton.isHidden=true
+            timer_Start = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
+        }
+    }
+    @objc func onTimerStart(tm:Timer){
+        timerCnt=0
+        onClickStartButton(0)
     }
 
      override var prefersStatusBarHidden: Bool {
@@ -610,7 +621,7 @@ print("stopbutton******")
             sleep(UInt32(0.1))
         }
  //        isFirstTap = true
-        performSegue(withIdentifier: "mainView", sender: self)
+        performSegue(withIdentifier: "WIFIRECORD", sender: self)
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {

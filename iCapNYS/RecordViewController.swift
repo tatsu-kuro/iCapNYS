@@ -31,7 +31,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var tempURL:String=""
     @IBAction func onEnterButton(_ sender: Any) {
         urlInputField.endEditing(true)
-        UserDefaults.standard.set(urlInputField.text,forKey: "cameraURL")
+        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
     }
     
     @IBOutlet weak var enterButton: UIButton!
@@ -1157,7 +1157,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         hideButtonsSlides()
         if cameraType==5{
             let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
-            self.present(nextView1, animated: true, completion: nil)
+            nextView1.recordingFlag=true
+            self.present(nextView1, animated: false, completion: nil)
+            return
         }
         if cameraType==0{
             UIScreen.main.brightness = 1

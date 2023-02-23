@@ -272,13 +272,41 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                     self.tableView.contentOffset.y=0
                 }
             }
-//            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+            //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
             UIScreen.main.brightness = Controller.currentBrightness// CGFloat(UserDefaults.standard.float(forKey:
             print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
-//            }
+            //            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
+        }else if let vc1 = segue.source as? WifiViewController{
+            let Controller:WifiViewController = vc1
+            if Controller.stopButton.isHidden==true{//Exit
+                print("Exit / not recorded")
+            }else{
+                print("Exit / recorded")
+                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
+                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+                DispatchQueue.main.async { [self] in
+                    self.tableView.contentOffset.y=0
+                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
+
+                }
+            }
+            //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
+            UIScreen.main.brightness = Controller.currentBrightness// CGFloat(UserDefaults.standard.float(forKey:
+            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
+            //            }
+            print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
+//            Controller.captureSession.stopRunning()
+            
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
