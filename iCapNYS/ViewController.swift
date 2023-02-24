@@ -336,7 +336,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else if let vc = segue.source as? AutoRecordViewController{
 
         }
-        UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
+//        UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
 //        isStarted=false
         startMotion()
@@ -379,7 +379,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
 //        let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
         
-        UIApplication.shared.isIdleTimerDisabled = false//スリープする
+//        UIApplication.shared.isIdleTimerDisabled = false//スリープする
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(foreground(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
@@ -392,9 +392,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         startMotion()
     }
     override func viewDidAppear(_ animated: Bool) {
-        if UIApplication.shared.isIdleTimerDisabled == true{
-            UIApplication.shared.isIdleTimerDisabled = false//監視する
-        }
+//        if UIApplication.shared.isIdleTimerDisabled == true{//スリープさせない
+//            UIApplication.shared.isIdleTimerDisabled = false//監視する
+//        }
         print("viewDidAppear*********")
         tableView.reloadData()
         let contentOffsetY = CGFloat(someFunctions.getUserDefaultFloat(str:"contentOffsetY",ret:0))
@@ -488,10 +488,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
   
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("viewWillAppear********")
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        print("viewWillAppear********")
+//        UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
+//    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         //            // 画面非表示直後の処理を書く

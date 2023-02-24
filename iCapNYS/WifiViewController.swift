@@ -213,7 +213,17 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         timerCnt=0
         onClickStartButton(0)
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      UIApplication.shared.isIdleTimerDisabled = false  // スリープする
+    }
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      UIApplication.shared.isIdleTimerDisabled = true  // スリープしない、監視しない
+    }
+    
+    //UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
      override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -233,7 +243,8 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
 //        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
         if maxTimeLimit && (timerCnt > 60*5){
-            onClickStopButton(0)
+//            onClickStopButton(0)
+            UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
         }
     }
     func dispFilesInDoc(){

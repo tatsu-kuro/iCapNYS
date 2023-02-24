@@ -344,7 +344,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //ここからwifiCapnys
         }
      }
- 
+    override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      UIApplication.shared.isIdleTimerDisabled = false  // この行
+    }
+//    override func viewWillAppear(_ animated: Bool) {
+//      super.viewWillAppear(animated)
+//      UIApplication.shared.isIdleTimerDisabled = true  // この行
+//    }
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -384,7 +391,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         timerCnt += 1
         if timerCnt == 3{
             stopButton.isEnabled=true
-            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+//            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
            //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 
            if let soundUrl = URL(string:
@@ -716,15 +723,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             UIScreen.main.brightness = currentBrightness
         }
 
-//        if cameraType==0 || setteiMode==0{
-//            LEDBar.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDValueLabel.isHidden=true
-//        }else{
-//            LEDBar.isHidden=false
-//            LEDLabel.isHidden=false
-//            LEDValueLabel.isHidden=false
-//        }
         defaultButton.isHidden=true
         enterButton.isHidden=true
         urlLabel.isHidden=true
@@ -742,15 +740,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDValueLabel.isHidden=false
         cameraView.isHidden=false
         quaternionView.isHidden=false
-
+//print("setteimode:******:",setteiMode)
         if cameraType==0{
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
-//            if setteiMode==1{
-                previewLabel.isHidden=false
-                previewSwitch.isHidden=false
-//            }
+            previewLabel.isHidden=false
+            previewSwitch.isHidden=false
+            if setteiMode==2{
+                previewLabel.isHidden=true
+                previewSwitch.isHidden=true
+            }
         }else if cameraType==1{
             
         }else if cameraType==2{
@@ -784,6 +784,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
+        }
+        if setteiMode==2{
+            startButton.isEnabled=false
+        }else{
+            startButton.isEnabled=true
         }
     }
     func wifiCam(){
@@ -946,7 +951,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     var startButtonsHeight:CGFloat=0
     @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
-        let move:CGPoint = sender.translation(in: self.view)
+/*        let move:CGPoint = sender.translation(in: self.view)
 //        let pos = sender.location(in: self.view)
         print("panGesture")
         if recordingFlag==true{
@@ -962,9 +967,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 changedButtonHeight = 0
             }
             UserDefaults.standard.set(changedButtonHeight,forKey: "buttonsHeight")
-//            setButtons()//,changedButtonHeight)
         }else if sender.state == .ended{
-        }
+        }*/
     }
     func setButtonsLocation(){
 //        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
@@ -1156,6 +1160,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     @IBAction func onClickStartButton(_ sender: Any) {
         hideButtonsSlides()
+        UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
+
         if cameraType==5{
             let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
             nextView1.recordingFlag=true
@@ -1191,44 +1197,44 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
     var tapInterval=CFAbsoluteTimeGetCurrent()
     @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
-        if recordingFlag==true{
-            return
-        }
-        if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
-            print("doubleTapPlay")
-            if setteiMode != 0{
-                zoomBar.isHidden=false
-                zoomLabel.isHidden=false
-                focusBar.isHidden=false
-                focusLabel.isHidden=false
-                focusValueLabel.isHidden=false
-            }
-        }
-        tapInterval=CFAbsoluteTimeGetCurrent()
+//        if recordingFlag==true{
+//            return
+//        }
+//        if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
+//            print("doubleTapPlay")
+//            if setteiMode != 0{
+//                zoomBar.isHidden=false
+//                zoomLabel.isHidden=false
+//                focusBar.isHidden=false
+//                focusLabel.isHidden=false
+//                focusValueLabel.isHidden=false
+//            }
+//        }
+//        tapInterval=CFAbsoluteTimeGetCurrent()
         setMotion()
-        let screenSize=cameraView.bounds.size
-        let x0 = sender.location(in: self.view).x
-        let y0 = sender.location(in: self.view).y
-        
-        if y0>view.bounds.height*0.43{//screenSize.height/2{
-            return
-        }
-        let x = y0/screenSize.height
-        let y = 1.0 - x0/screenSize.width
-        let focusPoint = CGPoint(x:x,y:y)
-        if cameraType==1 || cameraType==2{
-            if let device = videoDevice{
-                do {
-                    try device.lockForConfiguration()
-                    device.focusPointOfInterest = focusPoint
-                    device.focusMode = .autoFocus
-                    device.unlockForConfiguration()
-                }
-                catch {
-                    // just ignore
-                }
-            }
-        }
+//        let screenSize=cameraView.bounds.size
+//        let x0 = sender.location(in: self.view).x
+//        let y0 = sender.location(in: self.view).y
+//
+//        if y0>view.bounds.height*0.43{//screenSize.height/2{
+//            return
+//        }
+//        let x = y0/screenSize.height
+//        let y = 1.0 - x0/screenSize.width
+//        let focusPoint = CGPoint(x:x,y:y)
+//        if cameraType==1 || cameraType==2{
+//            if let device = videoDevice{
+//                do {
+//                    try device.lockForConfiguration()
+//                    device.focusPointOfInterest = focusPoint
+//                    device.focusMode = .autoFocus
+//                    device.unlockForConfiguration()
+//                }
+//                catch {
+//                    // just ignore
+//                }
+//            }
+//        }
     }
     @objc func onFocusValueChange(){
             setFocus(focus:focusBar.value)

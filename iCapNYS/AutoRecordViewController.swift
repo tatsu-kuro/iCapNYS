@@ -401,6 +401,15 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
     var telephotoCamera:Bool=false
     var ultrawideCamera:Bool=false
+    
+    override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      UIApplication.shared.isIdleTimerDisabled = false  // スリープする
+    }
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      UIApplication.shared.isIdleTimerDisabled = true  // スリープしない、監視しない
+    }
     func getCameras(){//wideAngleCameraのみ使用
         //        if AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) != nil{
         //            ultrawideCamera=true
@@ -1040,7 +1049,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
 //        currentTime.alpha=0.1
         try? FileManager.default.removeItem(atPath: TempFilePath)
 
-        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
+//        UIApplication.shared.isIdleTimerDisabled = true//スリープしない
        //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
 
        if let soundUrl = URL(string:
