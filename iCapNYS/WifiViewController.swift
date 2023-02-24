@@ -177,7 +177,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
 //        print("dispfilesindoc")
 //
 //    }
-    var maxTimeLimit:Bool=true
+//    var maxTimeLimit:Bool=true
     override func viewDidLoad() {
         super.viewDidLoad()
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
@@ -203,16 +203,18 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
 //        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
-        maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
+//        maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         if recordingFlag==true{
             exitButton.isHidden=true
-            timer_Start = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
+            timerCnt=0
+            onClickStartButton(0)
+//            timer_Start = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
         }
     }
-    @objc func onTimerStart(tm:Timer){
-        timerCnt=0
-        onClickStartButton(0)
-    }
+//    @objc func onTimerStart(tm:Timer){
+//        timerCnt=0
+//        onClickStartButton(0)
+//    }
     
     override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
@@ -242,9 +244,9 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         }
 //        maxTimeSwitch.isOn=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
         
-        if maxTimeLimit && (timerCnt > 60*5){
-//            onClickStopButton(0)
-            UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
+        if timerCnt == 5*60{
+            onClickStopButton(0)
+ //           UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
         }
     }
     func dispFilesInDoc(){

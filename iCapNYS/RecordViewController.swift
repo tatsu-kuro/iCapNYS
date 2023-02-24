@@ -385,11 +385,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         }
     }
-  
+    func startRecord(){
+        stopButton.isEnabled=true
+       if let soundUrl = URL(string:
+                               "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+           AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+           AudioServicesPlaySystemSound(soundIdx)
+       }
+
+       fileWriter!.startWriting()
+       fileWriter!.startSession(atSourceTime: CMTime.zero)
+       setMotion()
+    }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
         timerCnt += 1
-        if timerCnt == 3{
+        if timerCnt == 10000{
             stopButton.isEnabled=true
 //            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
            //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
@@ -405,23 +416,29 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
    //        print(fileWriter?.error)
            setMotion()
         }
-        if recordingFlag==true && timerCnt>3{//trueになった時 0にリセットされる
-            currentTime.text=String(format:"%01d",(timerCnt-3)/60) + ":" + String(format: "%02d",(timerCnt-3)%60)
+        if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
+            currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
             if timerCnt%2==0{
                 stopButton.tintColor=UIColor.cyan
             }else{
                 stopButton.tintColor=UIColor.yellow// red
             }
         }
-        if timerCnt > 60*5{
-            motionManager.stopDeviceMotionUpdates()//tuika
-            if recordingFlag==true{
-                killTimer()
-                onClickStopButton(0)
-            }else{
-                killTimer()
-                performSegue(withIdentifier: "fromRecord", sender: self)
-            }
+   //     var maxTimeLimit:Bool=true
+        if timerCnt == 5*60{//sleep
+//            if maxTimeLimit==false{
+//                //将来このflagを設定すると、永遠に録画できる。その時はiphoneのロック機能もオフにしないと使いづらい。
+//                UIApplication.shared.isIdleTimerDisabled = false  // この行
+//            }else{
+                motionManager.stopDeviceMotionUpdates()//tuika
+                if recordingFlag==true{
+                    killTimer()
+                    onClickStopButton(0)
+                }else{
+                    killTimer()
+                    performSegue(withIdentifier: "fromRecord", sender: self)
+                }
+//            }
         }
     }
     func setMotion(){
@@ -1193,6 +1210,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.alpha=0.1
         }
         try? FileManager.default.removeItem(atPath: TempFilePath)
+        startRecord()
     }
 
     var tapInterval=CFAbsoluteTimeGetCurrent()
