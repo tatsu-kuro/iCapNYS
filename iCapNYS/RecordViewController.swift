@@ -55,7 +55,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
-//    var currentBrightness:CGFloat=1.0
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
     let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"]
 
@@ -377,7 +376,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
-//        print("brightness,onLEDchange:",LEDBar.value)
         if cameraType != 0{
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
@@ -737,7 +735,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }else{
-//            UIScreen.main.brightness = currentBrightness
             UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "brightness"))
         }
 
@@ -848,11 +845,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusLabel.isHidden=false
             focusValueLabel.isHidden=false
         }
-//        if cameraType==0{
-//            UIScreen.main.brightness = 1
-//        }else{
-//            UIScreen.main.brightness = currentBrightness
-//        }
+
         onExposeValueChange()
 //        setButtons()
 //        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
@@ -1316,9 +1309,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 
                     currentDevice.exposureMode = .autoExpose
                     currentDevice.setExposureTargetBias(expose, completionHandler: nil)
-                    
-//                    UserDefaults.standard.set(expose, forKey: "cameraBrightnessValue")
-          
+                              
             } catch {
                 print("\(error.localizedDescription)")
             }

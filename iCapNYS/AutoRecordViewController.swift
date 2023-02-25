@@ -67,7 +67,6 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     let motionManager = CMMotionManager()
-//    var currentBrightness:CGFloat=1.0
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
@@ -834,8 +833,6 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 
                     currentDevice.exposureMode = .autoExpose
                     currentDevice.setExposureTargetBias(expose, completionHandler: nil)
-                    
-//                    UserDefaults.standard.set(expose, forKey: "cameraBrightnessValue")
           
             } catch {
                 print("\(error.localizedDescription)")
