@@ -47,7 +47,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
-    var currentBrightness:CGFloat=1.0
+//    var currentBrightness:CGFloat=1.0
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
 
@@ -180,6 +180,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
 //    var maxTimeLimit:Bool=true
     override func viewDidLoad() {
         super.viewDidLoad()
+//        UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
