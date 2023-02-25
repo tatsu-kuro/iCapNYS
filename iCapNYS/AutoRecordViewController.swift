@@ -67,7 +67,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var recordingFlag:Bool = false
     var saved2album:Bool = false
     let motionManager = CMMotionManager()
-    var currentBrightness:CGFloat=1.0
+//    var currentBrightness:CGFloat=1.0
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?

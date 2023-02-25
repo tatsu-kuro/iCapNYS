@@ -55,7 +55,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
-    var currentBrightness:CGFloat=1.0
+//    var currentBrightness:CGFloat=1.0
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
     let cameraTypeStrings : Array<String> = ["frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"]
 
@@ -737,7 +737,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }else{
-            UIScreen.main.brightness = currentBrightness
+//            UIScreen.main.brightness = currentBrightness
+            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "brightness"))
         }
 
         defaultButton.isHidden=true

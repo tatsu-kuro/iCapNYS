@@ -203,7 +203,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
             nextView.setteiMode=0
             nextView.autoRecordMode=false
-            nextView.currentBrightness=UIScreen.main.brightness
+//            nextView.currentBrightness=UIScreen.main.brightness
             self.present(nextView, animated: true, completion: nil)
         }
     }
@@ -213,7 +213,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=2
         nextView.autoRecordMode=false
-        nextView.currentBrightness=UIScreen.main.brightness
+//        nextView.currentBrightness=UIScreen.main.brightness
         nextView.explanationLabeltextColor=UIColor.systemOrange
         self.present(nextView, animated: true, completion: nil)
     }
@@ -223,7 +223,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=1
         nextView.autoRecordMode=false
-        nextView.currentBrightness=UIScreen.main.brightness
+//        nextView.currentBrightness=UIScreen.main.brightness
         nextView.explanationLabeltextColor=UIColor.systemGreen
         self.present(nextView, animated: true, completion: nil)
     }
@@ -233,7 +233,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=true
-        nextView.currentBrightness=UIScreen.main.brightness
+//        nextView.currentBrightness=UIScreen.main.brightness
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
 
         self.present(nextView, animated: true, completion: nil)
@@ -243,7 +243,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=false
         
-        nextView.currentBrightness=UIScreen.main.brightness
+//        nextView.currentBrightness=UIScreen.main.brightness
         
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
 
@@ -282,8 +282,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 }
             }
             //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
-            UIScreen.main.brightness = Controller.currentBrightness// CGFloat(UserDefaults.standard.float(forKey:
-            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
+//            UIScreen.main.brightness = Controller.currentBrightness// CGFloat(UserDefaults.standard.float(forKey:
+//            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
             //            }
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
@@ -336,9 +336,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 }
             }
             //            if Controller.cameraType==0{//frontCameraの時だけ明るさを元に戻す。バックカメラの録画時では明るさを変更しない。
-            UIScreen.main.brightness = Controller.currentBrightness
+//            UIScreen.main.brightness = Controller.currentBrightness
             //            }
-            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
+//            print("brightness/unwind:",Controller.currentBrightness, UIScreen.main.brightness)
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
