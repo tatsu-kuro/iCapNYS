@@ -339,7 +339,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
-            wifiCam()
+//            wifiCam()
             //ここからwifiCapnys
         }
      }
@@ -735,7 +735,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }else{
-            UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "brightness"))
+            UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         }
 
         defaultButton.isHidden=true
@@ -806,17 +806,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             startButton.isEnabled=true
         }
     }
-    func wifiCam(){
-//        cameraView.isHidden=true
-        
-    }
+//    func wifiCam(){
+////        cameraView.isHidden=true
+//
+//    }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         cameraType = cameraChange(cameraType)
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType==5{
+            focusBar.isHidden=true
+            focusLabel.isHidden=true
+            focusValueLabel.isHidden=true
             captureSession.stopRunning()
-            wifiCam()
+//            wifiCam()
             //ここからwifiCapnys
             return
         }
@@ -1174,9 +1177,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
 
         if cameraType==5{
-            let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
-            nextView1.recordingFlag=true
-            self.present(nextView1, animated: false, completion: nil)
+            let nextView = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
+//            nextView.recordingFlag=true
+            self.present(nextView, animated: false, completion: nil)
             return
         }
         if cameraType==0{

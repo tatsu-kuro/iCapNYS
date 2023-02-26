@@ -226,20 +226,16 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBAction func onPositioningRecordButton(_ sender: Any) {
         stopMotion()
-        
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=true
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")//cgfloat-double?
         self.present(nextView, animated: true, completion: nil)
     }
     @IBAction func onAutoRecordButton(_ sender: Any) {
         stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=false
-       
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-
         self.present(nextView, animated: true, completion: nil)
     }
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
@@ -329,7 +325,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else if let vc = segue.source as? AutoRecordViewController{
 
         }
-        UIScreen.main.brightness = CGFloat(UserDefaults.standard.float(forKey: "brightness"))
+        UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
 //        UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
 //        isStarted=false

@@ -205,12 +205,12 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
 //        maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
-        if recordingFlag==true{
-            exitButton.isHidden=true
-            timerCnt=0
-            onClickStartButton(0)
-//            timer_Start = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
-        }
+//        if recordingFlag==true{
+//            exitButton.isHidden=true
+//            timerCnt=0
+//            onClickStartButton(0)
+////            timer_Start = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
+//        }
     }
 //    @objc func onTimerStart(tm:Timer){
 //        timerCnt=0
