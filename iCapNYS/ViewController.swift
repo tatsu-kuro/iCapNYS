@@ -212,6 +212,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         nextView.setteiMode=2
         nextView.autoRecordMode=false
         nextView.explanationLabeltextColor=UIColor.systemOrange
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         self.present(nextView, animated: true, completion: nil)
     }
     
@@ -221,6 +222,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         nextView.setteiMode=1
         nextView.autoRecordMode=false
         nextView.explanationLabeltextColor=UIColor.systemGreen
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         self.present(nextView, animated: true, completion: nil)
     }
     
