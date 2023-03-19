@@ -12,6 +12,7 @@
 		6945B1A725EB207400A52272 /* myFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945B1A625EB207400A52272 /* myFunctions.swift */; };
 		6945E7D92519145F00E16DDB /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7D82519145F00E16DDB /* RecordViewController.swift */; };
 		6945E7DC25196C3600E16DDB /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6945E7DB25196C3600E16DDB /* PlayViewController.swift */; };
+		695959B629C67E790044BF40 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 695959B829C67E790044BF40 /* InfoPlist.strings */; };
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
 		69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913828A1C3BD00E1C065 /* steel1.mov */; };
@@ -34,6 +35,9 @@
 		6945B1A625EB207400A52272 /* myFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myFunctions.swift; sourceTree = "<group>"; };
 		6945E7D82519145F00E16DDB /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		6945E7DB25196C3600E16DDB /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
+		695959B929C6C38D0044BF40 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		695959BA29C6C38D0044BF40 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		695959BB29C6C38E0044BF40 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 				6945E7D82519145F00E16DDB /* RecordViewController.swift */,
 				69E2289A2518344C0004E53C /* Assets.xcassets */,
 				69E2289C2518344C0004E53C /* LaunchScreen.storyboard */,
+				695959B829C67E790044BF40 /* InfoPlist.strings */,
 				69E2289F2518344C0004E53C /* Info.plist */,
 				698A192E2785BFFD004C4CE9 /*  ja.lproj */,
 			);
@@ -157,6 +162,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 69E22885251834490004E53C;
 			productRefGroup = 69E2288F251834490004E53C /* Products */;
@@ -182,6 +188,7 @@
 				69DF84E42957C9260062134F /* steel3_eng_new.mov in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
 				69E22899251834490004E53C /* Main.storyboard in Resources */,
+				695959B629C67E790044BF40 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,10 +215,19 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		695959B829C67E790044BF40 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				695959BB29C6C38E0044BF40 /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		69E22897251834490004E53C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				69E22898251834490004E53C /* Base */,
+				695959B929C6C38D0044BF40 /* ja */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -220,6 +236,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				69E2289D2518344C0004E53C /* Base */,
+				695959BA29C6C38D0044BF40 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -360,7 +377,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6;
+				MARKETING_VERSION = 3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -383,7 +400,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6;
+				MARKETING_VERSION = 3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

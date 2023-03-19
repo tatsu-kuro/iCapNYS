@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>record a movie of eye movement, and put it into the album( iCapNYS).</string>
+	<string>record videos of nystagmus and save them in the album( iCapNYS).</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>make the album( iCapNYS) and put a movie of eye movement in it.</string>
+	<string>make the album( iCapNYS) and put videos of nystagmus in it.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
