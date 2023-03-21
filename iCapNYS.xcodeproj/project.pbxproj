@@ -15,10 +15,10 @@
 		6961FBEB257E756E004B6A8C /* How2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6961FBEA257E756D004B6A8C /* How2ViewController.swift */; };
 		69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */; };
 		69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69B6913828A1C3BD00E1C065 /* steel1.mov */; };
-		69CF76AC29C939A60072FEEF /* positional.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76AB29C939A50072FEEF /* positional.mov */; };
-		69CF76AE29C93E7D0072FEEF /* steel3_eng_new.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76AD29C93E7D0072FEEF /* steel3_eng_new.mov */; };
-		69CF76B029C93E9B0072FEEF /* positional_eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76AF29C93E9B0072FEEF /* positional_eng.mov */; };
+		69CF76AE29C93E7D0072FEEF /* steel3_eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76AD29C93E7D0072FEEF /* steel3_eng.mov */; };
 		69CF76B229C940EF0072FEEF /* steel1eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76B129C940EF0072FEEF /* steel1eng.mov */; };
+		69CF76B429C9A2290072FEEF /* positional_eng.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76B329C9A2290072FEEF /* positional_eng.mov */; };
+		69CF76B829C9AF180072FEEF /* positional.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76B729C9AF180072FEEF /* positional.mov */; };
 		69D7C99729A70A69008B3D16 /* WifiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D7C99629A70A69008B3D16 /* WifiViewController.swift */; };
 		69D7C99A29A70FEE008B3D16 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D7C99929A70FEE008B3D16 /* CameraService.swift */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
@@ -39,10 +39,10 @@
 		6961FBEA257E756D004B6A8C /* How2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = How2ViewController.swift; sourceTree = "<group>"; };
 		69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRecordViewController.swift; sourceTree = "<group>"; };
 		69B6913828A1C3BD00E1C065 /* steel1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1.mov; sourceTree = "<group>"; };
-		69CF76AB29C939A50072FEEF /* positional.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional.mov; sourceTree = "<group>"; };
-		69CF76AD29C93E7D0072FEEF /* steel3_eng_new.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3_eng_new.mov; sourceTree = "<group>"; };
-		69CF76AF29C93E9B0072FEEF /* positional_eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional_eng.mov; sourceTree = "<group>"; };
+		69CF76AD29C93E7D0072FEEF /* steel3_eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel3_eng.mov; sourceTree = "<group>"; };
 		69CF76B129C940EF0072FEEF /* steel1eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = steel1eng.mov; sourceTree = "<group>"; };
+		69CF76B329C9A2290072FEEF /* positional_eng.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional_eng.mov; sourceTree = "<group>"; };
+		69CF76B729C9AF180072FEEF /* positional.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = positional.mov; sourceTree = "<group>"; };
 		69D7C99629A70A69008B3D16 /* WifiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewController.swift; sourceTree = "<group>"; };
 		69D7C99829A70EE7008B3D16 /* iCapNYS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCapNYS.entitlements; sourceTree = "<group>"; };
 		69D7C99929A70FEE008B3D16 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
@@ -78,10 +78,10 @@
 			isa = PBXGroup;
 			children = (
 				690ECCBA290AB509008A317F /* steel3.mov */,
-				69CF76AF29C93E9B0072FEEF /* positional_eng.mov */,
 				69CF76B129C940EF0072FEEF /* steel1eng.mov */,
-				69CF76AB29C939A50072FEEF /* positional.mov */,
-				69CF76AD29C93E7D0072FEEF /* steel3_eng_new.mov */,
+				69CF76B329C9A2290072FEEF /* positional_eng.mov */,
+				69CF76B729C9AF180072FEEF /* positional.mov */,
+				69CF76AD29C93E7D0072FEEF /* steel3_eng.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
 				69E2288F251834490004E53C /* Products */,
@@ -180,13 +180,13 @@
 			files = (
 				690ECCBB290AB509008A317F /* steel3.mov in Resources */,
 				69B6913928A1C3BD00E1C065 /* steel1.mov in Resources */,
-				69CF76B029C93E9B0072FEEF /* positional_eng.mov in Resources */,
 				69E2289E2518344C0004E53C /* LaunchScreen.storyboard in Resources */,
-				69CF76AC29C939A60072FEEF /* positional.mov in Resources */,
 				69CF76B229C940EF0072FEEF /* steel1eng.mov in Resources */,
 				69E2289B2518344C0004E53C /* Assets.xcassets in Resources */,
-				69CF76AE29C93E7D0072FEEF /* steel3_eng_new.mov in Resources */,
+				69CF76AE29C93E7D0072FEEF /* steel3_eng.mov in Resources */,
+				69CF76B429C9A2290072FEEF /* positional_eng.mov in Resources */,
 				69E22899251834490004E53C /* Main.storyboard in Resources */,
+				69CF76B829C9AF180072FEEF /* positional.mov in Resources */,
 				695959B629C67E790044BF40 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,7 +367,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCapNYS/iCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -375,7 +375,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -390,7 +390,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCapNYS/iCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -398,7 +398,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.7;
+				MARKETING_VERSION = 3.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuroda33.iCapNYS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

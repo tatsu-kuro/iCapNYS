@@ -510,14 +510,16 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 playMoviePath("positional")
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 100{
+            var movCnt:Int=106
+            if movieTimerCnt == movCnt{//100{
                 videoPlayer.pause()
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
                 sound(snd: "pos2a", fwd: 0)
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
-            if movieTimerCnt == 100+9{
+            movCnt += 9
+            if movieTimerCnt == movCnt{//100+9{
                 videoPlayer.pause()
                 skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
@@ -525,30 +527,37 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
-            if movieTimerCnt == 100+12{
+            movCnt += 3
+            if movieTimerCnt == movCnt{//100+12{
                 exitButton.alpha=0.05
                 quaternionView.isHidden=true
                 cameraView.isHidden=true
                 onClickStartButton()
             }
-            if movieTimerCnt == 100+12+23{
+            movCnt += 23
+            if movieTimerCnt == movCnt{//100+12+23{
                 sound(snd: "pos3", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23{
+            movCnt += 23
+            if movieTimerCnt == movCnt{//100+12+23+23{
                 sound(snd: "pos4", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23+22{
+            movCnt += 22
+            if movieTimerCnt == movCnt{//100+12+23+23+22{
                 sound(snd: "pos5", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23+22+25{
+            movCnt += 25
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25{
                 exitButton.alpha=0.5
                 onClickStopButton()
                 playMoviePath("steel3")
             }
-            if movieTimerCnt == 100+12+23+23+22+25+1{
+            movCnt += 1
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25+1{
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 100+12+23+23+22+25+22{
+            movCnt += 21
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25+22{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
@@ -597,11 +606,12 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }else{
-            if movieTimerCnt == 1{
-                playMoviePath("positional_eng")
+             if movieTimerCnt == 1{
+                playMoviePath("positional_eng_new")
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 100 - 20{
+            var movCnt:Int=83
+            if movieTimerCnt == movCnt{//100 - 20{
                 print("positional_eng:end")
                 videoPlayer.pause()
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
@@ -609,7 +619,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
-            if movieTimerCnt == 100+9-20+1{
+            movCnt += 10
+            if movieTimerCnt == movCnt{//100+9-20+1{
                 videoPlayer.pause()
                 skipButton.isHidden=true
                 videoView.frame = CGRect(x:0,y:0,width: 0,height: 0)
@@ -617,30 +628,37 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 quaternionView.isHidden=false
                 cameraView.isHidden=false
             }
-            if movieTimerCnt == 100+12-20+1{
+            movCnt += 3
+            if movieTimerCnt == movCnt{//100+12-20+1{
                 exitButton.alpha=0.05
                 quaternionView.isHidden=true
                 cameraView.isHidden=true
                 onClickStartButton()
             }
-            if movieTimerCnt == 100+12+23-20+1{
+            movCnt += 23
+            if movieTimerCnt == movCnt{//100+12+23-20+1{
                 sound(snd: "pos3_eng", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23-20+1{
+            movCnt += 23
+            if movieTimerCnt == movCnt{//100+12+23+23-20+1{
                 sound(snd: "pos4_eng", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23+22-20+1{
+            movCnt += 22
+            if movieTimerCnt == movCnt{//100+12+23+23+22-20+1{
                 sound(snd: "pos5_eng", fwd: 0)
             }
-            if movieTimerCnt == 100+12+23+23+22+25-20+1{
+            movCnt += 25
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25-20+1{
                 exitButton.alpha=0.5
                 onClickStopButton()
                 playMoviePath("steel3_eng_new")
             }
-            if movieTimerCnt == 100+12+23+23+22+25+1-20+1{
+            movCnt += 1
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25+1-20+1{
                 videoView.frame = self.view.bounds
             }
-            if movieTimerCnt == 100+12+23+23+22+25+22-20-3{
+            movCnt += 17
+            if movieTimerCnt == movCnt{//100+12+23+23+22+25+22-20-3{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
         }
