@@ -35,7 +35,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             tableView?.reloadData()
         }
     }
-
+/*
     //motion sensor*************************
 
     var tapInterval=CFAbsoluteTimeGetCurrent()
@@ -148,7 +148,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         isStarted = true
     }
-
+*/
     //motion sensor*****************
     
     override func viewDidLayoutSubviews() {
@@ -192,7 +192,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     @IBAction func onCameraButton(_ sender: Any) {
-        stopMotion()
+ //       stopMotion()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
         if cameraType==5{
@@ -207,7 +207,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonAuto(_ sender: Any) {
-        stopMotion()
+  //      stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=2
         nextView.autoRecordMode=false
@@ -217,7 +217,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
-        stopMotion()
+ //       stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=1
         nextView.autoRecordMode=false
@@ -227,14 +227,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onPositioningRecordButton(_ sender: Any) {
-        stopMotion()
+//        stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=true
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")//cgfloat-double?
         self.present(nextView, animated: true, completion: nil)
     }
     @IBAction func onAutoRecordButton(_ sender: Any) {
-        stopMotion()
+ //       stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
         nextView.isPositional=false
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
@@ -331,7 +331,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
 //        isStarted=false
-        startMotion()
+//        startMotion()
     }
     
     func camera_alert(){
@@ -350,8 +350,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
-        isStarted=false
-        startMotion()
+  //      isStarted=false
+ //       startMotion()
         if PHPhotoLibrary.authorizationStatus() != .authorized {
             PHPhotoLibrary.requestAuthorization { status in
                 if status == .authorized {
@@ -381,7 +381,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     @objc func foreground(notification: Notification) {
         print("フォアグラウンド")
-        startMotion()
+//        startMotion()
     }
     override func viewDidAppear(_ animated: Bool) {
 //        if UIApplication.shared.isIdleTimerDisabled == true{//スリープさせない

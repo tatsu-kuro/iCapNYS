@@ -435,7 +435,10 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         layer.frame = CGRect(x:-40,y:-10,width:view.bounds.width+80,height: view.bounds.height+20)
         
         videoView.layer.addSublayer(layer)
+ //       videoPlayer.seek(to: CMTime.zero)
         videoPlayer.play()
+    //    videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(0), preferredTimescale: Int32(NSEC_PER_SEC)))
+   //     videoPlayer.seek(to: CMTime.zero)
     }
     @IBAction func onSkipButton(_ sender: Any) {
         if someFunctions.firstLang().contains("ja"){

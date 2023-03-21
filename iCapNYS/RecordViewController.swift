@@ -1198,7 +1198,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isEnabled=false
         currentTime.isHidden=false
         exitButton.isHidden=true
-        stopButton.alpha=0.02
+        stopButton.alpha=0.025
         previewLabel.isHidden=true
         previewSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
