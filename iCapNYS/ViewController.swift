@@ -10,7 +10,8 @@
 //  iCapNYS
 //
 //  Created by 黒田建彰 on 2020/09/20.
-//
+//  これをdefaultにした。
+
 import UIKit
 import Photos
 import AssetsLibrary
