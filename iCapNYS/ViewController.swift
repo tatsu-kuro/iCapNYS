@@ -469,7 +469,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
         cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13+sp, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
         //高さ/20を上下に開ける
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp+wh/20,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-2*sp-wh/10)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp*2,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-sp*4)
         
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
