@@ -169,18 +169,9 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
 //        let URL=URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
 //        ipWebView.load(URLRequest(url: URL!))
 //    }
-
-//    @IBAction func onHatenaButton(_ sender: Any) {
-////        ipWebView.scrollView.zoom(to: CGRect(x:330,y:8,width: 320,height: 240), animated: true)
-////        ipWebView.scrollView.zoom(to: CGRect(x:150,y:0,width: 300,height: 225), animated: true)
-////        dispFilesInDoc()
-//        print("dispfilesindoc")
-//
-//    }
-//    var maxTimeLimit:Bool=true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -190,44 +181,31 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         camera.makeAlbum()
         set_rpk_ppk()
         setMotion()
-
+        
         setButtons()
         startButton.isHidden=false
         stopButton.isHidden=true
-//        let left=(realWidth-realHeight*320/240)/2
-//        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
         cameraService = CameraService(delegate: self)
         let cameraURL =  URL(string:myFunctions().getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1"))
-
+        
         cameraService!.play(url: cameraURL!)
-//        mjpegImage.frame=CGRect(x:leftPadding+left,y: topPadding,width:realHeight*320/240,height:realHeight)
-//        quaternionView.frame=CGRect(x:leftPadding+left+15,y:topPadding+5,width: realHeight/5,height: realHeight/5)
+        
         self.view.bringSubviewToFront(quaternionView)
         timer_motion = Timer.scheduledTimer(timeInterval: 1/30, target: self, selector: #selector(self.update_motion), userInfo: nil, repeats: true)
-//        maxTimeLimit=myFunctions().getUserDefaultBool(str: "maxTimeLimit", ret: true)
-//        if recordingFlag==true{
-//            exitButton.isHidden=true
-//            timerCnt=0
-//            onClickStartButton(0)
-////            timer_Start = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.onTimerStart), userInfo: nil, repeats: false)
-//        }
+        
     }
-//    @objc func onTimerStart(tm:Timer){
-//        timerCnt=0
-//        onClickStartButton(0)
-//    }
     
     override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
-      UIApplication.shared.isIdleTimerDisabled = false  // スリープする
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isIdleTimerDisabled = false  // スリープする
     }
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      UIApplication.shared.isIdleTimerDisabled = true  // スリープしない、監視しない
+        super.viewWillAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true  // スリープしない、監視しない
     }
     
     //UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
-     override var prefersStatusBarHidden: Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     override var prefersHomeIndicatorAutoHidden: Bool {
@@ -263,48 +241,11 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
             print("none?")
         }
     }
-    /*
-         startButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height:bw)
-     stopButton.frame=CGRect(x:x0+bw*6+sp*6,y:(realHeight-bw)/2,width: bw,height: bw)
-     mjpegImage.frame=CGRect(x:capX,y:sp,width:capWidth,height:capHeight)
-
-     */
+   
     var capX:CGFloat=0
     var capWidth:CGFloat=0
     var capHeight:CGFloat=0
-    /*
-     func takeScreenShot() -> UIImage {
-             let width: CGFloat = UIScreen.main.bounds.size.width
-             let height: CGFloat = UIScreen.main.bounds.size.height
-             let bW=view.bounds.width
-             let bH=view.bounds.height
-             let capHeight=bH*0.93//-topPadding-bottomPadding
-             let capWidth=capHeight*4/3
-             let size = CGSize(width: capWidth, height: capHeight)
-             let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
-             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-             view.drawHierarchy(in:capRect, afterScreenUpdates: true)
-             let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-             UIGraphicsEndImageContext()
-             return screenShotImage
-         }
-     
-    func takeScreenShot() -> UIImage {
-            let width: CGFloat = UIScreen.main.bounds.size.width
-            let height: CGFloat = UIScreen.main.bounds.size.height
-            let bW=view.bounds.width
-            let bH=view.bounds.height
-            let capHeight=bH*0.93//-topPadding-bottomPadding
-            let capWidth=capHeight*4/3
-            let size = CGSize(width: capWidth, height: capHeight)
-            let capRect = CGRect(x:(capWidth-bW)/2,y:topPadding,width:width,height:height)
-            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            view.drawHierarchy(in:capRect, afterScreenUpdates: true)
-            let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
-            UIGraphicsEndImageContext()
-            return screenShotImage
-        }
-    */
+  
     func takeScreenShot() -> UIImage {
 //        let width: CGFloat = UIScreen.main.bounds.size.width
 //        let height: CGFloat = UIScreen.main.bounds.size.height
@@ -571,11 +512,11 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         mjpegImage.frame=CGRect(x:capX,y:sp,width:capWidth,height:capHeight)
         quaternionView.frame=CGRect(x:capX+sp,y:2*sp,width: realHeight/5,height: realHeight/5)
 
-        if someFunctions.firstLang().contains("ja"){
+//        if someFunctions.firstLang().contains("ja"){
 //            explanationLabel.text=explanationText + "録画設定"
-        }else{
+//        }else{
 //            explanationLabel.text=explanationText + "Record Settings"
-        }
+//        }
     }
  
     @IBAction func onClickStopButton(_ sender: Any) {
@@ -665,31 +606,7 @@ print("stopbutton******")
 
     }
     var tapInterval=CFAbsoluteTimeGetCurrent()
-    /*
-      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
-         if recordingFlag==true{
-             return
-         }
-         if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
-             print("doubleTapPlay")
-             if setteiMode != 0{
-                 zoomBar.isHidden=false
-                 zoomLabel.isHidden=false
-                 focusBar.isHidden=false
-                 focusLabel.isHidden=false
-                 focusValueLabel.isHidden=false
-             }
-         }
-         tapInterval=CFAbsoluteTimeGetCurrent()
-         setMotion()
-         let screenSize=cameraView.bounds.size
-         let x0 = sender.location(in: self.view).x
-         let y0 = sender.location(in: self.view).y
-         
-         if y0>view.bounds.height*0.43{//screenSize.height/2{
-             return
-         }
-     */
+  
      @IBAction func tapGest(_ sender: UITapGestureRecognizer) {
          if (CFAbsoluteTimeGetCurrent()-tapInterval)<0.3{
              print("doubleTapPlay")

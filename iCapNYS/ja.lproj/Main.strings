@@ -42,10 +42,10 @@
 "aBV-ql-gTR.text" = "record sitting for 20sec.";
 
 /* Class = "UIButton"; configuration.title = "Exit"; ObjectID = "b8u-qq-9Ct"; */
-"b8u-qq-9Ct.configuration.title" = "Exit";
+/*"b8u-qq-9Ct.configuration.title" = "Exit";*/
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "b8u-qq-9Ct"; */
-"b8u-qq-9Ct.normalTitle" = "Button";
+/*"b8u-qq-9Ct.normalTitle" = "Exit";*/
 
 /* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
 "bA5-Rt-Jv6.text" = "expose";
