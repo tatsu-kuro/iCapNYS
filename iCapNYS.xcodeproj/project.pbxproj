@@ -21,6 +21,7 @@
 		69CF76B829C9AF180072FEEF /* positional.mov in Resources */ = {isa = PBXBuildFile; fileRef = 69CF76B729C9AF180072FEEF /* positional.mov */; };
 		69D7C99729A70A69008B3D16 /* WifiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D7C99629A70A69008B3D16 /* WifiViewController.swift */; };
 		69D7C99A29A70FEE008B3D16 /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D7C99929A70FEE008B3D16 /* CameraService.swift */; };
+		69D8F4982A4856680051CD9D /* BLEViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D8F4972A4856680051CD9D /* BLEViewController.swift */; };
 		69E22892251834490004E53C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22891251834490004E53C /* AppDelegate.swift */; };
 		69E22894251834490004E53C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22893251834490004E53C /* SceneDelegate.swift */; };
 		69E22896251834490004E53C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E22895251834490004E53C /* ViewController.swift */; };
@@ -46,6 +47,7 @@
 		69D7C99629A70A69008B3D16 /* WifiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewController.swift; sourceTree = "<group>"; };
 		69D7C99829A70EE7008B3D16 /* iCapNYS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iCapNYS.entitlements; sourceTree = "<group>"; };
 		69D7C99929A70FEE008B3D16 /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		69D8F4972A4856680051CD9D /* BLEViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEViewController.swift; sourceTree = "<group>"; };
 		69E2288E251834490004E53C /* iCapNYS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCapNYS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E22891251834490004E53C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69E22893251834490004E53C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				69D7C99829A70EE7008B3D16 /* iCapNYS.entitlements */,
 				69E22891251834490004E53C /* AppDelegate.swift */,
+				69D8F4972A4856680051CD9D /* BLEViewController.swift */,
 				69E22893251834490004E53C /* SceneDelegate.swift */,
 				69E22895251834490004E53C /* ViewController.swift */,
 				69D7C99629A70A69008B3D16 /* WifiViewController.swift */,
@@ -198,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69D8F4982A4856680051CD9D /* BLEViewController.swift in Sources */,
 				69D7C99A29A70FEE008B3D16 /* CameraService.swift in Sources */,
 				69A8FDEC28992B92001F1483 /* AutoRecordViewController.swift in Sources */,
 				69D7C99729A70A69008B3D16 /* WifiViewController.swift in Sources */,

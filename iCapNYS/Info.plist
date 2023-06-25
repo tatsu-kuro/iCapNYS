@@ -26,6 +26,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>record videos of nystagmus and save them in the album( iCapNYS).</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>tukaimasu</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>BLE使います</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>make the album( iCapNYS) and put videos of nystagmus in it.</string>
 	<key>UIApplicationSceneManifest</key>
