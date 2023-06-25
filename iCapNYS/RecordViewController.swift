@@ -272,7 +272,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         getCameras()
         camera.makeAlbum()
 
-        let previewOn=getUserDefault(str: "previewOn", ret: 0)
+        let previewOn=getUserDefault(str: "previewOn", ret: 1)
         if previewOn==0{
             previewSwitch.isOn=false
         }else{

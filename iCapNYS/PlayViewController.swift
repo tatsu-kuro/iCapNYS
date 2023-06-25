@@ -8,6 +8,8 @@
 import UIKit
 import AVFoundation
 import Photos
+import AssetsLibrary
+import MessageUI
 class PlayViewController: UIViewController{
     var phasset:PHAsset?
     var avasset:AVAsset?
@@ -17,7 +19,16 @@ class PlayViewController: UIViewController{
     var calcDate:String?
     lazy var seekBar = UISlider()
     var timer:Timer?
-
+    var url:URL?
+    
+    @IBOutlet weak var mailAddressInputField: UITextField!
+    @IBOutlet weak var paperPlaneButton: UIButton!
+    @IBAction func onPaperPlaneButton(_ sender: Any) {
+        mailAddressInputField.endEditing(true)
+        UserDefaults.standard.set(mailAddressInputField.text,forKey: "mailAdress")
+        let url = (videoPlayer.currentItem?.asset as? AVURLAsset)?.url
+        sendMail(subject: "Movie of iCapNYS",url:url!,mailAddress:mailAddressInputField.text!)
+    }
     @IBOutlet weak var videoPauseButton: UIButton!
     @IBOutlet weak var videoTopButton: UIButton!
     @IBOutlet weak var videoPlayButton: UIButton!
@@ -118,6 +129,14 @@ class PlayViewController: UIViewController{
         let playerItem: AVPlayerItem = AVPlayerItem(asset: avasset!)
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
+        
+        mailAddressInputField.text=myFunctions().getUserDefaultString(str: "mailAdress", ret: "sample@sample.com")
+
+       url = (videoPlayer.currentItem?.asset as? AVURLAsset)?.url
+       // print(url)
+        
+        
+        
         // Add AVPlayer
         let layer = AVPlayerLayer()
         layer.videoGravity = AVLayerVideoGravity.resizeAspect
@@ -164,11 +183,20 @@ class PlayViewController: UIViewController{
         setButtonProperty(button: videoPlayButton, color: UIColor.orange)
         videoTopButton.frame=CGRect(x: x0+3*bw+3*sp, y: by, width: bw, height: bh)
         setButtonProperty(button: videoTopButton, color: UIColor.orange)
-        videoPauseButton.frame=CGRect(x: x0+5*bw+5*sp, y: by, width: bw, height: bh)
+            videoPauseButton.frame=CGRect(x: x0+5*bw+5*sp, y: by, width: bw, height: bh)
         setButtonProperty(button: videoPauseButton, color: UIColor.orange)
+        mailAddressInputField.frame = CGRect(x:x0+bw+sp,y:topPadding+sp,width:bw*5+sp*4,height: bh)
+        mailAddressInputField.layer.borderWidth = 1.0
+        mailAddressInputField.layer.cornerRadius=5
+        mailAddressInputField.layer.masksToBounds = true
+        paperPlaneButton.frame=CGRect(x: x0+6*bw+6*sp, y: topPadding+sp, width: bw, height: bh)
+        setButtonProperty(button: paperPlaneButton, color: UIColor.darkGray)
         view.bringSubviewToFront(videoTopButton)
         view.bringSubviewToFront(videoPlayButton)
         view.bringSubviewToFront(videoPauseButton)
+        view.bringSubviewToFront(paperPlaneButton)
+        view.bringSubviewToFront(mailAddressInputField)
+        mailAddressInputField.keyboardType = UIKeyboardType.emailAddress
     }
 
     // SeekBar Value Changed
@@ -178,5 +206,60 @@ class PlayViewController: UIViewController{
     }
    
 }
-
+extension PlayViewController: MFMailComposeViewControllerDelegate {
+    
+    fileprivate func sendMail(subject: String,url: URL,mailAddress:String) {
+        
+//        let toRecipients = ["to@gmail.com"]
+//        let ccRecipients = ["cc@gmail.com"]
+//        let bccRecipients = ["Bcc1@gamil.com","Bcc2@gmail.com"]
+        
+        
+        let mailViewController = MFMailComposeViewController()
+        mailViewController.mailComposeDelegate = self
+        
+        mailViewController.setToRecipients([mailAddress])
+//        mailViewController.setCcRecipients(ccRecipients)
+//        mailViewController.setBccRecipients(bccRecipients)
+        
+        //件名・本文
+        mailViewController.setSubject(subject)
+  //      mailViewController.setMessageBody(message, isHTML: false)
+        
+        //添付ファイル
+        
+        //Documentフォルダのパス
+        if let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
+            print(url)
+            // ファイルパス ... ディレクトリのパスにファイル名をつなげてファイルのフルパスを作る
+            let realmFileName = url//"default.realm"
+            let targetFilePath = url//documentDirectoryFileURL.appendingPathComponent(realmFileName)
+        
+            do {
+                //realmファイルの送信
+                //TODO: mimeTypeの設定 "text/csv" ? (バイナリフィルの指定がわからない...)
+                
+                let data = try Data(contentsOf: targetFilePath)
+                mailViewController.addAttachmentData(data, mimeType: "realm/binary", fileName:realmFileName.lastPathComponent)// absoluteString)
+            } catch {
+                print("error ...")
+            }
+        }
+        
+        self.present(mailViewController, animated: true, completion: nil)
+    }
+    
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        switch result {
+        case .sent:
+            break
+        default:
+            break
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+}
 
