@@ -14,27 +14,27 @@ class BLEViewController: UIViewController {
 
    //MARK: - 変数
    // BLEで用いるサービス用のUUID
-   let BLEServiceUUID = CBUUID(string:"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE")
+   let BLEServiceUUID = CBUUID(string:"19501103-BBBB-CCCC-DDDD-EEEEEEEEEEEE")
    // BLEで用いるキャラクタリスティック用のUUID
 //   let BLEWriteCharacteristicUUID = CBUUID(string:"AAAAAAAA-AAAA-BBBB-BBBB-BBBBBBBBBBBB")
- //  let BLEWriteWithoutResponseCharacteristicUUID = CBUUID(string:"AAAAAAAA-BBBB-BBBB-BBBB-BBBBBBBBBBBB")
-   let BLEReadCharacteristicUUID = CBUUID(string:"AAAAAAAA-CCCC-BBBB-BBBB-BBBBBBBBBBBB")
-   let BLENotifyCharacteristicUUID = CBUUID(string:"AAAAAAAA-DDDD-BBBB-BBBB-BBBBBBBBBBBB")
+  // let BLEWriteWithoutResponseCharacteristicUUID = CBUUID(string:"AAAAAAAA-BBBB-BBBB-BBBB-BBBBBBBBBBBB")
+   let BLEReadCharacteristicUUID = CBUUID(string:"19501108-CCCC-BBBB-BBBB-BBBBBBBBBBBB")
+   let BLENotifyCharacteristicUUID = CBUUID(string:"19501108-DDDD-BBBB-BBBB-BBBBBBBBBBBB")
  //  let BLEIndicateCharacteristicUUID = CBUUID(string:"AAAAAAAA-EEEE-BBBB-BBBB-BBBBBBBBBBBB")
 
    //BLEで用いるサービス
    var service:CBMutableService?
    //BLEで用いるキャラクタリスティック：今回は全ての種類のCharacteristicを付与する
    //write属性のCharacteristic
-//   var writeCharacteristic:CBMutableCharacteristic?
+   var writeCharacteristic:CBMutableCharacteristic?
    //writewithoutResponse属性のCharacteristic
-//   var writeWithoutResponseCharacteristic:CBMutableCharacteristic?
+   var writeWithoutResponseCharacteristic:CBMutableCharacteristic?
    //read属性のCharacteristic
    var readCharacteristic:CBMutableCharacteristic?
    //notify属性のCharacteristic
    var notifyCharacteristic:CBMutableCharacteristic?
    //indicate属性のCharacteristic
-//   var indicateCharacteristic:CBMutableCharacteristic?
+   var indicateCharacteristic:CBMutableCharacteristic?
 
    // BLEのペリフェラルマネージャー、ペリフェラルとしての挙動を制御する
    private var peripheralManager : CBPeripheralManager?
@@ -67,7 +67,7 @@ class BLEViewController: UIViewController {
         logTextView.text.append("UInt8((motion.attitude.quaternion.y+1)*128)\n")
         logTextView.text.append("UInt8((motion.attitude.quaternion.z+1)*128)\n")
         logTextView.text.append("UInt8((motion.attitude.quaternion.w+1)*128)\n")
-        logTextView.text.append("1/30sec毎に、上記データを送り続けます。\n")
+        logTextView.text.append("CapNYS(Windows)用に、上記データを送り続けます。\n")
     }
     // アドバタイズを停止
     func stopAdvertising()
@@ -119,7 +119,7 @@ class BLEViewController: UIViewController {
 //        indicateCharacteristic = CBMutableCharacteristic(type: BLEIndicateCharacteristicUUID, properties: .indicate, value: nil, permissions: .readable)
 
         //サービスにキャラクタリスティックの設定
-        service?.characteristics = [/*writeCharacteristic!,*//*writeWithoutResponseCharacteristic!,*/readCharacteristic!,notifyCharacteristic!]//,indicateCharacteristic!]
+        service?.characteristics = [/*writeCharacteristic!,writeWithoutResponseCharacteristic!,*/readCharacteristic!,notifyCharacteristic!]//,indicateCharacteristic!]
         //ペリフェラルにサービスを追加
         peripheralManager?.add(service!)
     }
@@ -193,14 +193,14 @@ extension BLEViewController : CBPeripheralManagerDelegate
 
         logTextView.text.append("didReceiveWriteRequest\n")
         for request in requests {
-//            if request.characteristic.uuid.isEqual(writeCharacteristic?.uuid) {
-//                //valueをセット
-//                writeCharacteristic!.value = request.value
-//                //リクエストに応答
-//                peripheralManager?.respond(to: requests[0], withResult: .success)
-//            }else if request.characteristic.uuid.isEqual(writeWithoutResponseCharacteristic?.uuid){
-//                //何もしない
-//            }
+            if request.characteristic.uuid.isEqual(writeCharacteristic?.uuid) {
+                //valueをセット
+                writeCharacteristic!.value = request.value
+                //リクエストに応答
+                peripheralManager?.respond(to: requests[0], withResult: .success)
+            }else if request.characteristic.uuid.isEqual(writeWithoutResponseCharacteristic?.uuid){
+                //何もしない
+            }
         }
         
     }
