@@ -11,15 +11,15 @@ import CoreMotion
 class BLEViewController: UIViewController {
 
     let motionManager = CMMotionManager()
-
+    var timer:Timer?
    //MARK: - 変数
    // BLEで用いるサービス用のUUID
-   let BLEServiceUUID = CBUUID(string:"19501103-BBBB-CCCC-DDDD-EEEEEEEEEEEE")
+   let BLEServiceUUID = CBUUID(string:"19501103-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
    // BLEで用いるキャラクタリスティック用のUUID
 //   let BLEWriteCharacteristicUUID = CBUUID(string:"AAAAAAAA-AAAA-BBBB-BBBB-BBBBBBBBBBBB")
   // let BLEWriteWithoutResponseCharacteristicUUID = CBUUID(string:"AAAAAAAA-BBBB-BBBB-BBBB-BBBBBBBBBBBB")
-   let BLEReadCharacteristicUUID = CBUUID(string:"19501108-CCCC-BBBB-BBBB-BBBBBBBBBBBB")
-   let BLENotifyCharacteristicUUID = CBUUID(string:"19501108-DDDD-BBBB-BBBB-BBBBBBBBBBBB")
+   let BLEReadCharacteristicUUID = CBUUID(string:"19501108-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
+   let BLENotifyCharacteristicUUID = CBUUID(string:"19501122-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
  //  let BLEIndicateCharacteristicUUID = CBUUID(string:"AAAAAAAA-EEEE-BBBB-BBBB-BBBBBBBBBBBB")
 
    //BLEで用いるサービス
@@ -62,12 +62,27 @@ class BLEViewController: UIViewController {
 
         startAdvertising()
         setMotion()
-          UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
-        logTextView.text="UInt8((motion.attitude.quaternion.x+1)*128)\n"
-        logTextView.text.append("UInt8((motion.attitude.quaternion.y+1)*128)\n")
-        logTextView.text.append("UInt8((motion.attitude.quaternion.z+1)*128)\n")
-        logTextView.text.append("UInt8((motion.attitude.quaternion.w+1)*128)\n")
-        logTextView.text.append("CapNYS(Windows)用に、上記データを送り続けます。\n")
+//      if (@available(iOS 13.0, *)) {
+//            textView.font = [UIFont monospacedSystemFontOfSize: 13 weight: UIFontWeightRegular];
+//        } else {
+//        logTextView.font = UIFont.monospacedDigitSystemFont(ofSize:13,weight:.regular)
+//        logTextView.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/60, weight: .medium)
+        UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
+        timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
+
+        logTextView.text="b0=UInt8((motion.attitude.quaternion.x+1)*128)\n"
+        logTextView.text.append("b1=UInt8((motion.attitude.quaternion.y+1)*128)\n")
+        logTextView.text.append("b2=UInt8((motion.attitude.quaternion.z+1)*128)\n")
+        logTextView.text.append("b3=UInt8((motion.attitude.quaternion.w+1)*128)\n")
+        logTextView.text.append("notifyData = Data( [b0,b1,b2,b3])\n")
+        logTextView.text.append("sending the noyifyData on BLE\n")
+        logTextView.text.append("ServiceUUID             :19501103-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
+        logTextView.text.append("ReadCharacteristicUUID  :19501108-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
+        logTextView.text.append("NotifyCharacteristicUUID:19501122-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
+    }
+    @objc func update(tm: Timer) {
+        UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
+        print("isIdle false")
     }
     // アドバタイズを停止
     func stopAdvertising()
@@ -209,11 +224,11 @@ extension BLEViewController : CBPeripheralManagerDelegate
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
         print("アドバタイズ開始")
         if error == nil {
-            logTextView.text.append("PeripheralがAdvertisingを開始しました\n")
+ //           logTextView.text.append("PeripheralがAdvertisingを開始しました\n")
 //            startAdvertiseButton.isEnabled = false
 //            stopAdvertiseButton.isEnabled = true
         } else {
-            logTextView.text.append("PeripheralがAdvertisingの開始に失敗しました\(error?.localizedDescription)\n")
+   //         logTextView.text.append("PeripheralがAdvertisingの開始に失敗しました\(error?.localizedDescription)\n")
         }
     }
     
@@ -221,12 +236,12 @@ extension BLEViewController : CBPeripheralManagerDelegate
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager)
     {
         //PeripheralManagerのインスタンス化を実施するとすぐにPowerOnが呼ばれる。
-        logTextView.text.append("PeripheralのStateが変更されました。\n現在のState:\(peripheral.state.name)\n")
+        logTextView.text.append(/*"PeripheralのStateが変更されました。\n*/"CurrentState:\(peripheral.state.name)\n")
 
  
         if peripheral.state != .poweredOn {
    //         print("BlueTooth off")
-            logTextView.text.append("異常なStateのため処理を終了します\n")
+   //         logTextView.text.append("異常なStateのため処理を終了します\n")
             return;
         }
         //③PeripheralにService及びCharacteristicを追加する
@@ -241,9 +256,9 @@ extension BLEViewController : CBPeripheralManagerDelegate
     //PeripheralにServiceを追加した時に呼ばれるDelegate
     func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
         if error == nil {
-           logTextView.text.append("サービスが正常に追加されました\n")//!!!!!!!***********
+      //     logTextView.text.append("サービスが正常に追加されました\n")//!!!!!!!***********
         } else {
-            logTextView.text.append("サービスの追加に失敗しました\(error?.localizedDescription)\n")
+       //     logTextView.text.append("サービスの追加に失敗しました\(error?.localizedDescription)\n")
         }
     }
 }
