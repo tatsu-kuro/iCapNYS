@@ -28,6 +28,8 @@
 	<string>record videos of nystagmus and save them in the album( iCapNYS).</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>App shares quaternion data using CoreBluetooth</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>App shares quaternion data using CoreBluetooth</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>make the album( iCapNYS) and put videos of nystagmus in it.</string>
 	<key>UIApplicationSceneManifest</key>
