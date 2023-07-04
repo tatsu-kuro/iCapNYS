@@ -43,6 +43,7 @@ class BLEViewController: UIViewController {
     @IBOutlet weak var exitButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let top=CGFloat(UserDefaults.standard.float(forKey: "topPadding"))
         let bottom=CGFloat(UserDefaults.standard.float(forKey: "bottomPadding"))
         let left=CGFloat(UserDefaults.standard.float(forKey: "leftPadding"))
