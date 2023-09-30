@@ -200,7 +200,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="UpW-rt-LTu" kind="unwind" unwindAction="unwindActionWithSegue:" id="XyQ-5z-U94"/>
+                                    <action selector="onExitButton:" destination="s8e-qW-Tx0" eventType="touchUpInside" id="9Wk-UL-STd"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="112333aiiiaaa" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgU-9n-hCW">
@@ -222,7 +222,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qd8-yu-rVb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="UpW-rt-LTu" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="1070.625"/>
         </scene>

@@ -41,6 +41,10 @@ class BLEViewController: UIViewController {
 
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
+    @IBAction func onExitButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+//        self.navigationController?.popViewController(animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
