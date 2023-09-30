@@ -153,8 +153,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var LEDValueLabel: UILabel!
    
     @IBOutlet weak var bleButton: UIButton!
-    @IBAction func onBleButton(_ sender: Any) {
-    }
+   
     @IBAction func onAuto90sButton(_ sender: Any) {
         frontCameraMode=2
         setButtonsFrontCameraMode()

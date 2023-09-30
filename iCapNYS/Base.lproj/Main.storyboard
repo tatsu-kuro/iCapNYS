@@ -577,7 +577,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBleButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="0wl-Cx-Zcf"/>
                                     <segue destination="s8e-qW-Tx0" kind="show" id="lJy-fK-G00"/>
                                 </connections>
                             </button>
