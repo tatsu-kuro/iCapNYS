@@ -152,6 +152,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var LEDLabel: UILabel!
     @IBOutlet weak var LEDValueLabel: UILabel!
    
+    @IBOutlet weak var bleButton: UIButton!
+    @IBAction func onBleButton(_ sender: Any) {
+    }
     @IBAction func onAuto90sButton(_ sender: Any) {
         frontCameraMode=2
         setButtonsFrontCameraMode()
@@ -800,6 +803,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDValueLabel.isHidden=false
         cameraView.isHidden=false
         quaternionView.isHidden=false
+        bleButton.isHidden=true
+
 //print("setteimode:******:",setteiMode)
         if cameraType==0{
             LEDBar.isHidden=true
@@ -822,6 +827,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             enterButton.isHidden=false
             urlLabel.isHidden=false
             urlInputField.isHidden=false
+            bleButton.isHidden=false
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
@@ -835,7 +841,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             quaternionView.isHidden=true
         }
         if setteiMode==0{
-            zoomBar.isHidden=true
+             zoomBar.isHidden=true
             zoomLabel.isHidden=true
             zoomValueLabel.isHidden=true
             exposeBar.isHidden=true
@@ -1054,7 +1060,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         urlInputField.layer.masksToBounds = true
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-        
+        camera.setButtonProperty(bleButton, x: x0, y: by1, w: bw, h: bh, UIColor.systemBlue,0)
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         

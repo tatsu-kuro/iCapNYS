@@ -467,7 +467,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         someFunctions.setButtonProperty(bleButton, x:x1but+sp/2, y: by-bh*5/3-sp, w: bw, h: bh, UIColor.systemBlue,0)
         someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by, w: bw, h: bh, UIColor.darkGray)
 //        someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0, w: bw, h: bh, UIColor.systemGreen,0)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray)
 //        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)

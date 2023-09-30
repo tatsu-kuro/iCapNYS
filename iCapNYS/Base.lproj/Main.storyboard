@@ -574,6 +574,20 @@
                                     <action selector="onAuto90sButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="d97-ym-PCB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XWT-Lb-YbP">
+                                <rect key="frame" x="20" y="192" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="BLE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBleButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="0wl-Cx-Zcf"/>
+                                    <segue destination="s8e-qW-Tx0" kind="show" id="lJy-fK-G00"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -598,6 +612,7 @@
                         <outlet property="LEDValueLabel" destination="lzB-Ie-6Qy" id="fgR-3l-OzU"/>
                         <outlet property="auto20sButton" destination="lbI-2i-GHw" id="4ei-nK-W0a"/>
                         <outlet property="auto90sButton" destination="LI7-8u-g4E" id="ZBF-L8-N2D"/>
+                        <outlet property="bleButton" destination="XWT-Lb-YbP" id="yHS-vy-EqN"/>
                         <outlet property="cameraChangeButton" destination="znc-Gv-DbE" id="KaG-mU-oFO"/>
                         <outlet property="cameraView" destination="ZdO-VK-uDo" id="Sf8-EB-6k2"/>
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
@@ -708,9 +723,8 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbb-NN-cqP">
                                 <rect key="frame" x="488" y="53" width="85" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Settings">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -837,6 +851,9 @@
             <point key="canvasLocation" x="1334.7826086956522" y="387.72321428571428"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="lJy-fK-G00"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="93"/>
         <image name="backward.end.fill" catalog="system" width="128" height="101"/>
