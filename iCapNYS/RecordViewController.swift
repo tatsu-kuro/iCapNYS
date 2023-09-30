@@ -151,7 +151,26 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var LEDBar: UISlider!
     @IBOutlet weak var LEDLabel: UILabel!
     @IBOutlet weak var LEDValueLabel: UILabel!
-    
+   
+    @IBAction func onAuto90sButton(_ sender: Any) {
+        frontCameraMode=2
+        setButtonsFrontCameraMode()
+    }
+    @IBAction func onAuto20sButton(_ sender: Any) {
+        frontCameraMode=1
+        setButtonsFrontCameraMode()
+
+    }
+    @IBAction func onManualButton(_ sender: Any) {
+        frontCameraMode=0
+        setButtonsFrontCameraMode()
+
+    }
+    @IBOutlet weak var auto90sButton: UIButton!
+    @IBOutlet weak var auto20sButton: UIButton!
+    @IBOutlet weak var manualButton: UIButton!
+    var frontCameraMode:Int = 0//0:manual 1:20s 2:90s
+ 
     @IBOutlet weak var currentTime: UILabel!
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var quaternionView: UIImageView!
@@ -268,6 +287,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
         urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
+        frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
 
         getCameras()
         camera.makeAlbum()
@@ -693,7 +713,30 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             telephotoCamera=true
         }
     }
- 
+    func setButtonsFrontCameraMode(){
+//        frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
+
+        if cameraType==0 && setteiMode != 0{
+            manualButton.isHidden=false
+            auto20sButton.isHidden=false
+            auto90sButton.isHidden=false
+            manualButton.setTitleColor(UIColor.systemGray2,for: .normal)
+            auto20sButton.setTitleColor(UIColor.systemGray2,for:.normal)
+            auto90sButton.setTitleColor(UIColor.systemGray2,for:.normal)
+            if frontCameraMode==0{
+                manualButton.setTitleColor(UIColor.white,for:.normal)
+            }else if frontCameraMode==1{
+                auto20sButton.setTitleColor(UIColor.white,for:.normal)
+            }else{
+                auto90sButton.setTitleColor(UIColor.white,for:.normal)
+            }
+        }else{
+            manualButton.isHidden=true
+            auto20sButton.isHidden=true
+            auto90sButton.isHidden=true
+        }
+        UserDefaults.standard.set(frontCameraMode, forKey: "frontCameraMode")
+    }
     //"frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     func cameraChange(_ cameraType:Int)->Int{
         var type=cameraType
@@ -732,8 +775,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel.text=explanationText + "Record Settings"
             urlLabel.text = "Set the URL of the wifi camera in the upper frame."
         }
+        setButtonsFrontCameraMode()
         if cameraType==0{
             UIScreen.main.brightness = 1
+          
         }else{
             UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         }
@@ -1023,6 +1068,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)

@@ -456,9 +456,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         someFunctions.setButtonProperty(bleButton, x:x1but+sp/2, y: by-bh*5/3-sp, w: bw, h: bh, UIColor.systemBlue,0)
-        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by-bh*2/3, w: bw, h: bh, UIColor.darkGray)
-        someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
+        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2, y: by, w: bw, h: bh, UIColor.darkGray)
+//        someFunctions.setButtonProperty(setteiButtonAuto, x:x1but, y:by0+bh*2/3, w: bw, h: bh, UIColor.systemOrange,0)
+        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0, w: bw, h: bh, UIColor.systemGreen,0)
+//        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y:by0+bh*5/3+sp, w:bw,h:bh,UIColor.systemGreen,0)
         autoRecordButton.frame=CGRect(x:x0but,           y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4
@@ -470,11 +471,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-
-        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*5/13+sp, y:topPadding+wh*4/13,width:wh*5/13, height: wh*5/13)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-sp*2)
+   
+        cameraButton.frame=CGRect( x: tableView.frame.maxX, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
+//        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
         //高さ/20を上下に開ける
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp*2,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-sp*4)
-        
+  
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
             setteiButtonAuto.setTitle("設定", for: .normal)
@@ -482,6 +484,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             steelLabel.text="座って記録\n20秒"
             postualLabel.text="横になって記録\n90秒"
         }
+        postualLabel.isHidden=true
+        steelLabel.isHidden=true
+        autoRecordButton.isHidden=true
+        positioningAutoRecordButton.isHidden=true
+        setteiButtonAuto.isHidden=true
+        bleButton.isHidden=true
     }
   
 //    override func viewWillAppear(_ animated: Bool) {
