@@ -73,7 +73,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yA-qE-UYO">
                                 <rect key="frame" x="248" y="224" width="23" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="envelope.fill" catalog="system"/>
@@ -81,12 +81,6 @@
                                     <action selector="onPaperPlaneButton:" destination="x93-Is-wG7" eventType="touchUpInside" id="sTI-Hm-9ce"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qg2-I8-SdT">
-                                <rect key="frame" x="50" y="236" width="97" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="I0l-kG-AVa"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -97,7 +91,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="3iq-ZH-Akx"/>
                     <connections>
-                        <outlet property="mailAddressInputField" destination="qg2-I8-SdT" id="HWS-oV-Gpz"/>
                         <outlet property="paperPlaneButton" destination="2yA-qE-UYO" id="ARX-J8-GVC"/>
                         <outlet property="quitButton" destination="YN8-XD-5kY" id="BbM-YZ-DwY"/>
                         <outlet property="videoPauseButton" destination="Fyt-w0-loG" id="Ner-aT-kKE"/>

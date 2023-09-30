@@ -21,13 +21,13 @@ class PlayViewController: UIViewController{
     var timer:Timer?
     var url:URL?
     
-    @IBOutlet weak var mailAddressInputField: UITextField!
+//    @IBOutlet weak var mailAddressInputField: UITextField!
     @IBOutlet weak var paperPlaneButton: UIButton!
     @IBAction func onPaperPlaneButton(_ sender: Any) {
-        mailAddressInputField.endEditing(true)
-        UserDefaults.standard.set(mailAddressInputField.text,forKey: "mailAdress")
+//        mailAddressInputField.endEditing(true)
+//        UserDefaults.standard.set(mailAddressInputField.text,forKey: "mailAdress")
         let url = (videoPlayer.currentItem?.asset as? AVURLAsset)?.url
-        sendMail(subject: "Movie of iCapNYS",url:url!,mailAddress:mailAddressInputField.text!)
+        sendMail(subject: "Movie of iCapNYS",url:url!)//,mailAddress:"")//mailAddressInputField.text!)
     }
     @IBOutlet weak var videoPauseButton: UIButton!
     @IBOutlet weak var videoTopButton: UIButton!
@@ -130,7 +130,7 @@ class PlayViewController: UIViewController{
         // Create AVPlayer
         videoPlayer = AVPlayer(playerItem: playerItem)
         
-        mailAddressInputField.text=myFunctions().getUserDefaultString(str: "mailAdress", ret: "sample@sample.com")
+//        mailAddressInputField.text=myFunctions().getUserDefaultString(str: "mailAdress", ret: "sample@sample.com")
 
        url = (videoPlayer.currentItem?.asset as? AVURLAsset)?.url
        // print(url)
@@ -185,18 +185,21 @@ class PlayViewController: UIViewController{
         setButtonProperty(button: videoTopButton, color: UIColor.orange)
             videoPauseButton.frame=CGRect(x: x0+5*bw+5*sp, y: by, width: bw, height: bh)
         setButtonProperty(button: videoPauseButton, color: UIColor.orange)
-        mailAddressInputField.frame = CGRect(x:x0+bw+sp,y:topPadding+sp,width:bw*5+sp*4,height: bh)
-        mailAddressInputField.layer.borderWidth = 1.0
-        mailAddressInputField.layer.cornerRadius=5
-        mailAddressInputField.layer.masksToBounds = true
-        paperPlaneButton.frame=CGRect(x: x0+6*bw+6*sp, y: topPadding+sp, width: bw, height: bh)
-        setButtonProperty(button: paperPlaneButton, color: UIColor.darkGray)
+//        mailAddressInputField.frame = CGRect(x:x0+bw+sp,y:topPadding+sp,width:bw*5+sp*4,height: bh)
+//        mailAddressInputField.layer.borderWidth = 1.0
+//        mailAddressInputField.layer.cornerRadius=5
+//        mailAddressInputField.layer.masksToBounds = true
+ //       paperPlaneButton.frame=CGRect(x: x0+6*bw+6*sp, y: topPadding+sp, width: bw, height: bh)
+   //     setButtonProperty(button: paperPlaneButton, color: UIColor.blue)
+        myFunctions().setButtonProperty(paperPlaneButton, x: x0+6*bw+6*sp, y: topPadding+sp, w: bw, h: bh, UIColor.systemBlue,0)
+
+        
         view.bringSubviewToFront(videoTopButton)
         view.bringSubviewToFront(videoPlayButton)
         view.bringSubviewToFront(videoPauseButton)
         view.bringSubviewToFront(paperPlaneButton)
-        view.bringSubviewToFront(mailAddressInputField)
-        mailAddressInputField.keyboardType = UIKeyboardType.emailAddress
+//        view.bringSubviewToFront(mailAddressInputField)
+//        mailAddressInputField.keyboardType = UIKeyboardType.emailAddress
     }
 
     // SeekBar Value Changed
@@ -208,7 +211,7 @@ class PlayViewController: UIViewController{
 }
 extension PlayViewController: MFMailComposeViewControllerDelegate {
     
-    fileprivate func sendMail(subject: String,url: URL,mailAddress:String) {
+    fileprivate func sendMail(subject: String,url: URL){//},mailAddress:String) {
         
 //        let toRecipients = ["to@gmail.com"]
 //        let ccRecipients = ["cc@gmail.com"]
@@ -218,7 +221,7 @@ extension PlayViewController: MFMailComposeViewControllerDelegate {
         let mailViewController = MFMailComposeViewController()
         mailViewController.mailComposeDelegate = self
         
-        mailViewController.setToRecipients([mailAddress])
+ //       mailViewController.setToRecipients([mailAddress])
 //        mailViewController.setCcRecipients(ccRecipients)
 //        mailViewController.setBccRecipients(bccRecipients)
         
