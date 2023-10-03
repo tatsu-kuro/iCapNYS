@@ -11,6 +11,7 @@ import Photos
 import AssetsLibrary
 import MessageUI
 class PlayViewController: UIViewController{
+    let camera = myFunctions()
     var phasset:PHAsset?
     var avasset:AVAsset?
     var videoPlayer: AVPlayer!
@@ -164,42 +165,27 @@ class PlayViewController: UIViewController{
         })
 
         currTime = UILabel(frame:CGRect(x:x0,y:by,width:bw*2+sp,height:bh))
-        currTime!.backgroundColor = UIColor.white
+        currTime!.backgroundColor = UIColor.systemGray6
         currTime!.layer.masksToBounds = true
         currTime!.layer.cornerRadius = 5
         currTime!.textColor = UIColor.black
         currTime!.textAlignment = .center
         currTime!.font=UIFont.monospacedDigitSystemFont(ofSize: 18, weight: .medium)
-        currTime!.layer.borderColor = UIColor.black.cgColor
-        currTime!.layer.borderWidth = 1.0
+      //  currTime!.layer.borderColor = UIColor.systemGray6.cgColor
+      //  currTime!.layer.borderWidth = 1.0
         view.addSubview(currTime!)
         videoPlayer.play()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        quitButton.frame=CGRect(x: x0+6*bw+6*sp, y: by, width:bw , height: bh)
-        setButtonProperty(button: quitButton, color: UIColor.darkGray)
-
+        camera.setButtonProperty(quitButton,x: x0+6*bw+6*sp, y: by, w:bw , h: bh,UIColor.darkGray,0)
+        camera.setButtonProperty(videoPlayButton,x:x0+4*bw+4*sp,y:by,w:bw,h: bh,UIColor.orange,0)
+        camera.setButtonProperty(videoTopButton,x: x0+3*bw+3*sp, y: by, w: bw, h: bh,UIColor.orange,0)
+        camera.setButtonProperty(videoPauseButton,x: x0+5*bw+5*sp,y:by,w:bw,h: bh,UIColor.orange,0)
+        camera.setButtonProperty(paperPlaneButton, x: x0+6*bw+6*sp, y: topPadding+sp, w: bw, h: bh, UIColor.systemBlue,0)
         view.bringSubviewToFront(quitButton)
-        videoPlayButton.frame=CGRect(x: x0+4*bw+4*sp, y: by, width: bw, height: bh)
-        setButtonProperty(button: videoPlayButton, color: UIColor.orange)
-        videoTopButton.frame=CGRect(x: x0+3*bw+3*sp, y: by, width: bw, height: bh)
-        setButtonProperty(button: videoTopButton, color: UIColor.orange)
-            videoPauseButton.frame=CGRect(x: x0+5*bw+5*sp, y: by, width: bw, height: bh)
-        setButtonProperty(button: videoPauseButton, color: UIColor.orange)
-//        mailAddressInputField.frame = CGRect(x:x0+bw+sp,y:topPadding+sp,width:bw*5+sp*4,height: bh)
-//        mailAddressInputField.layer.borderWidth = 1.0
-//        mailAddressInputField.layer.cornerRadius=5
-//        mailAddressInputField.layer.masksToBounds = true
- //       paperPlaneButton.frame=CGRect(x: x0+6*bw+6*sp, y: topPadding+sp, width: bw, height: bh)
-   //     setButtonProperty(button: paperPlaneButton, color: UIColor.blue)
-        myFunctions().setButtonProperty(paperPlaneButton, x: x0+6*bw+6*sp, y: topPadding+sp, w: bw, h: bh, UIColor.systemBlue,0)
-
-        
         view.bringSubviewToFront(videoTopButton)
         view.bringSubviewToFront(videoPlayButton)
         view.bringSubviewToFront(videoPauseButton)
         view.bringSubviewToFront(paperPlaneButton)
-//        view.bringSubviewToFront(mailAddressInputField)
-//        mailAddressInputField.keyboardType = UIKeyboardType.emailAddress
     }
 
     // SeekBar Value Changed

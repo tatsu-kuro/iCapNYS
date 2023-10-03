@@ -1050,8 +1050,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
         previewLabel.frame.size.width=bw*5
         previewLabel.frame.size.height=bh
-        myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray)
-        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray)
+        myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
+        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
         urlLabel.frame=CGRect(x:x0,y:y0+bh,width:realWinWidth-sp*4,height: bh*2)
         urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
         urlInputField.layer.borderWidth = 1.0
@@ -1072,11 +1072,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
         camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
         camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray)
-        camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray)
+        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
+        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
+        camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
+        camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
+        camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
         setProperty(label: currentTime, radius: 4)
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
