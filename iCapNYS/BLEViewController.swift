@@ -80,7 +80,7 @@ class BLEViewController: UIViewController {
         logTextView.text.append("b2=UInt8((motion.attitude.quaternion.z+1)*128)\n")
         logTextView.text.append("b3=UInt8((motion.attitude.quaternion.w+1)*128)\n")
         logTextView.text.append("notifyData = Data( [b0,b1,b2,b3])\n")
-        logTextView.text.append("sending the noyifyData on BLE\n")
+        logTextView.text.append("sending the notifyData on BLE\n")
         logTextView.text.append("ServiceUUID             :19501103-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
         logTextView.text.append("ReadCharacteristicUUID  :19501108-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
         logTextView.text.append("NotifyCharacteristicUUID:19501122-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")

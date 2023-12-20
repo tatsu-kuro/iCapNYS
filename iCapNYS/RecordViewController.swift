@@ -1060,7 +1060,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         camera.setButtonProperty(bleButton, x: x0, y: by1, w: bw, h: bh, UIColor.systemBlue,0)
-        bleButton.alpha=0.02
+    //    bleButton.alpha=0.02
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
