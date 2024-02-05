@@ -8,18 +8,26 @@
 import UIKit
 import CoreBluetooth
 import CoreMotion
-class BLEViewController: UIViewController {
+import Network
+//import NetworkExtension
+
+class BLEViewController: UIViewController, UITextFieldDelegate {
 
     let motionManager = CMMotionManager()
     var timer:Timer?
+    var IPAddress:String?
    //MARK: - 変数
+    //BDA4CF17-7815-4963-AAB1-B7F4B5783680
+    //628965CD-EB5E-49EA-9A97-79FB62FA5139
+    //DFDD9104-5C78-4E67-9379-D2F7908680D2
+
    // BLEで用いるサービス用のUUID
-   let BLEServiceUUID = CBUUID(string:"19501103-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
+   let BLEServiceUUID = CBUUID(string:"BDA4CF17-7815-4963-AAB1-B7F4B5783680")
    // BLEで用いるキャラクタリスティック用のUUID
 //   let BLEWriteCharacteristicUUID = CBUUID(string:"AAAAAAAA-AAAA-BBBB-BBBB-BBBBBBBBBBBB")
   // let BLEWriteWithoutResponseCharacteristicUUID = CBUUID(string:"AAAAAAAA-BBBB-BBBB-BBBB-BBBBBBBBBBBB")
-   let BLEReadCharacteristicUUID = CBUUID(string:"19501108-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
-   let BLENotifyCharacteristicUUID = CBUUID(string:"19501122-AAAA-AAAA-AAAA-AAAAAAAAAAAA")
+   let BLEReadCharacteristicUUID = CBUUID(string:"628965CD-EB5E-49EA-9A97-79FB62FA5139")
+   let BLENotifyCharacteristicUUID = CBUUID(string:"DFDD9104-5C78-4E67-9379-D2F7908680D2")
  //  let BLEIndicateCharacteristicUUID = CBUUID(string:"AAAAAAAA-EEEE-BBBB-BBBB-BBBBBBBBBBBB")
 
    //BLEで用いるサービス
@@ -39,14 +47,46 @@ class BLEViewController: UIViewController {
    // BLEのペリフェラルマネージャー、ペリフェラルとしての挙動を制御する
    private var peripheralManager : CBPeripheralManager?
 
+    @IBOutlet weak var topLabel: UILabel!
+    @IBOutlet weak var ipLabel: UILabel!
+    @IBOutlet weak var ip1: UITextField!
+    @IBOutlet weak var ip2: UITextField!
+    @IBOutlet weak var ip3: UITextField!
+    @IBOutlet weak var ip4: UITextField!
+    @IBOutlet weak var portLabel: UILabel!
+    @IBOutlet weak var port: UITextField!
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
     @IBAction func onExitButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
 //        self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func tapGesture(_ sender: Any) {
+        ip1.resignFirstResponder()
+        ip2.resignFirstResponder()
+        ip3.resignFirstResponder()
+        ip4.resignFirstResponder()
+        port.resignFirstResponder()
+        let ips1 = ip1.text ?? "0"
+        let ips2 = ip2.text ?? "0"
+        let ips3 = ip3.text ?? "0"
+        let ips4 = ip4.text ?? "0"
+        IPAddress = ips1 + "." + ips2 + "." + ips3 + "." + ips4
+        UserDefaults.standard.set(IPAddress, forKey: "IPAddress")
+  //      print("IPAddress:",IPAddress)
+   //     connect(host: IPAddress!,port: "1108")
+        connect(hostname: IPAddress!)
+    }
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+        IPAddress=myFunctions().getUserDefaultString(str: "IPAddress", ret: "192.168.1.1")
+        let arr = IPAddress?.components(separatedBy: ".")
+        ip1.text=arr?[0]
+        ip2.text=arr?[1]
+        ip3.text=arr?[2]
+        ip4.text=arr?[3]
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let top=CGFloat(UserDefaults.standard.float(forKey: "topPadding"))
         let bottom=CGFloat(UserDefaults.standard.float(forKey: "bottomPadding"))
@@ -59,8 +99,16 @@ class BLEViewController: UIViewController {
         let bh=bw*170/440
         let by=wh-bh-sp
         // Do any additional setup after loading the view.
-        myFunctions().setButtonProperty(exitButton,x:left+bw*6+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
-        logTextView.frame=CGRect(x:left+sp,y:top+sp,width: ww-2*sp,height: by-sp-top)
+        topLabel.frame=CGRect(x:left+sp,y:top+sp,width:ww,height:bh)
+        ipLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
+        ip1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
+        ip2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
+        ip3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
+        ip4.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
+        portLabel.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
+        port.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
+        logTextView.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width: ww-2*sp,height: by-3*sp-top-2*bh)
+        myFunctions().setButtonProperty(exitButton,x:left+bw*6+sp*7,y:by,w:bw,h:bh,UIColor.darkGray)
         //①BLEのペリフェラルを使用開始できる状態にセットアップ
         //インスタンス化
         self.peripheralManager = CBPeripheralManager(delegate:self, queue:nil)
@@ -81,10 +129,82 @@ class BLEViewController: UIViewController {
         logTextView.text.append("b3=UInt8((motion.attitude.quaternion.w+1)*128)\n")
         logTextView.text.append("notifyData = Data( [b0,b1,b2,b3])\n")
         logTextView.text.append("sending the notifyData on BLE\n")
-        logTextView.text.append("ServiceUUID             :19501103-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
-        logTextView.text.append("ReadCharacteristicUUID  :19501108-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
-        logTextView.text.append("NotifyCharacteristicUUID:19501122-AAAA-AAAA-AAAA-AAAAAAAAAAAA\n")
+        logTextView.text.append("ServiceUUID             :BDA4CF17-7815-4963-AAB1-B7F4B5783680\n")
+        logTextView.text.append("ReadCharacteristicUUID  :628965CD-EB5E-49EA-9A97-79FB62FA5139\n")
+        logTextView.text.append("NotifyCharacteristicUUID:DFDD9104-5C78-4E67-9379-D2F7908680D2\n")
+   
     }
+    var host: NWEndpoint.Host = "192.168.0.209"
+    var port1108: NWEndpoint.Port = 1108
+
+    var connection: NWConnection?
+    var UDPf:Bool=false
+    func disconnect(connection: NWConnection)
+    {
+        /* コネクション切断 */
+        connection.cancel()
+    }
+    func send(_ payload: Data) {
+        connection!.send(content: payload, completion: .contentProcessed({ [self] sendError in
+            if let error = sendError {
+                print("Unable to process and send the data: \(error)")
+            } else {
+                print("Data has been sent")
+//                connection!.receiveMessage { (data, context, isComplete, error) in
+//                    guard let myData = data else { return }
+//                    print("Received message: " + String(decoding: myData, as: UTF8.self))
+//                }
+            }
+        }))
+    }
+    
+    func connect(hostname:String) {
+        var host:NWEndpoint.Host = "192.168.0.209"//hostname
+        connection = NWConnection(host: host, port: port1108, using: .udp)
+        
+        connection!.stateUpdateHandler = { (newState) in
+            switch (newState) {
+            case .preparing:
+                print("Entered state: preparing")
+            case .ready:
+                print("Entered state: ready")
+            case .setup:
+                print("Entered state: setup")
+            case .cancelled:
+                print("Entered state: cancelled")
+            case .waiting:
+                print("Entered state: waiting")
+            case .failed:
+                print("Entered state: failed")
+            default:
+                print("Entered an unknown state")
+            }
+        }
+        
+        connection!.viabilityUpdateHandler = { [self] (isViable) in
+            if (isViable) {
+                print("Connection is viable")
+                UDPf=true
+            } else {
+                UDPf=false
+                print("Connection is not viable")
+            }
+        }
+        
+        connection!.betterPathUpdateHandler = { (betterPathAvailable) in
+            if (betterPathAvailable) {
+                print("A better path is availble")
+            } else {
+                print("No better path is available")
+            }
+        }
+        
+        connection!.start(queue: .global())
+    }
+    //uuidgen 2024/2/4
+    //BDA4CF17-7815-4963-AAB1-B7F4B5783680
+    //628965CD-EB5E-49EA-9A97-79FB62FA5139
+    //DFDD9104-5C78-4E67-9379-D2F7908680D2
     @objc func update(tm: Timer) {
         UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
         print("isIdle false")
@@ -111,7 +231,12 @@ class BLEViewController: UIViewController {
             let b1 = UInt8((quat.y+1.0)*128)
             let b2 = UInt8((quat.z+1.0)*128)
             let b3 = UInt8((quat.x+1.0)*128)
-
+            if UDPf==true{
+                let dataStr=String(format: "QU%03d%03d%03d%03d",b0,b1,b2,b3)
+                print(dataStr)
+               // send(str: dataStr)
+                send(dataStr.data(using: .utf8)!)
+            }
             let notifyData = Data( [b0,b1,b2,b3])
             if notifyCharacteristic == nil{
                 return
@@ -162,7 +287,6 @@ class BLEViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
 extension BLEViewController : CBPeripheralManagerDelegate
 {
@@ -222,7 +346,6 @@ extension BLEViewController : CBPeripheralManagerDelegate
                 //何もしない
             }
         }
-        
     }
 
     //アドバタイズを開始した時に呼ばれるDelegate//!!!!!!!!!!!***********

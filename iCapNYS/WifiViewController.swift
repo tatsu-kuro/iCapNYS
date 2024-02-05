@@ -265,7 +265,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         UIGraphicsEndImageContext()
         return screenShotImage
     }
-    func takeScreenShot1() -> UIImage {
+/*    func takeScreenShot1() -> UIImage {
         let width: CGFloat = UIScreen.main.bounds.size.width
 //        let height: CGFloat = UIScreen.main.bounds.size.height
         let capHeight=view.bounds.height-topPadding-bottomPadding
@@ -277,7 +277,7 @@ class WifiViewController:UIViewController, CameraServiceDelegateProtocol {
         let screenShotImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return screenShotImage
-    }
+    }*/
     @objc func update_motion(tm: Timer) {
         readingFlag=true
 
@@ -601,9 +601,8 @@ print("stopbutton******")
         }
         
         setMotion()
-        createFirst(image:takeScreenShot() ,size:CGSize(width: 472, height: 354))
+        createFirst(image:takeScreenShot() ,size:CGSize(width: 472, height: 354))//472,354
         stopButton.isHidden=false
-
     }
     var tapInterval=CFAbsoluteTimeGetCurrent()
   
@@ -625,9 +624,6 @@ print("stopbutton******")
     //１枚めの画像かどうか
 //    var isFirstTap = true
     
-    //画像のサイズ
-    var imageSize = CGSize(width:320*4+1,height:240*4+1)
-
     //保存先のURL
     var capUrl:URL?
     
@@ -643,13 +639,19 @@ print("stopbutton******")
     var adaptor:AVAssetWriterInputPixelBufferAdaptor!
     
     //適当に画像サイズ
-//    let imageSize = CGSize(width:1280,height:960)
-    
-    
+    //    var imageSize = CGSize(width:320*4+1,height:240*4+1)
+//        let imageSize = CGSize(width: 1280, height: 960)//bad
+        var imageSize = CGSize(width: 1280,height:962)//ok
+//    let imageSize = CGSize(width:780,height:362)
+//se        320x568 640x1136
+//8         375x667 750x1334
+//12mini    360x780 1080x2340
+//12pro     390x844 1170x2532
+//se2-3     375x667 750x1334
     //イチバン最初はこれを呼び出す
-    func createFirst(image:UIImage,size:CGSize){
+    func createFirst(image:UIImage,size:CGSize){//size:472,354　これを変更すると、そのsizeで録画される。
 //        imageSize=image.size
-//        print(imageSize,image.size)
+  //      print("imagesize:",imageSize,image.size)
 //         let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
         //保存先のURL
         capUrl = NSURL(fileURLWithPath: TempFilePath) as URL
