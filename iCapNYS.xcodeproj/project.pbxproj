@@ -79,12 +79,12 @@
 		69E22885251834490004E53C = {
 			isa = PBXGroup;
 			children = (
-				690ECCBA290AB509008A317F /* steel3.mov */,
-				69CF76B129C940EF0072FEEF /* steel1eng.mov */,
-				69CF76B329C9A2290072FEEF /* positional_eng.mov */,
-				69CF76B729C9AF180072FEEF /* positional.mov */,
-				69CF76AD29C93E7D0072FEEF /* steel3_eng.mov */,
 				69B6913828A1C3BD00E1C065 /* steel1.mov */,
+				690ECCBA290AB509008A317F /* steel3.mov */,
+				69CF76B729C9AF180072FEEF /* positional.mov */,
+				69CF76B129C940EF0072FEEF /* steel1eng.mov */,
+				69CF76AD29C93E7D0072FEEF /* steel3_eng.mov */,
+				69CF76B329C9A2290072FEEF /* positional_eng.mov */,
 				69E22890251834490004E53C /* iCapNYS */,
 				69E2288F251834490004E53C /* Products */,
 			);

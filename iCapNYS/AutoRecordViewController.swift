@@ -441,10 +441,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
    //     videoPlayer.seek(to: CMTime.zero)
     }
     @IBAction func onSkipButton(_ sender: Any) {
+        print("movieCnt:",movieTimerCnt)
         if someFunctions.firstLang().contains("ja"){
             if isPositional==true{
-                if movieTimerCnt<108{
-                    movieTimerCnt=108
+                if movieTimerCnt<114{
+                    movieTimerCnt=114
                 }
             }else{
                 if movieTimerCnt<21{
@@ -453,8 +454,8 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             }
         }else{
             if isPositional==true{
-                if movieTimerCnt<79{
-                    movieTimerCnt=79
+                if movieTimerCnt<91{
+                    movieTimerCnt=91
                 }
             }else{
                 if movieTimerCnt<22{
@@ -596,7 +597,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
                 print("stop")
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3_eng_new")
+                playMoviePath("steel3_eng")//_new")
             }
             if movieTimerCnt == 25+22+1{
                 
@@ -607,7 +608,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             }
         }else{
              if movieTimerCnt == 1{
-                playMoviePath("positional_eng_new")
+                playMoviePath("positional_eng")//_new")
                 videoView.frame = self.view.bounds
             }
             var movCnt:Int=83
@@ -651,7 +652,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == movCnt{//100+12+23+23+22+25-20+1{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3_eng_new")
+                playMoviePath("steel3_eng")//_new")
             }
             movCnt += 1
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+1-20+1{
