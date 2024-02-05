@@ -47,6 +47,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
    // BLEのペリフェラルマネージャー、ペリフェラルとしての挙動を制御する
    private var peripheralManager : CBPeripheralManager?
 
+    @IBOutlet weak var setButton: UIButton!
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var ipLabel: UILabel!
     @IBOutlet weak var ip1: UITextField!
@@ -58,8 +59,28 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
     @IBAction func onExitButton(_ sender: Any) {
+        if UDPf {
+            disconnect(connection: connection!)
+        }
+        stopAdvertising()
         self.dismiss(animated: true, completion: nil)
 //        self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func onClickSetButton(_ sender: Any) {
+        ip1.resignFirstResponder()
+        ip2.resignFirstResponder()
+        ip3.resignFirstResponder()
+        ip4.resignFirstResponder()
+        port.resignFirstResponder()
+        let ips1 = ip1.text ?? "0"
+        let ips2 = ip2.text ?? "0"
+        let ips3 = ip3.text ?? "0"
+        let ips4 = ip4.text ?? "0"
+        IPAddress = ips1 + "." + ips2 + "." + ips3 + "." + ips4
+        UserDefaults.standard.set(IPAddress, forKey: "IPAddress")
+  //      print("IPAddress:",IPAddress)
+   //     connect(host: IPAddress!,port: "1108")
+        connect(hostname: IPAddress!)
     }
     
     @IBAction func tapGesture(_ sender: Any) {
@@ -95,11 +116,15 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         let ww=view.bounds.width-(left+right)
         let wh=view.bounds.height-(top+bottom)
         let sp=ww/120//間隙
-        let bw=(ww-sp*10)/7//ボタン幅
-        let bh=bw*170/440
+        var bw=(ww-sp*10)/7//ボタン幅
+        var bh=bw*170/440
         let by=wh-bh-sp
-        // Do any additional setup after loading the view.
+        bw=(ww-sp*11)/8
+        myFunctions().setButtonProperty(exitButton,x:left+bw*7+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
+        logTextView.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width: ww-2*sp,height: by-3*sp-top-2*bh)
         topLabel.frame=CGRect(x:left+sp,y:top+sp,width:ww,height:bh)
+        // Do any additional setup after loading the view.
+    
         ipLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         ip1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
         ip2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
@@ -107,9 +132,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         ip4.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
         portLabel.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
         port.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
-        logTextView.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width: ww-2*sp,height: by-3*sp-top-2*bh)
-        myFunctions().setButtonProperty(exitButton,x:left+bw*6+sp*7,y:by,w:bw,h:bh,UIColor.darkGray)
-        //①BLEのペリフェラルを使用開始できる状態にセットアップ
+        myFunctions().setButtonProperty(setButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
+
+          //①BLEのペリフェラルを使用開始できる状態にセットアップ
         //インスタンス化
         self.peripheralManager = CBPeripheralManager(delegate:self, queue:nil)
 
@@ -127,7 +152,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         logTextView.text.append("b1=UInt8((motion.attitude.quaternion.y+1)*128)\n")
         logTextView.text.append("b2=UInt8((motion.attitude.quaternion.z+1)*128)\n")
         logTextView.text.append("b3=UInt8((motion.attitude.quaternion.w+1)*128)\n")
-        logTextView.text.append("notifyData = Data( [b0,b1,b2,b3])\n")
+        logTextView.text.append("notifyData = String(format: \"Q:%03d%03d%03d%03d\\n\",b0,b1,b2,b3)\n")
+ //       logTextView.text.append("notifyData = Data( [b0,b1,b2,b3])\n")
         logTextView.text.append("sending the notifyData on BLE\n")
         logTextView.text.append("ServiceUUID             :BDA4CF17-7815-4963-AAB1-B7F4B5783680\n")
         logTextView.text.append("ReadCharacteristicUUID  :628965CD-EB5E-49EA-9A97-79FB62FA5139\n")
@@ -201,6 +227,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         
         connection!.start(queue: .global())
     }
+ 
+    
     //uuidgen 2024/2/4
     //BDA4CF17-7815-4963-AAB1-B7F4B5783680
     //628965CD-EB5E-49EA-9A97-79FB62FA5139
@@ -231,17 +259,17 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             let b1 = UInt8((quat.y+1.0)*128)
             let b2 = UInt8((quat.z+1.0)*128)
             let b3 = UInt8((quat.x+1.0)*128)
+            let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
+            let dataUTF8=dataStr.data(using: .utf8)
             if UDPf==true{
-                let dataStr=String(format: "QU%03d%03d%03d%03d",b0,b1,b2,b3)
-                print(dataStr)
-               // send(str: dataStr)
-                send(dataStr.data(using: .utf8)!)
+                print(dataUTF8!)
+                send(dataUTF8!)
             }
-            let notifyData = Data( [b0,b1,b2,b3])
+           // let notifyData = Data( [b0,b1,b2,b3])
             if notifyCharacteristic == nil{
                 return
             }
-            self.peripheralManager?.updateValue(notifyData, for: notifyCharacteristic!, onSubscribedCentrals: nil)
+            self.peripheralManager?.updateValue(dataUTF8!, for: notifyCharacteristic!, onSubscribedCentrals: nil)
         })
     }
     //③PeripheralにService及びCharacteristicを追加する
