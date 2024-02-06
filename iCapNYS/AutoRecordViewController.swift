@@ -569,7 +569,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         movieTimerCnt += 1
         if isPositional==false{
             if movieTimerCnt == 1{
-                playMoviePath("steel1eng")
+                playMoviePath("steel1_eng")
                 videoView.frame = self.view.bounds
             }
             if movieTimerCnt == 13{
