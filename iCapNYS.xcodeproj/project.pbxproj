@@ -103,17 +103,17 @@
 			children = (
 				69D7C99829A70EE7008B3D16 /* iCapNYS.entitlements */,
 				69E22891251834490004E53C /* AppDelegate.swift */,
+				6945B1A625EB207400A52272 /* myFunctions.swift */,
 				69D8F4972A4856680051CD9D /* BLEViewController.swift */,
 				69E22893251834490004E53C /* SceneDelegate.swift */,
 				69E22895251834490004E53C /* MainViewController.swift */,
 				69D7C99629A70A69008B3D16 /* WifiViewController.swift */,
 				69D7C99929A70FEE008B3D16 /* CameraService.swift */,
-				6945B1A625EB207400A52272 /* myFunctions.swift */,
 				6961FBEA257E756D004B6A8C /* How2ViewController.swift */,
-				69E22897251834490004E53C /* Main.storyboard */,
-				6945E7DB25196C3600E16DDB /* PlayViewController.swift */,
 				69A8FDEB28992B92001F1483 /* AutoRecordViewController.swift */,
 				6945E7D82519145F00E16DDB /* RecordViewController.swift */,
+				6945E7DB25196C3600E16DDB /* PlayViewController.swift */,
+				69E22897251834490004E53C /* Main.storyboard */,
 				69E2289A2518344C0004E53C /* Assets.xcassets */,
 				69E2289C2518344C0004E53C /* LaunchScreen.storyboard */,
 				695959B829C67E790044BF40 /* InfoPlist.strings */,
@@ -371,7 +371,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCapNYS/iCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
+				CURRENT_PROJECT_VERSION = 1.0.6;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -394,7 +394,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iCapNYS/iCapNYS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.5;
+				CURRENT_PROJECT_VERSION = 1.0.6;
 				DEVELOPMENT_TEAM = YKSHGZ7H3T;
 				INFOPLIST_FILE = iCapNYS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

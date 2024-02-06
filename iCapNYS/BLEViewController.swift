@@ -95,8 +95,6 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         let ips4 = ip4.text ?? "0"
         IPAddress = ips1 + "." + ips2 + "." + ips3 + "." + ips4
         UserDefaults.standard.set(IPAddress, forKey: "IPAddress")
-  //      print("IPAddress:",IPAddress)
-   //     connect(host: IPAddress!,port: "1108")
         connect(hostname: IPAddress!)
     }
  
@@ -185,7 +183,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     }
     
     func connect(hostname:String) {
-        var host:NWEndpoint.Host = "192.168.0.209"//hostname
+  //      var host:NWEndpoint.Host = "192.168.0.209"//hostname
+        var host:NWEndpoint.Host = NWEndpoint.Host(hostname)
         connection = NWConnection(host: host, port: port1108, using: .udp)
         
         connection!.stateUpdateHandler = { (newState) in
@@ -255,10 +254,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             //            let b1 = UInt8((-quat.y+1.0)*128)
             //            let b2 = UInt8((-quat.z+1.0)*128)
             //            let b3 = UInt8((quat.x+1.0)*128)
-            let b0 = UInt8((quat.w+1.0)*128)
+            let b0 = UInt8((quat.z+1.0)*128)
             let b1 = UInt8((quat.y+1.0)*128)
-            let b2 = UInt8((quat.z+1.0)*128)
-            let b3 = UInt8((quat.x+1.0)*128)
+            let b2 = UInt8((quat.x+1.0)*128)
+            let b3 = UInt8((quat.w+1.0)*128)
             let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
             let dataUTF8=dataStr.data(using: .utf8)
             if UDPf==true{
