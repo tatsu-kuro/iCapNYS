@@ -168,12 +168,14 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         /* コネクション切断 */
         connection.cancel()
     }
+    var cnt:Int = 0
     func send(_ payload: Data) {
-        connection!.send(content: payload, completion: .contentProcessed({ [self] sendError in
+        connection!.send(content: payload, completion: .contentProcessed({ sendError in
             if let error = sendError {
                 print("Unable to process and send the data: \(error)")
             } else {
-                print("Data has been sent")
+                self.cnt +=   1
+                print("Data has been sent:",self.cnt)
 //                connection!.receiveMessage { (data, context, isComplete, error) in
 //                    guard let myData = data else { return }
 //                    print("Received message: " + String(decoding: myData, as: UTF8.self))
@@ -250,10 +252,6 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { [self] (motion, error) in
             guard let motion = motion, error == nil else { return }
             let quat = motion.attitude.quaternion
-            //            let b0 = UInt8((quat.w+1.0)*128)
-            //            let b1 = UInt8((-quat.y+1.0)*128)
-            //            let b2 = UInt8((-quat.z+1.0)*128)
-            //            let b3 = UInt8((quat.x+1.0)*128)
             let b0 = UInt8((quat.z+1.0)*128)
             let b1 = UInt8((quat.y+1.0)*128)
             let b2 = UInt8((quat.x+1.0)*128)
@@ -261,7 +259,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
             let dataUTF8=dataStr.data(using: .utf8)
             if UDPf==true{
-                print(dataUTF8!)
+          //      print(dataUTF8!)
                 send(dataUTF8!)
             }
            // let notifyData = Data( [b0,b1,b2,b3])

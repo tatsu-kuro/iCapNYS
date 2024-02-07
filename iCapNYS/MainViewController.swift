@@ -487,8 +487,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
   
         if someFunctions.firstLang().contains("ja"){
             how2Button.setTitle("使い方", for: .normal)
-            setteiButtonAuto.setTitle("設定", for: .normal)
-            setteiButtonManual.setTitle("設定", for: .normal)
+            setteiButtonAuto.setTitle("録画設定", for: .normal)
+            setteiButtonManual.setTitle("録画設定", for: .normal)
             steelLabel.text="座って記録\n20秒"
             postualLabel.text="横になって記録\n90秒"
         }
