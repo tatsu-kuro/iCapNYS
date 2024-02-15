@@ -1126,6 +1126,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             urlInputField.isHidden=true
             enterButton.isHidden=true
             defaultButton.isHidden=true
+//            manualButton.isHidden=true
+//            auto20sButton.isHidden=true
+//            auto90sButton.isHidden=true
         }
     }
 //    func setButtons(){
@@ -1226,6 +1229,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         currentTime.isHidden=false
+        manualButton.isHidden=true
+        auto20sButton.isHidden=true
+        auto90sButton.isHidden=true
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
