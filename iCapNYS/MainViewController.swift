@@ -194,7 +194,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //    }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     @IBAction func onCameraButton(_ sender: Any) {
-        
+        checkLibraryAuthorized()
+        if authorizedFlag != 2{
+            print("not authorized!!!")
+            alertNotAuthorized()
+            return
+        }
  //       stopMotion()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
@@ -219,6 +224,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBAction func onSetteiButtonAuto(_ sender: Any) {
   //      stopMotion()
+        checkLibraryAuthorized()
+        if authorizedFlag != 2{
+            print("not authorized!!!",authorizedFlag)
+            alertNotAuthorized()
+            return
+        }
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=2
         nextView.autoRecordMode=false
@@ -228,6 +239,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
+        checkLibraryAuthorized()
+        if authorizedFlag != 2{
+            print("not authorized!!!",authorizedFlag)
+            alertNotAuthorized()
+            return
+        }
  //       stopMotion()
         let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
         nextView.setteiMode=1
@@ -347,51 +364,70 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        startMotion()
     }
     
-    func camera_alert(){
-        if PHPhotoLibrary.authorizationStatus() != .authorized {
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
-                } else if status == .denied {
-                }
-            }
-        } else {
-            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//    func camera_alert(){
+//        if PHPhotoLibrary.authorizationStatus() != .authorized {
+//            PHPhotoLibrary.requestAuthorization { status in
+//                if status == .authorized {
+//                    // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//                } else if status == .denied {
+//                }
+//            }
+//        } else {
+//            // フォトライブラリに写真を保存するなど、実施したいことをここに書く
+//        }
+//        
+//    }
+    func alertNotAuthorized(){
+        if someFunctions.firstLang().contains("ja"){
+            let alert = UIAlertController(title: "写真アクセスエラー", message: "写真へのアクセスが制限されています。設定アプリを起動して、iCapNYSをタップし、写真をフルアクセスに設定して下さい。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            let alert = UIAlertController(title: "Photos access error", message: "You do not have permission to access your photos.\nLaunch the Settings app,Tap the iCapNYS app,\nSet Photos to Full Access.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true, completion: nil)
         }
-        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
   //      isStarted=false
  //       startMotion()
-        if PHPhotoLibrary.authorizationStatus() != .authorized {
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    self.checkLibraryAuthrizedFlag=1
-                    print("authorized")
-                } else if status == .denied {
-                    self.checkLibraryAuthrizedFlag = -1
-                    print("denied")
-                }else{
-                    self.checkLibraryAuthrizedFlag = -1
-                }
-            }
-        }else{
+//        if PHPhotoLibrary.authorizationStatus() != .authorized {
+//            PHPhotoLibrary.requestAuthorization { status in
+//                if status == .authorized {
+//                    self.checkLibraryAuthrizedFlag=1
+//                    print("authorized")
+//                } else if status == .denied {
+//                    self.checkLibraryAuthrizedFlag = -1
+//                    print("denied")
+//                }else{
+//                    self.checkLibraryAuthrizedFlag = -1
+//                }
+//            }
+//        }else{
+        
+//    checkLibraryAuthorized()
+//        while(authorizedFlag == 0 || authorizedFlag == 4){
+//            checkLibraryAuthorized()
+//            print("authorizedFlag:",authorizedFlag)
+//            sleep(UInt32(0.1))
+//        }
             someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
-        }
+//        }
         //初回起動時にdefaultを設定
         let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
 //        let topEndBlank=0//someFunctions.getUserDefaultInt(str: "topEndBlank", ret: 0)
-        
+            
 //        UIApplication.shared.isIdleTimerDisabled = false//スリープする
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(foreground(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil
         )
+        print("authorizedFlag:",authorizedFlag)
 
-    }
+     }
     @objc func foreground(notification: Notification) {
         print("フォアグラウンド")
 //        startMotion()
@@ -407,45 +443,24 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             self.tableView.contentOffset.y=contentOffsetY
         }
     }
-    var checkLibraryAuthrizedFlag:Int=0
+    var authorizedFlag:Int=0
     func checkLibraryAuthorized(){
-        //iOS14に対応
-        checkLibraryAuthrizedFlag=0//0：ここの処理が終わっていないとき　1：許可　−１：拒否
-        if #available(iOS 14.0, *) {
-            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
-                switch status {
-                case .limited:
-                    self.checkLibraryAuthrizedFlag=1
-                    print("limited")
-                    break
-                case .authorized:
-                    self.checkLibraryAuthrizedFlag=1
-                    print("authorized")
-                    break
-                case .denied:
-                    self.checkLibraryAuthrizedFlag = -1
-                    print("denied")
-                    break
-                default:
-                    self.checkLibraryAuthrizedFlag = -1
-                    break
-                }
-            }
-        }
-        else  {
-            if PHPhotoLibrary.authorizationStatus() != .authorized {
-                PHPhotoLibrary.requestAuthorization { status in
-                    if status == .authorized {
-                        self.checkLibraryAuthrizedFlag=1
-                        print("authorized")
-                    } else if status == .denied {
-                        self.checkLibraryAuthrizedFlag = -1
-                        print("denied")
-                    }
-                }
-            } else {
-                self.checkLibraryAuthrizedFlag=1
-            }
+        switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {
+        case .limited:
+            self.authorizedFlag = 1
+            print("limited")
+            break
+        case .authorized:
+            self.authorizedFlag = 2
+            print("authorized")
+            break
+        case .denied:
+            self.authorizedFlag = 3
+            print("denied")
+            break
+        default:
+            self.authorizedFlag = 4
+            break
         }
     }
     func setButtons(){

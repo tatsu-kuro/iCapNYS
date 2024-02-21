@@ -405,17 +405,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         }
     }
+    
     func startRecord(){
+        
         stopButton.isEnabled=true
-       if let soundUrl = URL(string:
-                               "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
-           AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
-           AudioServicesPlaySystemSound(soundIdx)
-       }
-
-       fileWriter!.startWriting()
-       fileWriter!.startSession(atSourceTime: CMTime.zero)
-       setMotion()
+        if let soundUrl = URL(string:
+                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
+        
+        fileWriter!.startWriting()
+        fileWriter!.startSession(atSourceTime: CMTime.zero)
+        setMotion()
     }
     var timerCnt:Int=0
     @objc func update(tm: Timer) {
