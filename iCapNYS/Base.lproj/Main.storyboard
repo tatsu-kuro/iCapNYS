@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -627,10 +627,10 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="Wii-22-kPN">
-                                        <rect key="frame" x="0.0" y="50" width="283" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="283" height="44.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wii-22-kPN" id="zif-Sg-SUN">
-                                            <rect key="frame" x="0.0" y="0.0" width="283" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="283" height="44.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -766,6 +766,31 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TtC-11-u3L">
                                 <rect key="frame" x="101" y="20" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcD-1b-yFD">
+                                        <rect key="frame" x="83" y="47" width="75" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Gyro"/>
+                                        <connections>
+                                            <action selector="onGyroButton:" destination="eL6-VO-9Mc" eventType="touchUpInside" id="l9W-Cy-AFJ"/>
+                                        </connections>
+                                    </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="125-j8-xgX">
+                                        <rect key="frame" x="0.0" y="8" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium黒田建彰私は誰でしょう。 adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                        <color key="textColor" systemColor="labelColor"/>
+                                        <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="24"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsP-Le-a8g">
+                                        <rect key="frame" x="46" y="0.0" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="egC-jk-HfD"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="r4x-Ec-bVv"/>
                             </scrollView>
@@ -789,7 +814,10 @@
                     <navigationItem key="navigationItem" id="9qM-w1-LJl"/>
                     <connections>
                         <outlet property="exitButton" destination="swt-4C-G4l" id="Dv7-Aw-paA"/>
+                        <outlet property="gyroButtonOnScrollView" destination="XcD-1b-yFD" id="sF7-iV-1gA"/>
+                        <outlet property="imageViewOnScrollView" destination="hsP-Le-a8g" id="tkg-f0-A5b"/>
                         <outlet property="scrollView" destination="TtC-11-u3L" id="kiy-r1-Rfb"/>
+                        <outlet property="textViewOnScrollView" destination="125-j8-xgX" id="7E8-cl-dg5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -800,15 +828,15 @@
     </scenes>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="93"/>
-        <image name="backward.end.fill" catalog="system" width="128" height="101"/>
+        <image name="backward.end.fill" catalog="system" width="32" height="32"/>
         <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
-        <image name="envelope.fill" catalog="system" width="128" height="93"/>
-        <image name="pause.fill" catalog="system" width="117" height="128"/>
-        <image name="play.fill" catalog="system" width="117" height="128"/>
-        <image name="stop.circle" catalog="system" width="128" height="123"/>
+        <image name="envelope.fill" catalog="system" width="32" height="32"/>
+        <image name="pause.fill" catalog="system" width="32" height="32"/>
+        <image name="play.fill" catalog="system" width="32" height="32"/>
+        <image name="stop.circle" catalog="system" width="32" height="32"/>
         <image name="video.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

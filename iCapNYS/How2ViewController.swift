@@ -26,9 +26,15 @@ extension UIImage {
 class How2ViewController: UIViewController {
     let someFunctions = myFunctions()
     
+    @IBOutlet weak var imageViewOnScrollView: UIImageView!
+    @IBOutlet weak var textViewOnScrollView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var exitButton: UIButton!
     
+    @IBOutlet weak var gyroButtonOnScrollView: UIButton!
+    @IBAction func onGyroButton(_ sender: Any) {
+        print("gyroOn")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
@@ -55,13 +61,21 @@ class How2ViewController: UIViewController {
         let imgH = img.size.height
         let image = img.resize(size: CGSize(width:ww, height:ww*imgH/imgW))
         // UIImageView 初期化
-        let imageView = UIImageView(image: image)//jellyfish)
+  //      let imageView = UIImageView(image: image)//jellyfish)
         // UIScrollViewに追加
-        scrollView.addSubview(imageView)
+       // scrollView.addSubview(imageView)
         // UIScrollViewの大きさを画像サイズに設定
+        imageViewOnScrollView.frame=CGRect(x:0,y:0,width:ww,height: ww)
+        imageViewOnScrollView.image=image
         scrollView.contentSize = CGSize(width: ww, height: ww*imgH/imgW)
         // スクロールの跳ね返り無し
         scrollView.bounces = true
+        scrollView.bringSubviewToFront(gyroButtonOnScrollView)
+        gyroButtonOnScrollView.frame=CGRect(x:sp,y:ww*imgH/imgW-bh-sp,width:bw,height: bh)
+        gyroButtonOnScrollView.layer.borderWidth = 1.0
+        gyroButtonOnScrollView.layer.cornerRadius = 5
+        textViewOnScrollView.frame=CGRect(x:0,y:500,width: ww,height: ww)
+        scrollView.bringSubviewToFront(textViewOnScrollView)
     }
     
     override var prefersStatusBarHidden: Bool {
