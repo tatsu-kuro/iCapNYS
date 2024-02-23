@@ -887,7 +887,7 @@
                                 <rect key="frame" x="101" y="20" width="358" height="224"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6Vw-HI-FQv">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Vw-HI-FQv">
                                         <rect key="frame" x="59" y="117" width="240" height="99"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -945,7 +945,7 @@
         <image name="envelope.fill" catalog="system" width="32" height="32"/>
         <image name="pause.fill" catalog="system" width="32" height="32"/>
         <image name="play.fill" catalog="system" width="32" height="32"/>
-        <image name="stop.circle" catalog="system" width="32" height="32"/>
+        <image name="stop.circle" catalog="system" width="128" height="123"/>
         <image name="video.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
