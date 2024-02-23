@@ -130,12 +130,12 @@ class How2ViewController: UIViewController {
         textViewOnScrollView.text.append("After recording is complete, return to the main screen, and the recorded video will be displayed at the top of the list. Videos are listed by recording date and time (duration). Tapping an item allows you to play it. Swiping left on an item allows you to delete it. You can also view the videos from the iPhone's Photos app, enabling management functions such as playback, deletion, and sharing. Nystagmus videos are stored in the iCapNYS album.")
     }
     func addTextJa(){
-        textViewOnScrollView.text="1: 眼振を撮影するためにiPhoneを眼前に固定する装具が必要です。\n"
+        textViewOnScrollView.text="1: 眼振を撮影するためのiPhoneを眼前に固定する装具が必要です。\n"
         textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。粘着テープでiPhoneをケースに固定しています。フロントカメラの場合は慣れれば手で固定することも可能ですが、右上写真のような簡単な固定具を自作するとブレの少ない眼振が撮れます。\n\n")
         textViewOnScrollView.text.append("2: 録画設定\n")
-        textViewOnScrollView.text.append("最初に録画設定を行います。使用するカメラを選択し、ズーム、露出などを設定します。\nフロントカメラを選択した場合は、さらに手動、自動20秒、90秒を選択します。自動では眼振撮影の方法の説明の映像が流れ、それを見ながら録画できます。\nデフォルトの録画設定ではフロントカメラ、手動、プレビュー：OFFが選択されています。\nUnimec社のWiFiカメラも選択できますが、WiFiカメラを利用する場合は、iPhoneのWiFiをUnimec社のURLに設定する必要があります。\nWiFiカメラ設定画面では左下に[Send Motion Data]ボタンが表示され、それをタップするとiPhoneのGyroDataをWiFiおよびBluetoothで送信できます。この機能はWindows用のCapNYSアプリのためのものです。\n\n")
+        textViewOnScrollView.text.append("最初に録画設定を行います。使用するカメラを選択し、ズーム、露出などを設定します。\nフロントカメラを選択した場合は、さらに手動、自動20秒、自動90秒のいずれかを選択します。自動では眼振撮影の方法の説明映像が流れ、それを見ながら録画できます。\n録画設定のデフォルトではフロントカメラ、手動、プレビュー：OFFが選択されています。\nUnimec社のWiFiカメラも選択できますが、WiFiカメラを利用する場合は、iPhoneのWiFiをUnimec社のURLに設定する必要があります。\nWiFiカメラ設定画面では左下に[Send Motion Data]ボタンが表示され、それをタップするとiPhoneのGyroDataをWiFiおよびBluetoothで送信できます。この機能はWindows用のCapNYSアプリのためのものです。\n\n")
         textViewOnScrollView.text.append("3: 眼振録画\n")
-        textViewOnScrollView.text.append("撮影は簡単で、以下3ステップです。\n＊トップ画面の中央右の緑色のカメラボタンをタップ\n＊中央の録画スタートボタンをタップ\n＊中央の録画ストップボタン（薄くてほとんど見得ませんが、中央部分にあります。）\n\n")
+        textViewOnScrollView.text.append("撮影は簡単で、以下3ステップです。\n＊トップ画面の中央右の緑色のカメラボタンをタップ\n＊中央の録画スタートボタンをタップ\n＊中央の録画ストップボタン（色を薄くしており、見えにくいです。）\n\n")
         textViewOnScrollView.text.append("4: 撮影動画再生\n")
         textViewOnScrollView.text.append("録画終了するとトップ画面に戻り、録画された動画はリストの1番上に表示されます。動画は撮影日時（長さ）で一覧表示されます。項目をタップすると再生出来ます。項目を左にスワイプスすると削除できます。iPhoneの写真アプリからも見れますので、写真アプリでも再生、削除、送信などの管理ができます。眼振動画はiCapNYSアルバムの中に入っています。")
     }
