@@ -90,13 +90,15 @@ class How2ViewController: UIViewController {
         let image = img.resize(size: CGSize(width:ww, height:imageHeight))
         imageViewOnScrollView.frame=CGRect(x:0,y:sp,width:ww,height: imageHeight)
         imageViewOnScrollView.image=image
-        if someFunctions.firstLang().contains("ja"){
+        var textHeight=wh*2.6
+        if !someFunctions.firstLang().contains("ja"){
             addTextJa()
+  //          textHeight=wh*2.6
         }else{
             addTextEn()
-        }
-        let textHeight=wh*3.5//en:3.2 ja:2.5 textViewOnScrollView.contentSize.height
-        textViewOnScrollView.frame=CGRect(x:0,y:imageHeight+2*sp,width: ww,height: textHeight)
+            textHeight=wh*3.3
+         }
+        textViewOnScrollView.frame=CGRect(x:0,y:imageHeight+2*sp,width: ww,height:textHeight)
         scrollView.contentSize = CGSize(width: ww, height: imageHeight+textHeight+2*sp)
         // スクロールの跳ね返り無し
         scrollView.bounces = true
