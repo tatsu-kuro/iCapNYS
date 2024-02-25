@@ -91,7 +91,7 @@ class How2ViewController: UIViewController {
         imageViewOnScrollView.frame=CGRect(x:0,y:sp,width:ww,height: imageHeight)
         imageViewOnScrollView.image=image
         var textHeight=wh*2.6
-        if !someFunctions.firstLang().contains("ja"){
+        if someFunctions.firstLang().contains("ja"){
             addTextJa()
   //          textHeight=wh*2.6
         }else{

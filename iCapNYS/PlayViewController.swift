@@ -164,7 +164,7 @@ class PlayViewController: UIViewController{
             self.seekBar.value = value
         })
 
-        currTime = UILabel(frame:CGRect(x:x0,y:by,width:bw*2+sp,height:bh))
+        currTime = UILabel(frame:CGRect(x:x0+bw+sp,y:by,width:bw*2+sp,height:bh))
         currTime!.backgroundColor = UIColor.systemGray6
         currTime!.layer.masksToBounds = true
         currTime!.layer.cornerRadius = 5
@@ -180,7 +180,7 @@ class PlayViewController: UIViewController{
         camera.setButtonProperty(videoPlayButton,x:x0+4*bw+4*sp,y:by,w:bw,h: bh,UIColor.orange,0)
         camera.setButtonProperty(videoTopButton,x: x0+3*bw+3*sp, y: by, w: bw, h: bh,UIColor.orange,0)
         camera.setButtonProperty(videoPauseButton,x: x0+5*bw+5*sp,y:by,w:bw,h: bh,UIColor.orange,0)
-        camera.setButtonProperty(paperPlaneButton, x: x0+6*bw+6*sp, y: topPadding+sp, w: bw, h: bh, UIColor.systemBlue,0)
+        camera.setButtonProperty(paperPlaneButton, x: x0, y: by, w: bw, h: bh, UIColor.systemBlue,0)
         view.bringSubviewToFront(quitButton)
         view.bringSubviewToFront(videoTopButton)
         view.bringSubviewToFront(videoPlayButton)
