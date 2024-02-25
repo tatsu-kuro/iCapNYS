@@ -83,36 +83,26 @@ class How2ViewController: UIViewController {
         scrollView.frame = CGRect(x:left,y:top,width: ww,height: wh)
         someFunctions.setButtonProperty(exitButton,x:left+bw*6+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
         var img = UIImage(named:"sougu")!
-     //   if someFunctions.firstLang().contains("ja"){
-     //       img = UIImage(named: "how2")!
-     //   }
         // 画像のサイズ
         let imgW = img.size.width
         let imgH = img.size.height
-        let image = img.resize(size: CGSize(width:ww, height:ww*imgH/imgW))
-        // UIImageView 初期化
-  //      let imageView = UIImageView(image: image)//jellyfish)
-        // UIScrollViewに追加
-       // scrollView.addSubview(imageView)
-        // UIScrollViewの大きさを画像サイズに設定
+        let imageHeight=ww*imgH/imgW
+        let image = img.resize(size: CGSize(width:ww, height:imageHeight))
+        imageViewOnScrollView.frame=CGRect(x:0,y:sp,width:ww,height: imageHeight)
+        imageViewOnScrollView.image=image
         if someFunctions.firstLang().contains("ja"){
             addTextJa()
         }else{
             addTextEn()
         }
-        imageViewOnScrollView.frame=CGRect(x:0,y:sp,width:ww,height: ww*imgH/imgW)
-        imageViewOnScrollView.image=image
-        scrollView.contentSize = CGSize(width: ww, height: wh*3.5)
+        let textHeight=wh*3.5//en:3.2 ja:2.5 textViewOnScrollView.contentSize.height
+        textViewOnScrollView.frame=CGRect(x:0,y:imageHeight+2*sp,width: ww,height: textHeight)
+        scrollView.contentSize = CGSize(width: ww, height: imageHeight+textHeight+2*sp)
         // スクロールの跳ね返り無し
         scrollView.bounces = true
-      //  scrollView.bringSubviewToFront(gyroButtonOnScrollView)
-      //  gyroButtonOnScrollView.frame=CGRect(x:sp,y:ww*imgH/imgW-bh-sp,width:bw,height: bh)
-      //  gyroButtonOnScrollView.layer.borderWidth = 1.0
-      //  gyroButtonOnScrollView.layer.cornerRadius = 5
-        textViewOnScrollView.frame=CGRect(x:0,y:ww*imgH/imgW+2*sp,width: ww,height: wh*3.5-ww*imgH/imgW)
-        scrollView.bringSubviewToFront(textViewOnScrollView)
+  //      scrollView.bringSubviewToFront(textViewOnScrollView)
     }
-    
+  
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -121,9 +111,9 @@ class How2ViewController: UIViewController {
     }
     func addTextEn(){
         textViewOnScrollView.text="1: A device is necessary to secure the iPhone in front of the eyes for capturing nystagmus.\n"
-        textViewOnScrollView.text.append("When using the back camera, you can use a transparent plastic case like the one shown in the top-left photo. The iPhone is fixed to the case with adhesive tape.\nFor the front camera, it is possible to manually secure it once you get used to it, but creating a simple fixture like the one shown in the top-right photo results in less shaky nystagmus footage.\n\n")
+        textViewOnScrollView.text.append("When using the back camera, you can use a transparent plastic case like the one shown in the top-left photo. The iPhone is fixed to the case with double-sided adhesive gel tape.\nFor the front camera, it is possible to manually secure it once you get used to it, but creating a simple fixture like the one shown in the top-right photo results in less shaky nystagmus footage.\n\n")
         textViewOnScrollView.text.append("2: Camera setting\n")
-        textViewOnScrollView.text.append("Start by configuring the recording settings. Choose the camera to be used and set parameters such as zoom and exposure.\nIf the front camera is selected, further choose between manual, automatic 20 seconds, and 90 seconds. In the automatic mode, a video explaining the method of capturing nystagmus will play, allowing you to record while watching.\nThe default recording settings are front camera, manual, and preview: OFF.\nYou can also choose Unimec's WiFi camera, but when using it, you need to set your iPhone's WiFi to Unimec's URL.\nOn the WiFi camera settings screen, there is a [Send Motion Data] button at the bottom left, which, when tapped, can send iPhone's GyroData via WiFi and Bluetooth. This feature is intended for the CapNYS app for Windows.\n\n")
+        textViewOnScrollView.text.append("Tap the second green button from the bottom on the right side of the Camera settings screen to select the camera to use, and set parameters such as zoom and exposure.\nIf the front camera is selected, further choose between manual, automatic 20 seconds, and 90 seconds. In the automatic mode, a video explaining the method of capturing nystagmus will play, allowing you to record while watching.\nThe default recording settings are front camera, manual, and preview: OFF.\nYou can also choose Unimec's WiFi camera, but when using it, you need to set your iPhone's WiFi to Unimec's URL.\n\n(*)On the WiFi camera settings screen, there is a [Send Motion Data] button at the bottom left, which, when tapped, can send iPhone's GyroData via WiFi and Bluetooth. This feature is intended for the CapNYS app for Windows.\n\n")
         textViewOnScrollView.text.append("3: Nystagmus Recording\n")
         textViewOnScrollView.text.append("Recording is simple, following these 3 steps:\n* Tap the green camera button in the middle-right of the main screen.\n* Tap the start recording button in the center.\n* Tap the stop recording button in the center (thin and barely visible, located in the central area).\n\n")
         textViewOnScrollView.text.append("4: Playback of Recorded Videos\n")
@@ -131,9 +121,9 @@ class How2ViewController: UIViewController {
     }
     func addTextJa(){
         textViewOnScrollView.text="1: 眼振を撮影するためのiPhoneを眼前に固定する装具が必要です。\n"
-        textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。粘着テープでiPhoneをケースに固定しています。フロントカメラの場合は慣れれば手で固定することも可能ですが、右上写真のような簡単な固定具を自作するとブレの少ない眼振が撮れます。\n\n")
+        textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。両面粘着ゲルテープでiPhoneをケースに固定しています。フロントカメラの場合は慣れれば手で固定することも可能ですが、右上写真のような簡単な固定具を自作するとブレの少ない眼振が撮れます。\n\n")
         textViewOnScrollView.text.append("2: 録画設定\n")
-        textViewOnScrollView.text.append("最初に録画設定を行います。使用するカメラを選択し、ズーム、露出などを設定します。\nフロントカメラを選択した場合は、さらに手動、自動20秒、自動90秒のいずれかを選択します。自動では眼振撮影の方法の説明映像が流れ、それを見ながら録画できます。\n録画設定のデフォルトではフロントカメラ、手動、プレビュー：OFFが選択されています。\nUnimec社のWiFiカメラも選択できますが、WiFiカメラを利用する場合は、iPhoneのWiFiをUnimec社のURLに設定する必要があります。\nWiFiカメラ設定画面では左下に[Send Motion Data]ボタンが表示され、それをタップするとiPhoneのGyroDataをWiFiおよびBluetoothで送信できます。この機能はWindows用のCapNYSアプリのためのものです。\n\n")
+        textViewOnScrollView.text.append("録画設定画面右の下から2番目の緑色ボタンで使用するカメラを選択し、ズーム、露出などを設定します。\nフロントカメラを選択した場合は、さらに手動、自動20秒、自動90秒のいずれかを選択します。自動では眼振撮影の方法の説明映像が流れ、それを見ながら録画できます。\n録画設定のデフォルトではフロントカメラ、手動、プレビュー：OFFが選択されています。\nUnimec社のWiFiカメラも選択できますが、WiFiカメラを利用する場合は、iPhoneのWiFiをUnimec社のURLに設定する必要があります。\n\n(*)WiFiカメラ設定画面では左下に[Send Motion Data]ボタンが表示され、それをタップするとiPhoneのGyroDataをWiFiおよびBluetoothで送信できます。この機能はWindows用のCapNYSアプリのためのものです。\n\n")
         textViewOnScrollView.text.append("3: 眼振録画\n")
         textViewOnScrollView.text.append("撮影は簡単で、以下3ステップです。\n＊トップ画面の中央右の緑色のカメラボタンをタップ\n＊中央の録画スタートボタンをタップ\n＊中央の録画ストップボタン（色を薄くしており、見えにくいです。）\n\n")
         textViewOnScrollView.text.append("4: 撮影動画再生\n")
