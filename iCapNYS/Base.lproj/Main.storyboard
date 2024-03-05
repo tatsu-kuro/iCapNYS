@@ -572,7 +572,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">上枠にwifiカメラのURLを設定して下さい。
 初期値はユニメック(株)wifiカメラのURLアドレスです。</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -936,15 +936,15 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qRA-dS-6xM"/>
+        <segue reference="lJy-fK-G00"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.triangle.2.circlepath.camera.fill" catalog="system" width="128" height="93"/>
-        <image name="backward.end.fill" catalog="system" width="32" height="32"/>
+        <image name="backward.end.fill" catalog="system" width="128" height="101"/>
         <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
-        <image name="envelope.fill" catalog="system" width="32" height="32"/>
-        <image name="pause.fill" catalog="system" width="32" height="32"/>
-        <image name="play.fill" catalog="system" width="32" height="32"/>
+        <image name="envelope.fill" catalog="system" width="128" height="85"/>
+        <image name="pause.fill" catalog="system" width="117" height="128"/>
+        <image name="play.fill" catalog="system" width="117" height="128"/>
         <image name="stop.circle" catalog="system" width="128" height="123"/>
         <image name="video.circle" catalog="system" width="128" height="123"/>
         <systemColor name="labelColor">
