@@ -12,7 +12,9 @@ import Network
 //import NetworkExtension
 
 class BLEViewController: UIViewController, UITextFieldDelegate {
-
+    var pitchA = Array<Float>()
+    var rollA = Array<Float>()
+    var yawA = Array<Float>()
     let motionManager = CMMotionManager()
     var timer:Timer?
     var IPAddress:String?
@@ -45,6 +47,21 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
+    func incPitchOK(){
+        var t=Int(pitchText2.text!)
+        t! += 1
+        pitchText2.text=t?.description
+    }
+    func incRollOK(){
+        var t=Int(rollText2.text!)
+        t! += 1
+        rollText2.text=t?.description
+    }
+    func incYawOK(){
+        var t=Int(yawText2.text!)
+        t! += 1
+        yawText2.text=t?.description
+    }
     func changeLimits(){
         pitchText3.text=Int(pitchStepper.value).description
         rollText3.text=Int(rollStepper.value).description
@@ -53,26 +70,40 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(rollStepper.value, forKey: "rollLimit")
         UserDefaults.standard.set(yawStepper.value, forKey: "yawLimit")
     }
+    var kalVs:[[Float]]=[[0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
+                               [0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
+                               [0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
+                               [0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0]]
+    func KalmanS(Q:Float,R:Float,num:Int){
+        kalVs[num][4] = (kalVs[num][3] + Q) / (kalVs[num][3] + Q + R);
+        kalVs[num][3] = R * (kalVs[num][3] + Q) / (R + kalVs[num][3] + Q);
+    }
+    func Kalman(value:Float,num:Int)->Float{
+        KalmanS(Q:kalVs[num][0],R:kalVs[num][1],num:num);
+        let result = kalVs[num][2] + (value - kalVs[num][2]) * kalVs[num][4];
+        kalVs[num][2] = result;
+        return result;
+    }
+    func KalmanInit(){
+        for i in 0...6{
+            kalVs[i][2]=0
+            kalVs[i][3]=0
+            kalVs[i][4]=0
+        }
+    }
+    func KalmanInit(num:Int){
+        kalVs[num][2]=0
+        kalVs[num][3]=0
+        kalVs[num][4]=0
+    }
     @IBAction func onPitchStepper(_ sender: UIStepper) {
         changeLimits()
-//        pitchText3.text=Int(pitchStepper.value).description
-//        rollText3.text=Int(rollStepper.value).description
-//        yawText3.text=Int(yawStepper.value).description
-//        UserDefaults.standard.set(pitchStepper.value, forKey: "pitchLimit")
-//        UserDefaults.standard.set(rollStepper.value, forKey: "rollLimit")
-//        UserDefaults.standard.set(yawStepper.value, forKey: "yawLimit")
     }
     
     @IBAction func onRollStepper(_ sender: UIStepper) {
-//        pitchText3.text=Int(pitchStepper.value).description
-//        rollText3.text=Int(rollStepper.value).description
-//        yawText3.text=Int(yawStepper.value).description
         changeLimits()
     }
     @IBAction func onYawStepper(_ sender: UIStepper) {
-//        pitchText3.text=Int(pitchStepper.value).description
-//        rollText3.text=Int(rollStepper.value).description
-//        yawText3.text=Int(yawStepper.value).description
         changeLimits()
     }
     @IBAction func onExitButton(_ sender: Any) {
@@ -93,9 +124,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         let ips4 = ip4.text ?? "0"
         IPAddress = ips1 + "." + ips2 + "." + ips3 + "." + ips4
         UserDefaults.standard.set(IPAddress, forKey: "IPAddress")
-  //      print("IPAddress:",IPAddress)
-   //     connect(host: IPAddress!,port: "1108")
         connect(hostname: IPAddress!)
+        setMotion()
     }
     
     @IBAction func tapGesture(_ sender: Any) {
@@ -115,6 +145,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        KalmanInit()
         IPAddress=myFunctions().getUserDefaultString(str: "IPAddress", ret: "192.168.1.1")
         pitchStepper.value=myFunctions().getUserDefaultDouble(str: "pitchLimit", ret:30)
         rollStepper.value=myFunctions().getUserDefaultDouble(str: "rollLimit", ret:30)
@@ -122,6 +153,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         pitchText3.text=Int(pitchStepper.value).description
         rollText3.text=Int(rollStepper.value).description
         yawText3.text=Int(yawStepper.value).description
+        pitchText2.text="0"
+        rollText2.text="0"
+        yawText2.text="0"
         pitchStepper.maximumValue=120
         pitchStepper.minimumValue=20
         rollStepper.maximumValue=120
@@ -142,7 +176,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         let wh=view.bounds.height-(top+bottom)
         let sp=ww/120//間隙
         var bw=(ww-sp*10)/7//ボタン幅
-        var bh=bw*170/440
+        let bh=bw*170/440
         let by=wh-bh-sp
         bw=(ww-sp*11)/8
         myFunctions().setButtonProperty(exitButton,x:left+bw*7+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
@@ -180,7 +214,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         yawStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
-
+ //       setMotion()
     }
     var host: NWEndpoint.Host = "192.168.0.209"
     var port1108: NWEndpoint.Port = 1108
@@ -257,8 +291,53 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         UIApplication.shared.isIdleTimerDisabled = false//スリープさせる
         print("isIdle false")
     }
- 
-  
+    var yaw180cnt:Int = 0//180°or -180°を越えた回数
+    var lastYaw:Float = 0
+    func getYaw(y:Float)->Float {
+        if (yawA.count==0) {
+            lastYaw = y
+            return y
+        }
+        else {
+            if (lastYaw > 100 && y < -100){
+                yaw180cnt += 1
+            }
+            else if (lastYaw < -100 && y>100){
+                yaw180cnt -= 1
+            }
+            lastYaw = y
+            return y + Float(yaw180cnt * 360)
+        }
+    }
+
+    let RAD_TO_DEG=Float(180/3.1415)
+    func QuaternionToEuler(q0:Float, q1:Float,q2:Float, q3: Float) {
+        var pitch:Float
+        var roll:Float
+        var yaw:Float
+        pitch = asin(-2 * q1 * q3 + 2 * q0 * q2);    // pitch
+        roll = atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1);    // roll
+        yaw = atan2(2 * (q1 * q2 + q0 * q3), q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3);    //yaw
+
+        pitch *= RAD_TO_DEG;
+        yaw *= RAD_TO_DEG;
+        // Declination of SparkFun Electronics (40°05'26.6"N 105°11'05.9"W) is
+        //     8° 30' E  ± 0° 21' (or 8.5°) on 2016-07-19
+        // - http://www.ngdc.noaa.gov/geomag-web/#declination
+    //    yawf -= 8.5;
+        roll *= RAD_TO_DEG;
+        pitchA.append(Kalman(value: pitch, num: 0))
+        rollA.append(Kalman(value: roll, num: 1))
+        let yawtmp=getYaw(y:yaw)
+        yawA.append(Kalman(value: yawtmp, num: 2))
+        self.pitchText1.text=Int(pitch).description
+        self.rollText1.text=Int(roll).description
+        self.yawText1.text=Int(yawtmp).description
+      
+//        pitch = int(pitchf);
+//        roll = int(rollf);
+//        yaw = int(yawf);
+    }
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1/25//1 / 100//が最速の模様
@@ -271,6 +350,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             let b3 = UInt8((quat.w+1.0)*128)
             let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
             let dataUTF8=dataStr.data(using: .utf8)
+            QuaternionToEuler(q0: Float(quat.z), q1: Float(quat.y), q2: Float(quat.x), q3: Float(quat.w))
             if UDPf==true{
                 send(dataUTF8!)
             }
