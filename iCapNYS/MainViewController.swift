@@ -355,7 +355,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else if let vc = segue.source as? AutoRecordViewController{
         }else if let vc = segue.source as? BLEViewController{
             let Controller:BLEViewController = vc
-            Controller.stopAdvertising()
+//            Controller.stopAdvertising()
         }
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
@@ -480,10 +480,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
-//        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
-//        someFunctions.setButtonProperty(sendButton, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
-        sendButton.isHidden=true
-        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
+        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
+        someFunctions.setButtonProperty(sendButton, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
+//        sendButton.isHidden=true
+//        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
         autoRecordButton.frame=CGRect(x:x0but,y:sp,width: wh/2,height: wh/2)
         positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
         let upCircleX0=sp+wh/4

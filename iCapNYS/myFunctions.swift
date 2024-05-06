@@ -650,6 +650,14 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
             return ret
         }
     }
+    func getUserDefaultDouble(str:String,ret:Double) -> Double{
+        if (UserDefaults.standard.object(forKey: str) != nil){//keyが設定してなければretをセット
+            return UserDefaults.standard.double(forKey:str)
+        }else{
+            UserDefaults.standard.set(ret, forKey: str)
+            return ret
+        }
+    }
     func getUserDefaultBool(str:String,ret:Bool) -> Bool{
         if (UserDefaults.standard.object(forKey: str) != nil){
             return UserDefaults.standard.bool(forKey: str)
