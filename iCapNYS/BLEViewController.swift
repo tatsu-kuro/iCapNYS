@@ -292,22 +292,29 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         print("isIdle false")
     }
     var yaw180cnt:Int = 0//180°or -180°を越えた回数
-    var lastYaw:Float = 0
+    var theLastYaw:Float = 0
     func getYaw(y:Float)->Float {
         if (yawA.count==0) {
-            lastYaw = y
+            theLastYaw = y
             return y
         }
         else {
-            if (lastYaw > 100 && y < -100){
+            if (theLastYaw > 100 && y < -100){
                 yaw180cnt += 1
             }
-            else if (lastYaw < -100 && y>100){
+            else if (theLastYaw < -100 && y>100){
                 yaw180cnt -= 1
             }
-            lastYaw = y
+            theLastYaw = y
             return y + Float(yaw180cnt * 360)
         }
+    }
+
+    func getDirection(a:Float, b:Float, c:Float, d:Float)->Int
+    {
+      if ((a < b) && (b < c) && (c < d))  return 1;
+      else if ((a > b) && (b > c) && (c > d))return -1;
+      else return 0;
     }
 
     let RAD_TO_DEG=Float(180/3.1415)
@@ -337,6 +344,85 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 //        pitch = int(pitchf);
 //        roll = int(rollf);
 //        yaw = int(yawf);
+    }
+    var pitchDirection:Int = 0
+    var rollDirection:Int = 0
+    var yawDirection:Int = 0
+    var lastPitch:Float = 0
+    var lastPitchCount:Int = 0
+    var lastRoll:Float = 0
+    var lastRollCount:Int = 0
+    var lastYaw:Float = 0
+    var lastYawCount:Int = 0
+    func checkRotation()
+    {
+        var tempDirection:Int
+        let Count=pitchA.count
+      // pitch
+        tempDirection = getDirection(a:pitchA[Count-3], b:pitchA[Count-2], c:pitchA[Count-1], d:pitchA[Count])
+      if((tempDirection == -1 && pitchDirection == 1)|| (tempDirection == 1 && pitchDirection == -1))//向きが代わった時
+      {
+        pitchDirection == tempDirection;//向きを新しくする
+        if (checkOK(lastPitch, pitchA[Count-3], pitchLimit, Count-3 - lastPitchCount) == 5)
+        {
+            pitchAOK[okPitchnum]=Count - 3;
+          okPitchnum++;
+          //soundFlag = true;
+          Beep(3000, 50);
+        }
+        lastPitch = pitchA[Count-3];
+        lastPitchCount = Count-3;
+      }
+      if (tempdirection != 0)pitchDirection = tempdirection;
+
+      // roll
+      tempdirection = getDirection(rollA[Count - 3], rollA[Count - 2], rollA[Count - 1], rollA[Count]);
+      if ((tempdirection == -1 && rollDirection == 1)||(tempdirection == 1 && rollDirection == -1))
+      {
+          if (rollDirection == 1)rollDirection = -1;
+          else rollDirection = 1;
+        if (checkOK(lastRoll, rollA[Count - 3], rollLimit, Count - 3 - lastRollCount) == 5)
+        {
+            rollAOK[okRollnum] = Count - 3;
+          okRollnum++;
+         // soundFlag = true;
+          Beep(2000, 50);
+        }
+        lastRoll = rollA[Count-3];
+        lastRollCount = Count-3;
+      }
+      if (tempdirection != 0)rollDirection = tempdirection;
+
+      // yaw
+      tempdirection = getDirection(yawA[Count-3], yawA[Count - 2], yawA[Count - 1], yawA[Count]);
+      if ((tempdirection == -1 && yawDirection == 1)||(tempdirection == 1 && yawDirection == -1))
+      {
+          if (yawDirection == 1)yawDirection = -1;
+          else yawDirection = 1;
+        if (checkOK(lastYaw, yawA[Count-3], yawLimit, Count-3 - lastYawCount) == 5)
+        {
+            yawAOK[okYawnum] = Count - 3;
+          okYawnum++;
+         // soundFlag = true;
+          Beep(1000, 50);
+        }
+        lastYaw = yawA[Count-3];
+        lastYawCount = Count-3;
+      }
+       if (tempdirection != 0)yawDirection = tempdirection;
+
+      char buf[200];
+      CFont m_font;
+      m_font.CreatePointFont(200, _T("ＭＳ ゴシック"));
+      SelectObject(*pDC, m_font);
+    if(pitchA[Count]<180&&pitchA[Count]>-180)sprintf_s(buf,"pitch:%03d:<%03d>:%04d ", okPitchnum, pitchLimit, pitchA[Count]);//pitchが時々１０桁程度になってしまうのはなぜ
+        pDC->TextOutA(280, 6, buf);
+     if(rollA[Count]<180&&rollA[Count]>-180)sprintf_s(buf,"roll :%03d:<%03d>:%04d ", okRollnum, rollLimit, rollA[Count]);
+        pDC->TextOutA(280, 6+28, buf);
+        sprintf_s(buf,"yaw  :%03d:<%03d>:%04d ", okYawnum, yawLimit, yawA[Count]);
+        pDC->TextOutA(280, 6+28*2, buf);
+        sprintf_s(buf, "count:%05d ", Count);
+        pDC->TextOutA(555+26, 6 + 28 * 2, buf);
     }
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
