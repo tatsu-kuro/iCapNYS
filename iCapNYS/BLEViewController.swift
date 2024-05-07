@@ -47,6 +47,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
+ //   var pLimit:Float=0
+ //   var rLimit:Float=0
+ //   var yLimit:Float=0
     func incPitchOK(){
         var t=Int(pitchText2.text!)
         t! += 1
@@ -212,6 +215,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         yawText2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
         yawText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
         yawStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
+        myFunctions().setButtonProperty(resetButton,x:left+bw*2+sp*3,y:top+bh*2+3*sp,w:bw,h:bh,UIColor.systemGray6)
+
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
  //       setMotion()
@@ -233,7 +238,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
                 print("Unable to process and send the data: \(error)")
             } else {
                 self.cnt +=   1
-                print("Data has been sent:",self.cnt)
+//                print("Data has been sent:",self.cnt)
 //                connection!.receiveMessage { (data, context, isComplete, error) in
 //                    guard let myData = data else { return }
 //                    print("Received message: " + String(decoding: myData, as: UTF8.self))
@@ -312,9 +317,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 
     func getDirection(a:Float, b:Float, c:Float, d:Float)->Int
     {
-      if ((a < b) && (b < c) && (c < d))  return 1;
-      else if ((a > b) && (b > c) && (c > d))return -1;
-      else return 0;
+        if ((a+1 < b) && (b+1 < c) && (c+1 < d)){  return 1}
+        else if ((a > b+1) && (b > c+1) && (c > d+1)){return -1}
+        else {return 0}
     }
 
     let RAD_TO_DEG=Float(180/3.1415)
@@ -345,6 +350,20 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 //        roll = int(rollf);
 //        yaw = int(yawf);
     }
+    func checkOK( d0:Float,d1:Float,limit:Float,count:Int)->Int
+    {
+        var d = d0 - d1
+        if (count < 5){return 0}//5*40ms
+        if (d > limit || d < -limit)
+        {
+            if (count < 25){return 5} // 30度以上１秒以内 25*40ms
+            else {
+                return 0
+            }
+        }
+        return 0
+    }
+
     var pitchDirection:Int = 0
     var rollDirection:Int = 0
     var yawDirection:Int = 0
@@ -354,75 +373,61 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     var lastRollCount:Int = 0
     var lastYaw:Float = 0
     var lastYawCount:Int = 0
+   
+    @IBAction func onResetButton(_ sender: Any) {
+        pitchText2.text="0"
+        rollText2.text="0"
+        yawText2.text="0"
+    }
+    @IBOutlet weak var resetButton: UIButton!
     func checkRotation()
     {
-        var tempDirection:Int
-        let Count=pitchA.count
-      // pitch
-        tempDirection = getDirection(a:pitchA[Count-3], b:pitchA[Count-2], c:pitchA[Count-1], d:pitchA[Count])
-      if((tempDirection == -1 && pitchDirection == 1)|| (tempDirection == 1 && pitchDirection == -1))//向きが代わった時
-      {
-        pitchDirection == tempDirection;//向きを新しくする
-        if (checkOK(lastPitch, pitchA[Count-3], pitchLimit, Count-3 - lastPitchCount) == 5)
+        var tempDirection:Int=0
+        let cnt=pitchA.count-1
+        if(cnt<5){return}
+        // pitch
+        tempDirection = getDirection(a:pitchA[cnt-3],b:pitchA[cnt-2],c:pitchA[cnt-1],d:pitchA[cnt])
+        if((tempDirection == -1 && pitchDirection == 1)||(tempDirection == 1 && pitchDirection == -1))//向きが代わった時
         {
-            pitchAOK[okPitchnum]=Count - 3;
-          okPitchnum++;
-          //soundFlag = true;
-          Beep(3000, 50);
+            pitchDirection = tempDirection  //向きを新しくする
+            if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value), count: cnt-3 - lastPitchCount) == 5)
+            {
+                incPitchOK()
+  //              print("o:",lastPitch-pitchA[cnt-3],cnt-3-lastPitchCount)
+            }
+            lastPitch = pitchA[cnt-3]
+            lastPitchCount = cnt-3
         }
-        lastPitch = pitchA[Count-3];
-        lastPitchCount = Count-3;
-      }
-      if (tempdirection != 0)pitchDirection = tempdirection;
+        if (tempDirection != 0){pitchDirection = tempDirection}
 
       // roll
-      tempdirection = getDirection(rollA[Count - 3], rollA[Count - 2], rollA[Count - 1], rollA[Count]);
-      if ((tempdirection == -1 && rollDirection == 1)||(tempdirection == 1 && rollDirection == -1))
-      {
-          if (rollDirection == 1)rollDirection = -1;
-          else rollDirection = 1;
-        if (checkOK(lastRoll, rollA[Count - 3], rollLimit, Count - 3 - lastRollCount) == 5)
+        tempDirection = getDirection(a:rollA[cnt - 3],b:rollA[cnt - 2],c:rollA[cnt - 1],d:rollA[cnt])
+        if ((tempDirection == -1 && rollDirection == 1)||(tempDirection == 1 && rollDirection == -1))
         {
-            rollAOK[okRollnum] = Count - 3;
-          okRollnum++;
-         // soundFlag = true;
-          Beep(2000, 50);
+            rollDirection = tempDirection
+            if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),count: cnt - 3 - lastRollCount) == 5)
+            {
+                incRollOK()
+            }
+            lastRoll = rollA[cnt-3]
+            lastRollCount = cnt-3
         }
-        lastRoll = rollA[Count-3];
-        lastRollCount = Count-3;
-      }
-      if (tempdirection != 0)rollDirection = tempdirection;
+        if (tempDirection != 0){rollDirection = tempDirection}
 
       // yaw
-      tempdirection = getDirection(yawA[Count-3], yawA[Count - 2], yawA[Count - 1], yawA[Count]);
-      if ((tempdirection == -1 && yawDirection == 1)||(tempdirection == 1 && yawDirection == -1))
-      {
-          if (yawDirection == 1)yawDirection = -1;
-          else yawDirection = 1;
-        if (checkOK(lastYaw, yawA[Count-3], yawLimit, Count-3 - lastYawCount) == 5)
+        tempDirection = getDirection(a:yawA[cnt-3], b:yawA[cnt - 2], c:yawA[cnt - 1], d:yawA[cnt]);
+        if ((tempDirection == -1 && yawDirection == 1)||(tempDirection == 1 && yawDirection == -1))
         {
-            yawAOK[okYawnum] = Count - 3;
-          okYawnum++;
-         // soundFlag = true;
-          Beep(1000, 50);
+            yawDirection = tempDirection
+            if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),count: cnt-3 - lastYawCount) == 5)
+            {
+                incYawOK()
+            }
+            lastYaw = yawA[cnt-3]
+            lastYawCount = cnt-3
         }
-        lastYaw = yawA[Count-3];
-        lastYawCount = Count-3;
-      }
-       if (tempdirection != 0)yawDirection = tempdirection;
-
-      char buf[200];
-      CFont m_font;
-      m_font.CreatePointFont(200, _T("ＭＳ ゴシック"));
-      SelectObject(*pDC, m_font);
-    if(pitchA[Count]<180&&pitchA[Count]>-180)sprintf_s(buf,"pitch:%03d:<%03d>:%04d ", okPitchnum, pitchLimit, pitchA[Count]);//pitchが時々１０桁程度になってしまうのはなぜ
-        pDC->TextOutA(280, 6, buf);
-     if(rollA[Count]<180&&rollA[Count]>-180)sprintf_s(buf,"roll :%03d:<%03d>:%04d ", okRollnum, rollLimit, rollA[Count]);
-        pDC->TextOutA(280, 6+28, buf);
-        sprintf_s(buf,"yaw  :%03d:<%03d>:%04d ", okYawnum, yawLimit, yawA[Count]);
-        pDC->TextOutA(280, 6+28*2, buf);
-        sprintf_s(buf, "count:%05d ", Count);
-        pDC->TextOutA(555+26, 6 + 28 * 2, buf);
+        if (tempDirection != 0){yawDirection = tempDirection}
+   
     }
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
@@ -437,6 +442,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
             let dataUTF8=dataStr.data(using: .utf8)
             QuaternionToEuler(q0: Float(quat.z), q1: Float(quat.y), q2: Float(quat.x), q3: Float(quat.w))
+            checkRotation()
             if UDPf==true{
                 send(dataUTF8!)
             }

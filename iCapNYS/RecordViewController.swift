@@ -828,7 +828,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             enterButton.isHidden=false
             urlLabel.isHidden=false
             urlInputField.isHidden=false
-            bleButton.isHidden=false
+            bleButton.isHidden=true//使わない
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
@@ -1061,9 +1061,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         urlInputField.layer.masksToBounds = true
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
-        camera.setButtonProperty(bleButton, x: x0, y: by1, w: bw*2, h: bh, UIColor.darkGray,0)
+ //       camera.setButtonProperty(bleButton, x: x0, y: by1, w: bw*2, h: bh, UIColor.darkGray,0)
 //        bleButton.alpha=0.02
-        bleButton.setTitle("Send Motion Data", for: .normal)
+//        bleButton.setTitle("Send Motion Data", for: .normal)
 //        bleButton.isHidden=true
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
