@@ -10,7 +10,7 @@ import UIKit
 import CoreMotion
 import Network
 //import NetworkExtension
-
+import AudioToolbox
 class BLEViewController: UIViewController, UITextFieldDelegate {
     var pitchA = Array<Float>()
     var rollA = Array<Float>()
@@ -47,6 +47,18 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
+  //  let soundIdRing: SystemSoundID = 1000 //鐘
+    let snd0:SystemSoundID=1000
+    let snd1:SystemSoundID=1001
+    let snd2:SystemSoundID=1002
+    let snd3:SystemSoundID=1003
+    let snd4:SystemSoundID=1004
+    let snd5:SystemSoundID=1005
+    let snd6:SystemSoundID=1006
+    let snd7:SystemSoundID=1007
+    let snd8:SystemSoundID=1008
+    let snd9:SystemSoundID=1009
+
  //   var pLimit:Float=0
  //   var rLimit:Float=0
  //   var yLimit:Float=0
@@ -219,7 +231,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
- //       setMotion()
+        setMotion()
     }
     var host: NWEndpoint.Host = "192.168.0.209"
     var port1108: NWEndpoint.Port = 1108
@@ -393,6 +405,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value), count: cnt-3 - lastPitchCount) == 5)
             {
                 incPitchOK()
+                AudioServicesPlaySystemSound(snd0)
   //              print("o:",lastPitch-pitchA[cnt-3],cnt-3-lastPitchCount)
             }
             lastPitch = pitchA[cnt-3]
@@ -408,6 +421,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),count: cnt - 3 - lastRollCount) == 5)
             {
                 incRollOK()
+                AudioServicesPlaySystemSound(snd0)
             }
             lastRoll = rollA[cnt-3]
             lastRollCount = cnt-3
@@ -422,6 +436,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),count: cnt-3 - lastYawCount) == 5)
             {
                 incYawOK()
+                AudioServicesPlaySystemSound(snd0)
             }
             lastYaw = yawA[cnt-3]
             lastYawCount = cnt-3
