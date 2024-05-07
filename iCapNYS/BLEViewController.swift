@@ -125,7 +125,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if UDPf {
             disconnect(connection: connection!)
         }
+        UDPf=false
+        motionManager.stopDeviceMotionUpdates()
         self.dismiss(animated: true, completion: nil)
+        print("exit")
     }
     @IBAction func onClickSetButton(_ sender: Any) {
         ip1.resignFirstResponder()
@@ -364,7 +367,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     }
     func checkOK( d0:Float,d1:Float,limit:Float,count:Int)->Int
     {
-        var d = d0 - d1
+        let d = d0 - d1
         if (count < 5){return 0}//5*40ms
         if (d > limit || d < -limit)
         {
