@@ -355,7 +355,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }else if let vc = segue.source as? AutoRecordViewController{
         }else if let vc = segue.source as? BLEViewController{
             let Controller:BLEViewController = vc
-            Controller.motionManager.stopGyroUpdates()
+            Controller.motionManager.stopDeviceMotionUpdates()
         }
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
