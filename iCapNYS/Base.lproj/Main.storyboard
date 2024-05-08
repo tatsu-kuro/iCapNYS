@@ -195,7 +195,7 @@
                                     <action selector="onExitButton:" destination="s8e-qW-Tx0" eventType="touchUpInside" id="9Wk-UL-STd"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Head Rehabilitation" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgU-9n-hCW">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Head Rotations Vestibular Rehabilitation" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgU-9n-hCW">
                                 <rect key="frame" x="20" y="89" width="528" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

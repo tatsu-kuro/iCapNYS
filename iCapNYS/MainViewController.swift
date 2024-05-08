@@ -480,7 +480,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
-        someFunctions.setButtonProperty(how2Button, x:x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
+
+        let cx=leftPadding+ww-wh*3/4+wh*5/13//-(x1but+sp/2-bw-sp))-cr
+        let a=2*cx-x1but-bw
+ //             sendButton.frame=CGRect(x:a/*x1but+sp/2-bw-sp*/, y:topPadding+sp, width: cr, height:cr )
+        someFunctions.setButtonProperty(how2Button, x:/*a*/x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
         someFunctions.setButtonProperty(sendButton, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
 //        sendButton.isHidden=true
 //        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
@@ -495,7 +499,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: view.bounds.width-rightPadding-leftPadding-wh*3/4,height: wh-sp*2)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: ww-wh*3/4,height: wh-sp*2)
    
         cameraButton.frame=CGRect( x: tableView.frame.maxX, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
 //        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
