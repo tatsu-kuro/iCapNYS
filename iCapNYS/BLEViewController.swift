@@ -371,7 +371,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if (count < 5){return 0}//5*40ms
         if (d > limit || d < -limit)
         {
-            if (count < 25){return 5} // 30度以上１秒以内 25*40ms
+            if (count < 50){return 5} // 30度以上１秒以内 25*40ms
             else {
                 return 0
             }
