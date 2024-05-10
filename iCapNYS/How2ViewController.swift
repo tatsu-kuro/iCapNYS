@@ -123,7 +123,7 @@ class How2ViewController: UIViewController {
     }
     func addTextJa(){
         textViewOnScrollView.text="1: 眼振を撮影するためのiPhoneを眼前に固定する装具が必要です。\n"
-        textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。両面粘着ゲルテープでiPhoneをケースに固定しています。フロントカメラの場合は、慣れれば手で固定することも可能ですが、右上写真のような簡単な固定具を自作するとブレの少ない眼振が撮れます。\n\n")
+        textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。両面粘着ゲルテープでiPhoneをケースに固定しています。フロントカメラの場合は、慣れれば手で固定することも可能ですが、右上写真のような固定具を厚紙で自作するとブレの少ない眼振が撮れます。\n\n")
         textViewOnScrollView.text.append("2: 録画設定\n")
         textViewOnScrollView.text.append("録画設定画面の右下の緑色ボタンで使用するカメラを選択し、ズーム、露出などを設定します。\nフロントカメラを選択した場合は、さらに手動、自動20秒、自動90秒のいずれかを選択します。自動では撮影方法の説明映像が流れ、それを見ながら録画できます。\n録画設定のデフォルトではフロントカメラ、手動、プレビュー：OFFが選択されています。\nUnimec社のWiFiカメラも選択できます。その場合は、iPhoneのWiFiをUnimec社のSSIDに設定する必要があります。\n\n")
         textViewOnScrollView.text.append("3: 眼振録画\n")
