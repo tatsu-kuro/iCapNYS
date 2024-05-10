@@ -193,10 +193,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         let ww=view.bounds.width-(left+right)
         let wh=view.bounds.height-(top+bottom)
         let sp=ww/120//間隙
-        var bw=(ww-sp*10)/7//ボタン幅
+        var bw=(ww-sp*9)/8//ボタン幅
         let bh=bw*170/440
         let by=wh-bh-sp
-        bw=(ww-sp*11)/8
+        bw=(ww-sp*9)/8
         myFunctions().setButtonProperty(exitButton,x:left+bw*7+sp*8,y:by,w:bw,h:bh,UIColor.darkGray)
         logTextView.frame=CGRect(x:left+sp,y:top+bh*2+4*sp,width: ww-2*sp,height:bh);// by-3*sp-top-2*bh)
         topLabel.frame=CGRect(x:left+sp,y:top+sp,width:ww,height:bh)
@@ -211,7 +211,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         port.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
         myFunctions().setButtonProperty(setButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
         top=top+bh*2+3*sp
-        bw=ww/5
+        bw=(ww-6*sp)/5
+        pitchStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
+        let psw=pitchStepper.frame.width//pitchstepper width は固定
+        bw=(ww-6*sp-psw)/4
         //bh=(by-top-bh-2*20-3*sp)/3
         pitchLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         pitchText1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
