@@ -90,13 +90,13 @@ class How2ViewController: UIViewController {
         let image = img.resize(size: CGSize(width:ww, height:imageHeight))
         imageViewOnScrollView.frame=CGRect(x:0,y:sp,width:ww,height: imageHeight)
         imageViewOnScrollView.image=image
-        var textHeight=wh*2.9
+        var textHeight=wh*4
         if someFunctions.firstLang().contains("ja"){
             addTextJa()
   //          textHeight=wh*2.6
         }else{
             addTextEn()
-            textHeight=wh*3.3
+            textHeight=wh*5
          }
         textViewOnScrollView.frame=CGRect(x:0,y:imageHeight+2*sp,width: ww,height:textHeight)
         scrollView.contentSize = CGSize(width: ww, height: imageHeight+textHeight+2*sp)
@@ -131,6 +131,6 @@ class How2ViewController: UIViewController {
         textViewOnScrollView.text.append("4: 撮影動画再生\n")
         textViewOnScrollView.text.append("録画終了するとトップ画面に戻り、録画された動画はリストの1番上に表示されます。動画は撮影日時（長さ）で一覧表示されます。項目をタップすると再生出来ます。項目を左にスワイプスすると削除できます。iPhoneの写真アプリからも見れますので、写真アプリでも再生、削除、送信などの管理ができます。眼振動画はiCapNYSアルバムの中に入っています。\n\n")
         textViewOnScrollView.text.append("5: Gyroボタン\n")
-        textViewOnScrollView.text.append("Gyroボタンをタップすると、iPhoneのpitch, roll, yawの動きをチェックしてアラームを鳴らし、回数を表示します。前庭リハビリのための機能です。\nまた、WindowsアプリCapNYS(kuroda33.com.jibikaに載せています)が指定するIP-Address、Portを設定すると、iPhoneのGyroDataをWiFiでこのCapNYSに送信できます。\n")
+        textViewOnScrollView.text.append("Gyroボタンをタップすると、iPhoneのpitch, roll, yawの動きをチェックしてアラームを鳴らし、回数を表示します。前庭リハビリのための機能です。\nまた、WindowsアプリCapNYSが指定するIP-Address、Portを設定すると、GyroDataをWiFiでそのCapNYSに送信できます。Windows用CapNYSはkuroda33.com/jibikaからダウンロードできます。\n")
     }
 }

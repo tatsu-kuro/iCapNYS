@@ -21,21 +21,41 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     var pitchLimit:Int?
     var rollLimit:Int?
     var yawLimit:Int?
+    var rehaF:Bool=true
+    var vibeF:Bool=true
+    @IBAction func onVibeSwitch(_ sender: UISwitch) {
+        if(sender.isOn){
+            vibeF=true
+        }else{
+            vibeF=false
+        }
+    }
+    
+    @IBOutlet weak var vibeSwitch: UISwitch!
+    @IBOutlet weak var vibeLabel: UILabel!
     @IBOutlet weak var pitchLabel: UILabel!
     @IBOutlet weak var pitchText1: UITextField!
     @IBOutlet weak var pitchText2: UITextField!
     @IBOutlet weak var pitchText3: UITextField!
     @IBOutlet weak var pitchStepper: UIStepper!
+    @IBOutlet weak var pitchText4: UITextField!
+    @IBOutlet weak var pitchStepper2: UIStepper!
     @IBOutlet weak var rollLabel: UILabel!
     @IBOutlet weak var rollText1: UITextField!
     @IBOutlet weak var rollText2: UITextField!
     @IBOutlet weak var rollText3: UITextField!
     @IBOutlet weak var rollStepper: UIStepper!
+    @IBOutlet weak var rollText4: UITextField!
+    @IBOutlet weak var rollStepper2: UIStepper!
+    
     @IBOutlet weak var yawLabel: UILabel!
     @IBOutlet weak var yawText1: UITextField!
     @IBOutlet weak var yawText2: UITextField!
     @IBOutlet weak var yawText3: UITextField!
     @IBOutlet weak var yawStepper: UIStepper!
+    @IBOutlet weak var yawText4: UITextField!
+    
+    @IBOutlet weak var yawStepper2: UIStepper!
     @IBOutlet weak var setButton: UIButton!
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var ipLabel: UILabel!
@@ -47,7 +67,11 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var logTextView: UITextView!
     @IBOutlet weak var exitButton: UIButton!
-  //  let soundIdRing: SystemSoundID = 1000 //鐘
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var headStopButton: UIButton!
+    
+    @IBOutlet weak var headStartButton: UIButton!
+    //  let soundIdRing: SystemSoundID = 1000 //鐘
     let snd0:SystemSoundID=1000
     let snd1:SystemSoundID=1001
     let snd2:SystemSoundID=1002
@@ -77,14 +101,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         t! += 1
         yawText2.text=t?.description
     }
-    func changeLimits(){
-        pitchText3.text=Int(pitchStepper.value).description
-        rollText3.text=Int(rollStepper.value).description
-        yawText3.text=Int(yawStepper.value).description
-        UserDefaults.standard.set(pitchStepper.value, forKey: "pitchLimit")
-        UserDefaults.standard.set(rollStepper.value, forKey: "rollLimit")
-        UserDefaults.standard.set(yawStepper.value, forKey: "yawLimit")
-    }
+
     var kalVs:[[Float]]=[[0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
                                [0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
                                [0.0001 ,0.001 ,0,0,0],[0.0001 ,0.001 ,0,0,0],
@@ -111,15 +128,31 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         kalVs[num][3]=0
         kalVs[num][4]=0
     }
+    
+    @IBAction func onHeadRehaStop(_ sender: Any) {
+        rehaF=false
+    }
+    @IBAction func onHeadRehaStart(_ sender: Any) {
+        rehaF=true
+    }
     @IBAction func onPitchStepper(_ sender: UIStepper) {
-        changeLimits()
+        showSteppers()
+    }
+    @IBAction func onPitchStepper2(_ sender: UIStepper) {
+        showSteppers()
+    }
+    @IBAction func onRollStepper2(_ sender: UIStepper) {
+        showSteppers()
+    }
+    @IBAction func onYawStepper2(_ sender: UIStepper) {
+        showSteppers()
     }
     
     @IBAction func onRollStepper(_ sender: UIStepper) {
-        changeLimits()
+        showSteppers()
     }
     @IBAction func onYawStepper(_ sender: UIStepper) {
-        changeLimits()
+        showSteppers()
     }
     @IBAction func onExitButton(_ sender: Any) {
         if UDPf {
@@ -160,26 +193,60 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(IPAddress, forKey: "IPAddress")
         connect(hostname: IPAddress!)
     }
- 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        KalmanInit()
-        IPAddress=myFunctions().getUserDefaultString(str: "IPAddress", ret: "192.168.1.1")
+    func changeSteppersSize(bw:CGFloat,bh:CGFloat,psw:CGFloat,psh:CGFloat){
+        pitchStepper.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+        pitchStepper2.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+        rollStepper.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+        rollStepper2.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+        yawStepper.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+        yawStepper2.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
+     }
+    func initSteppers(){
         pitchStepper.value=myFunctions().getUserDefaultDouble(str: "pitchLimit", ret:30)
         rollStepper.value=myFunctions().getUserDefaultDouble(str: "rollLimit", ret:30)
         yawStepper.value=myFunctions().getUserDefaultDouble(str: "yawLimit", ret:30)
-        pitchText3.text=Int(pitchStepper.value).description
-        rollText3.text=Int(rollStepper.value).description
-        yawText3.text=Int(yawStepper.value).description
-        pitchText2.text="0"
-        rollText2.text="0"
-        yawText2.text="0"
+        pitchStepper2.value=myFunctions().getUserDefaultDouble(str: "pitchLimit2", ret:2.0)
+        rollStepper2.value=myFunctions().getUserDefaultDouble(str: "rollLimit2", ret:2.0)
+        yawStepper2.value=myFunctions().getUserDefaultDouble(str: "yawLimit2", ret:2.0)
         pitchStepper.maximumValue=120
         pitchStepper.minimumValue=20
         rollStepper.maximumValue=120
         rollStepper.minimumValue=20
         yawStepper.maximumValue=120
         yawStepper.minimumValue=20
+        pitchStepper2.maximumValue=4.0
+        pitchStepper2.minimumValue=0.3
+        rollStepper2.maximumValue=4.0
+        rollStepper2.minimumValue=0.3
+        yawStepper2.maximumValue=4.0
+        yawStepper2.minimumValue=0.3
+        pitchStepper2.stepValue=0.1
+        rollStepper2.stepValue=0.1
+        yawStepper2.stepValue=0.1
+    }
+    func showSteppers(){
+        pitchText3.text=Int(pitchStepper.value).description + "d"
+        rollText3.text=Int(rollStepper.value).description + "d"
+        yawText3.text=Int(yawStepper.value).description + "d"
+        pitchText4.text=(round(pitchStepper2.value*10)/10).description + "s"
+        rollText4.text=(round(rollStepper2.value*10)/10).description + "s"
+        yawText4.text=(round(yawStepper2.value*10)/10).description + "s"
+        UserDefaults.standard.set(pitchStepper.value, forKey: "pitchLimit")
+        UserDefaults.standard.set(rollStepper.value, forKey: "rollLimit")
+        UserDefaults.standard.set(yawStepper.value, forKey: "yawLimit")
+        UserDefaults.standard.set(pitchStepper2.value, forKey: "pitchLimit2")
+        UserDefaults.standard.set(rollStepper2.value, forKey: "rollLimit2")
+        UserDefaults.standard.set(yawStepper2.value, forKey: "yawLimit2")
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        KalmanInit()
+        IPAddress=myFunctions().getUserDefaultString(str: "IPAddress", ret: "192.168.1.1")
+        initSteppers()
+        showSteppers()
+        pitchText2.text="0"
+        rollText2.text="0"
+        yawText2.text="0"
         let arr = IPAddress?.components(separatedBy: ".")
         ip1.text=arr?[0]
         ip2.text=arr?[1]
@@ -211,30 +278,43 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         port.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
         myFunctions().setButtonProperty(setButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
         top=top+bh*2+3*sp
-        bw=(ww-6*sp)/5
-        pitchStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
-        let psw=pitchStepper.frame.width//pitchstepper width は固定
-        bw=(ww-6*sp-psw)/4
+     //   bw=(ww-6*sp)/5
+     //   pitchStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
+        changeSteppersSize(bw:bw,bh:bh,psw:pitchStepper.frame.width,psh:pitchStepper.frame.height)
+  //      let psw=pitchStepper.frame.width//pitchstepper width は固定
+  //      let delt=(psw-bw)/4
         //bh=(by-top-bh-2*20-3*sp)/3
         pitchLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         pitchText1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
         pitchText2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
         pitchText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
         pitchStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
+        pitchText4.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
+        pitchStepper2.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
+        myFunctions().setButtonProperty(headStopButton, x:left+bw*7+sp*8,y:top+bh+2*sp,w: bw,h: bh,UIColor.darkGray)
         top=top+bh+sp
         rollLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         rollText1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
         rollText2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
         rollText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
         rollStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
-        top=top+bh+sp
+        rollText4.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
+        rollStepper2.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
+//        headStartButton.frame=CGRect(x:left+bw*7+sp*8,y:top+bh+2*sp,width: bw,height: bh)
+        myFunctions().setButtonProperty(headStartButton, x:left+bw*7+sp*8,y:top+bh+2*sp,w: bw,h: bh,UIColor.darkGray)
+         top=top+bh+sp
         yawLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         yawText1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
         yawText2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
         yawText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
         yawStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
-        myFunctions().setButtonProperty(resetButton,x:left+bw*2+sp*3,y:top+bh*2+3*sp,w:bw,h:bh,UIColor.systemGray6)
-
+        yawText4.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
+        yawStepper2.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
+        //yawText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
+        myFunctions().setButtonProperty(resetButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
+     //   vibeSwitch.transform = CGAffineTransformMakeScale(1,bh/vibeSwitch.frame.height)
+        vibeSwitch.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width:bw,height:bh)
+        vibeLabel.frame=CGRect(x:vibeSwitch.frame.maxX+sp,y:top+bh*2+3*sp,width:bw*2,height:vibeSwitch.frame.height)
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
         setMotion()
@@ -368,16 +448,19 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 //        roll = int(rollf);
 //        yaw = int(yawf);
     }
-    func checkOK( d0:Float,d1:Float,limit:Float,count:Int)->Int
+    func checkOK( d0:Float,d1:Float,limit:Float,count:Int,ms:Double)->Int
     {
         let d = d0 - d1
         if (count < 5){return 0}//5*40ms
         if (d > limit || d < -limit)
         {
-            if (count < 50){return 5} // 30度以上１秒以内 25*40ms
-            else {
-                return 0
-            }
+            print("pitch:",count*40,Int(ms*1000))
+            if (count*40 < Int(ms*1000)){return 5}
+            else{return 0}
+            //if (count < 50){return 5} // 30度以上１秒以内 25*40ms
+            //else {
+            //    return 0
+            //}
         }
         return 0
     }
@@ -397,8 +480,13 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         rollText2.text="0"
         yawText2.text="0"
     }
-    @IBOutlet weak var resetButton: UIButton!
-    func checkRotation()
+    func soundANDvibe(){
+        if(vibeF==true){
+            AudioServicesPlaySystemSound(1519)
+        }
+        AudioServicesPlaySystemSound(1103)
+    }
+     func checkRotation()
     {
         var tempDirection:Int=0
         let cnt=pitchA.count-1
@@ -408,10 +496,11 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if((tempDirection == -1 && pitchDirection == 1)||(tempDirection == 1 && pitchDirection == -1))//向きが代わった時
         {
             pitchDirection = tempDirection  //向きを新しくする
-            if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value), count: cnt-3 - lastPitchCount) == 5)
+            if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value), count: cnt-3 - lastPitchCount,ms:pitchStepper2.value) == 5)
             {
                 incPitchOK()
-                AudioServicesPlaySystemSound(snd0)
+                soundANDvibe()
+//                AudioServicesPlaySystemSound(1519)
   //              print("o:",lastPitch-pitchA[cnt-3],cnt-3-lastPitchCount)
             }
             lastPitch = pitchA[cnt-3]
@@ -424,10 +513,11 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if ((tempDirection == -1 && rollDirection == 1)||(tempDirection == 1 && rollDirection == -1))
         {
             rollDirection = tempDirection
-            if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),count: cnt - 3 - lastRollCount) == 5)
+            if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),count: cnt - 3 - lastRollCount,ms:rollStepper2.value) == 5)
             {
                 incRollOK()
-                AudioServicesPlaySystemSound(snd0)
+                soundANDvibe()
+//                AudioServicesPlaySystemSound(1103)//1519)
             }
             lastRoll = rollA[cnt-3]
             lastRollCount = cnt-3
@@ -439,10 +529,11 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if ((tempDirection == -1 && yawDirection == 1)||(tempDirection == 1 && yawDirection == -1))
         {
             yawDirection = tempDirection
-            if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),count: cnt-3 - lastYawCount) == 5)
+            if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),count: cnt-3 - lastYawCount,ms:yawStepper2.value) == 5)
             {
                 incYawOK()
-                AudioServicesPlaySystemSound(snd0)
+                soundANDvibe()
+//                AudioServicesPlaySystemSound(1519)
             }
             lastYaw = yawA[cnt-3]
             lastYawCount = cnt-3
@@ -462,8 +553,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
             let b3 = UInt8((quat.w+1.0)*128)
             let dataStr=String(format: "Q:%03d%03d%03d%03d\n",b0,b1,b2,b3)
             let dataUTF8=dataStr.data(using: .utf8)
-            QuaternionToEuler(q0: Float(quat.z), q1: Float(quat.y), q2: Float(quat.x), q3: Float(quat.w))
-            checkRotation()
+            if rehaF==true{
+                QuaternionToEuler(q0: Float(quat.z), q1: Float(quat.y), q2: Float(quat.x), q3: Float(quat.w))
+                checkRotation()
+            }
             if UDPf==true{
                 send(dataUTF8!)
             }
