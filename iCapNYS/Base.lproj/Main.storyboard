@@ -453,13 +453,48 @@
                                     <action selector="onVibeSwitch:" destination="s8e-qW-Tx0" eventType="valueChanged" id="Uiw-oZ-k1K"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vibration" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0E2-82-Hsq">
-                                <rect key="frame" x="117" y="247" width="73" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Vibration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0E2-82-Hsq">
+                                <rect key="frame" x="96" y="247" width="69" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="tPX-m3-eBd">
+                                <rect key="frame" x="315" y="236" width="199" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="OFF"/>
+                                    <segment title="1"/>
+                                    <segment title="2"/>
+                                    <segment title="3"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onSoundSegmentCtl:" destination="s8e-qW-Tx0" eventType="valueChanged" id="wBu-yg-SEv"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sound" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FW1-s1-HNP">
+                                <rect key="frame" x="179" y="242" width="78" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lX9-nZ-L6o">
+                                <rect key="frame" x="262" y="269" width="182" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="OFF"/>
+                                    <segment title="1"/>
+                                    <segment title="2"/>
+                                    <segment title="3"/>
+                                </segments>
+                                <connections>
+                                    <action selector="onVibeSegmentCtl:" destination="s8e-qW-Tx0" eventType="valueChanged" id="5he-4V-lt0"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cCb-3A-fks"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -497,8 +532,11 @@
                         <outlet property="rollText3" destination="u3R-we-LCJ" id="akh-ys-GeD"/>
                         <outlet property="rollText4" destination="8Q2-w4-RMg" id="iYe-8Q-Rqi"/>
                         <outlet property="setButton" destination="vM5-ge-bRe" id="pVH-C6-8Op"/>
+                        <outlet property="soundLabel" destination="FW1-s1-HNP" id="Ebp-JF-qY9"/>
+                        <outlet property="soundSegmentCtl" destination="tPX-m3-eBd" id="Hmi-02-xGv"/>
                         <outlet property="topLabel" destination="EYa-j7-WmX" id="0p2-Xs-sCj"/>
                         <outlet property="vibeLabel" destination="0E2-82-Hsq" id="3GU-jf-w17"/>
+                        <outlet property="vibeSegmentCtl" destination="lX9-nZ-L6o" id="tHx-SW-qCN"/>
                         <outlet property="vibeSwitch" destination="IhL-Os-Ehe" id="Acn-qE-wMI"/>
                         <outlet property="yawLabel" destination="GKN-Hx-7D9" id="9mA-gA-RPm"/>
                         <outlet property="yawStepper" destination="Rs6-nW-bhZ" id="ImZ-Lf-j3c"/>

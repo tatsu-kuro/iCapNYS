@@ -33,6 +33,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var vibeSwitch: UISwitch!
     @IBOutlet weak var vibeLabel: UILabel!
+    @IBOutlet weak var vibeSegmentCtl: UISegmentedControl!
+    @IBOutlet weak var soundLabel: UILabel!
+    @IBOutlet weak var soundSegmentCtl: UISegmentedControl!
     @IBOutlet weak var pitchLabel: UILabel!
     @IBOutlet weak var pitchText1: UITextField!
     @IBOutlet weak var pitchText2: UITextField!
@@ -72,17 +75,24 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var headStartButton: UIButton!
     //  let soundIdRing: SystemSoundID = 1000 //鐘
-    let snd0:SystemSoundID=1000
-    let snd1:SystemSoundID=1001
-    let snd2:SystemSoundID=1002
-    let snd3:SystemSoundID=1003
-    let snd4:SystemSoundID=1004
-    let snd5:SystemSoundID=1005
-    let snd6:SystemSoundID=1006
-    let snd7:SystemSoundID=1007
-    let snd8:SystemSoundID=1008
-    let snd9:SystemSoundID=1009
-
+//    let snd0:SystemSoundID=1000
+//    let snd1:SystemSoundID=1001
+//    let snd2:SystemSoundID=1002
+//    let snd3:SystemSoundID=1003
+//    let snd4:SystemSoundID=1004
+//    let snd5:SystemSoundID=1005
+//    let snd6:SystemSoundID=1006
+//    let snd7:SystemSoundID=1007
+//    let snd8:SystemSoundID=1008
+//    let snd9:SystemSoundID=1009
+    
+    @IBAction func onVibeSegmentCtl(_ sender: UISegmentedControl) {
+        UserDefaults.standard.set(sender.selectedSegmentIndex,forKey:"vibrationType")
+     }
+    @IBAction func onSoundSegmentCtl(_ sender: UISegmentedControl) {
+        UserDefaults.standard.set(sender.selectedSegmentIndex,forKey:"soundType")
+    }
+   
  //   var pLimit:Float=0
  //   var rLimit:Float=0
  //   var yLimit:Float=0
@@ -202,6 +212,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         yawStepper2.transform = CGAffineTransformMakeScale(bw/psw, bh/psh);
      }
     func initSteppers(){
+        vibeSegmentCtl.selectedSegmentIndex=myFunctions().getUserDefaultInt(str:"vibrationType",ret:1)
+        soundSegmentCtl.selectedSegmentIndex=myFunctions().getUserDefaultInt(str:"soundType",ret:1)
         pitchStepper.value=myFunctions().getUserDefaultDouble(str: "pitchLimit", ret:30)
         rollStepper.value=myFunctions().getUserDefaultDouble(str: "rollLimit", ret:30)
         yawStepper.value=myFunctions().getUserDefaultDouble(str: "yawLimit", ret:30)
@@ -237,6 +249,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set(pitchStepper2.value, forKey: "pitchLimit2")
         UserDefaults.standard.set(rollStepper2.value, forKey: "rollLimit2")
         UserDefaults.standard.set(yawStepper2.value, forKey: "yawLimit2")
+//        UserDefaults.standard.set(vibeSegmentCtl.selectedSegmentIndex,forKey:"vibrationType")
+//        UserDefaults.standard.set(soundSegmentCtl.selectedSegmentIndex,forKey:"soundType")
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -278,12 +292,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         port.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
         myFunctions().setButtonProperty(setButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
         top=top+bh*2+3*sp
-     //   bw=(ww-6*sp)/5
-     //   pitchStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
         changeSteppersSize(bw:bw,bh:bh,psw:pitchStepper.frame.width,psh:pitchStepper.frame.height)
-  //      let psw=pitchStepper.frame.width//pitchstepper width は固定
-  //      let delt=(psw-bw)/4
-        //bh=(by-top-bh-2*20-3*sp)/3
+        
         pitchLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
         pitchText1.frame=CGRect(x:left+bw*1+sp*2,y:top+bh+2*sp,width: bw,height: bh)
         pitchText2.frame=CGRect(x:left+bw*2+sp*3,y:top+bh+2*sp,width: bw,height: bh)
@@ -300,7 +310,6 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         rollStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
         rollText4.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
         rollStepper2.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
-//        headStartButton.frame=CGRect(x:left+bw*7+sp*8,y:top+bh+2*sp,width: bw,height: bh)
         myFunctions().setButtonProperty(headStartButton, x:left+bw*7+sp*8,y:top+bh+2*sp,w: bw,h: bh,UIColor.darkGray)
          top=top+bh+sp
         yawLabel.frame=CGRect(x:left+sp,y:top+bh+2*sp,width: bw,height: bh)
@@ -310,14 +319,18 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         yawStepper.frame=CGRect(x:left+bw*4+sp*5,y:top+bh+2*sp,width: bw,height: bh)
         yawText4.frame=CGRect(x:left+bw*5+sp*6,y:top+bh+2*sp,width: bw,height: bh)
         yawStepper2.frame=CGRect(x:left+bw*6+sp*7,y:top+bh+2*sp,width: bw,height: bh)
-        //yawText3.frame=CGRect(x:left+bw*3+sp*4,y:top+bh+2*sp,width: bw,height: bh)
         myFunctions().setButtonProperty(resetButton,x:left+bw*7+sp*8,y:top+bh+2*sp,w:bw,h:bh,UIColor.darkGray)
-     //   vibeSwitch.transform = CGAffineTransformMakeScale(1,bh/vibeSwitch.frame.height)
-        vibeSwitch.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width:bw,height:bh)
-        vibeLabel.frame=CGRect(x:vibeSwitch.frame.maxX+sp,y:top+bh*2+3*sp,width:bw*2,height:vibeSwitch.frame.height)
+        
+        vibeSegmentCtl.transform = CGAffineTransformMakeScale((bw*2+sp)/vibeSegmentCtl.frame.width, bh/vibeSegmentCtl.frame.height)
+        soundSegmentCtl.transform = CGAffineTransformMakeScale((bw*2+sp)/vibeSegmentCtl.frame.width, bh/vibeSegmentCtl.frame.height)
+        vibeLabel.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width:bw,height:bh)
+        vibeSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*2+3*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
+        soundLabel.frame=CGRect(x:left+sp,y:top+bh*3+4*sp,width:bw,height:bh)
+        soundSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*3+4*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
         setMotion()
+        vibeSwitch.isHidden=true
     }
     var host: NWEndpoint.Host = "192.168.0.209"
     var port1108: NWEndpoint.Port = 1108
@@ -481,11 +494,37 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         yawText2.text="0"
     }
     func soundANDvibe(){
-        if(vibeF==true){
-            AudioServicesPlaySystemSound(1519)
+        
+        var soundIdRing:SystemSoundID = 0
+        if(soundSegmentCtl.selectedSegmentIndex==1){
+            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep1", ofType:"wav")!) as CFURL, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
+        }else if(soundSegmentCtl.selectedSegmentIndex==2){
+            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep2", ofType:"wav")!) as CFURL, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
+        }else if(soundSegmentCtl.selectedSegmentIndex==3){
+            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep3", ofType:"wav")!) as CFURL, &soundIdRing)
+            AudioServicesPlaySystemSound(soundIdRing)
         }
-        AudioServicesPlaySystemSound(1103)
+        if(vibeSegmentCtl.selectedSegmentIndex==1){
+//            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            AudioServicesPlaySystemSound(1011)//1519)
+        }else if(vibeSegmentCtl.selectedSegmentIndex==2){
+   
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+               // 0.1秒後にシステムサウンドをストップさせる
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+//            }
+//            dispatch_after(dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                   AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
+//               });
+//            
+        }else if(vibeSegmentCtl.selectedSegmentIndex==3){
+            AudioServicesPlaySystemSound(1520)
+        }
     }
+    
      func checkRotation()
     {
         var tempDirection:Int=0
