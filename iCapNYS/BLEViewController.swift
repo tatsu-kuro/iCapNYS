@@ -323,10 +323,10 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         
         vibeSegmentCtl.transform = CGAffineTransformMakeScale((bw*2+sp)/vibeSegmentCtl.frame.width, bh/vibeSegmentCtl.frame.height)
         soundSegmentCtl.transform = CGAffineTransformMakeScale((bw*2+sp)/vibeSegmentCtl.frame.width, bh/vibeSegmentCtl.frame.height)
-        vibeLabel.frame=CGRect(x:left+sp,y:top+bh*2+3*sp,width:bw,height:bh)
-        vibeSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*2+3*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
-        soundLabel.frame=CGRect(x:left+sp,y:top+bh*3+4*sp,width:bw,height:bh)
-        soundSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*3+4*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
+        vibeLabel.frame=CGRect(x:left+sp,y:top+bh*2+4*sp,width:bw,height:bh)
+        vibeSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*2+4*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
+        soundLabel.frame=CGRect(x:left+sp,y:top+bh*3+5*sp,width:bw,height:bh)
+        soundSegmentCtl.frame=CGRect(x:left+bw+sp*2,y:top+bh*3+5*sp,width:bw*2+sp,height:vibeSwitch.frame.height)
         UIApplication.shared.isIdleTimerDisabled = true//スリープさせない
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
         setMotion()
