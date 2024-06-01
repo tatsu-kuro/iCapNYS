@@ -10,12 +10,17 @@ import UIKit
 import CoreMotion
 import Network
 //import NetworkExtension
-import AudioToolbox
+//import AudioToolbox
+import AVFoundation
 class BLEViewController: UIViewController, UITextFieldDelegate {
     var pitchA = Array<Float>()
     var rollA = Array<Float>()
     var yawA = Array<Float>()
     let motionManager = CMMotionManager()
+    var audioPlayer1: AVAudioPlayer!
+    var audioPlayer2: AVAudioPlayer!
+    var audioPlayer3: AVAudioPlayer!
+
     var timer:Timer?
     var IPAddress:String?
     var pitchLimit:Int?
@@ -331,6 +336,13 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         timer = Timer.scheduledTimer(timeInterval: 5*60, target: self, selector: #selector(self.update), userInfo: nil, repeats: false)
         setMotion()
         vibeSwitch.isHidden=true
+      
+        try! audioPlayer1 = AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "beep1", ofType: "wav")!))
+        audioPlayer1.prepareToPlay()
+        try! audioPlayer2 = AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "beep2", ofType: "wav")!))
+        audioPlayer2.prepareToPlay()
+        try! audioPlayer3 = AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "beep3", ofType: "wav")!))
+        audioPlayer3.prepareToPlay()
     }
     var host: NWEndpoint.Host = "192.168.0.209"
     var port1108: NWEndpoint.Port = 1108
@@ -495,31 +507,29 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     }
     func soundANDvibe(){
         
-        var soundIdRing:SystemSoundID = 0
         if(soundSegmentCtl.selectedSegmentIndex==1){
-            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep1", ofType:"wav")!) as CFURL, &soundIdRing)
-            AudioServicesPlaySystemSound(soundIdRing)
+            if (audioPlayer1.isPlaying) {
+                audioPlayer1.stop()
+                audioPlayer1.currentTime = 0
+            }
+            audioPlayer1.play()
         }else if(soundSegmentCtl.selectedSegmentIndex==2){
-            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep2", ofType:"wav")!) as CFURL, &soundIdRing)
-            AudioServicesPlaySystemSound(soundIdRing)
+            if (audioPlayer2.isPlaying) {
+                audioPlayer2.stop()
+                audioPlayer2.currentTime = 0
+            }
+            audioPlayer2.play()
         }else if(soundSegmentCtl.selectedSegmentIndex==3){
-            AudioServicesCreateSystemSoundID(NSURL.fileURL(withPath: Bundle.main.path(forResource: "beep3", ofType:"wav")!) as CFURL, &soundIdRing)
-            AudioServicesPlaySystemSound(soundIdRing)
+            if (audioPlayer3.isPlaying) {
+                audioPlayer3.stop()
+                audioPlayer3.currentTime = 0
+            }
+            audioPlayer3.play()
         }
         if(vibeSegmentCtl.selectedSegmentIndex==1){
-//            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             AudioServicesPlaySystemSound(1011)//1519)
         }else if(vibeSegmentCtl.selectedSegmentIndex==2){
-   
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-               // 0.1秒後にシステムサウンドをストップさせる
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-//            }
-//            dispatch_after(dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                   AudioServicesStopSystemSound(kSystemSoundID_Vibrate);
-//               });
-//            
         }else if(vibeSegmentCtl.selectedSegmentIndex==3){
             AudioServicesPlaySystemSound(1520)
         }
