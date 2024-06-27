@@ -32,6 +32,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onEnterButton(_ sender: Any) {
         urlInputField.endEditing(true)
         UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
+        print(urlInputField.text)
     }
     
     @IBOutlet weak var enterButton: UIButton!

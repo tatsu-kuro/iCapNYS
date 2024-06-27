@@ -20,7 +20,9 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     var audioPlayer1: AVAudioPlayer!
     var audioPlayer2: AVAudioPlayer!
     var audioPlayer3: AVAudioPlayer!
-
+    var lastPitchTime=CFAbsoluteTimeGetCurrent()
+    var lastRollTime=CFAbsoluteTimeGetCurrent()
+    var lastYawTime=CFAbsoluteTimeGetCurrent()
     var timer:Timer?
     var IPAddress:String?
     var pitchLimit:Int?
@@ -440,8 +442,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 
     func getDirection(a:Float, b:Float, c:Float, d:Float)->Int
     {
-        if ((a+1 < b) && (b+1 < c) && (c+1 < d)){  return 1}
-        else if ((a > b+1) && (b > c+1) && (c > d+1)){return -1}
+        if ((a+0.1 < b) && (b+0.1 < c) && (c+0.1 < d)){  return 1}
+        else if ((a > b+0.1) && (b > c+0.1) && (c > d+0.1)){return -1}
         else {return 0}
     }
 
@@ -473,15 +475,20 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
 //        roll = int(rollf);
 //        yaw = int(yawf);
     }
-    func checkOK( d0:Float,d1:Float,limit:Float,count:Int,ms:Double)->Int
+    func checkOK( d0:Float,d1:Float,limit:Float,dt:Double,ms:Double)->Int
     {
         let d = d0 - d1
-        if (count < 5){return 0}//5*40ms
+       // if (count < 5){return 0}//5*40ms
         if (d > limit || d < -limit)
         {
-            print("pitch:",count*40,Int(ms*1000))
-            if (count*40 < Int(ms*1000)){return 5}
-            else{return 0}
+            if (dt < ms){
+                print("pitch<:",dt,ms)
+                return 5
+            }
+            else{
+                print("pitch>:",dt,ms)
+                return 0
+            }
             //if (count < 50){return 5} // 30度以上１秒以内 25*40ms
             //else {
             //    return 0
@@ -494,11 +501,11 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
     var rollDirection:Int = 0
     var yawDirection:Int = 0
     var lastPitch:Float = 0
-    var lastPitchCount:Int = 0
+  //  var lastPitchCount:Int = 0
     var lastRoll:Float = 0
-    var lastRollCount:Int = 0
+  //  var lastRollCount:Int = 0
     var lastYaw:Float = 0
-    var lastYawCount:Int = 0
+  //  var lastYawCount:Int = 0
    
     @IBAction func onResetButton(_ sender: Any) {
         pitchText2.text="0"
@@ -545,7 +552,7 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if((tempDirection == -1 && pitchDirection == 1)||(tempDirection == 1 && pitchDirection == -1))//向きが代わった時
         {
             pitchDirection = tempDirection  //向きを新しくする
-            if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value), count: cnt-3 - lastPitchCount,ms:pitchStepper2.value) == 5)
+            if(checkOK(d0:lastPitch,d1:pitchA[cnt-3],limit:Float(pitchStepper.value),dt: CFAbsoluteTimeGetCurrent()-lastPitchTime,ms:pitchStepper2.value) == 5)
             {
                 incPitchOK()
                 soundANDvibe()
@@ -553,7 +560,8 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
   //              print("o:",lastPitch-pitchA[cnt-3],cnt-3-lastPitchCount)
             }
             lastPitch = pitchA[cnt-3]
-            lastPitchCount = cnt-3
+            lastPitchTime=CFAbsoluteTimeGetCurrent()
+          //  lastPitchCount = cnt-3
         }
         if (tempDirection != 0){pitchDirection = tempDirection}
 
@@ -562,14 +570,15 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if ((tempDirection == -1 && rollDirection == 1)||(tempDirection == 1 && rollDirection == -1))
         {
             rollDirection = tempDirection
-            if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),count: cnt - 3 - lastRollCount,ms:rollStepper2.value) == 5)
+            if (checkOK(d0:lastRoll,d1:rollA[cnt - 3],limit:Float(rollStepper.value),dt:CFAbsoluteTimeGetCurrent()-lastRollTime,ms:rollStepper2.value) == 5)
             {
                 incRollOK()
                 soundANDvibe()
 //                AudioServicesPlaySystemSound(1103)//1519)
             }
             lastRoll = rollA[cnt-3]
-            lastRollCount = cnt-3
+            lastRollTime=CFAbsoluteTimeGetCurrent()
+         //   lastRollCount = cnt-3
         }
         if (tempDirection != 0){rollDirection = tempDirection}
 
@@ -578,14 +587,15 @@ class BLEViewController: UIViewController, UITextFieldDelegate {
         if ((tempDirection == -1 && yawDirection == 1)||(tempDirection == 1 && yawDirection == -1))
         {
             yawDirection = tempDirection
-            if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),count: cnt-3 - lastYawCount,ms:yawStepper2.value) == 5)
+            if (checkOK(d0:lastYaw, d1:yawA[cnt-3],limit:Float(yawStepper.value),dt:CFAbsoluteTimeGetCurrent()-lastYawTime,ms:yawStepper2.value) == 5)
             {
                 incYawOK()
                 soundANDvibe()
 //                AudioServicesPlaySystemSound(1519)
             }
             lastYaw = yawA[cnt-3]
-            lastYawCount = cnt-3
+            lastYawTime=CFAbsoluteTimeGetCurrent()
+         //   lastYawCount = cnt-3
         }
         if (tempDirection != 0){yawDirection = tempDirection}
    
