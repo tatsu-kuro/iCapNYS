@@ -393,9 +393,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @objc func onZoomValueChange(){
         if setteiMode==2{
             UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-        }else{
             UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-        }
+       }else{
+            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
+           UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
+
+       }
         setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
@@ -568,6 +571,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             var q1=qOld1
             var q2=qOld2
             var q3=qOld3
+            //<--ここから　-->までなくても良さそう
             var norm,mag:CGFloat!
             mag = CGFloat(sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3))
             if mag>CGFloat(Float.ulpOfOne){
@@ -577,6 +581,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 q2 *= norm
                 q3 *= norm
             }
+            //-->
             ppk[i*3] = x0 * (q0 * q0 + q1 * q1 - q2 * q2 - q3 * q3) + y0 * (2 * (q1 * q2 - q0 * q3)) + z0 * (2 * (q1 * q3 + q0 * q2))
             ppk[i*3+1] = x0 * (2 * (q1 * q2 + q0 * q3)) + y0 * (q0 * q0 - q1 * q1 + q2 * q2 - q3 * q3) + z0 * (2 * (q2 * q3 - q0 * q1))
             ppk[i*3+2] = x0 * (2 * (q1 * q3 - q0 * q2)) + y0 * (2 * (q2 * q3 + q0 * q1)) + z0 * (q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3)
@@ -1355,12 +1360,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 //    @IBOutlet weak var isoBar: UISlider!
  
-    @objc func onExposeValueChange(){
+    @objc func onExposeValueChange(){//setteiMode==0 record, 1:manual 2:auto
         setExpose(expose:exposeBar.value)
         if setteiMode==2{
             UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
+            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")//add
         }else{
             UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
+            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")//add
         }
     }
 
