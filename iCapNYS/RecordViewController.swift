@@ -340,7 +340,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode==2{
             zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
         }else{
-            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.01)
+            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.0)
         }
         setZoom(level: zoomBar.value)
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
@@ -349,7 +349,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode==2{
             exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
         }else{
-            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:0)
+            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:1.6)
         }
         onExposeValueChange()
         currentTime.isHidden=true
@@ -727,9 +727,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
 
         if cameraType==0 && setteiMode != 0{
-            manualButton.isHidden=false
-            auto20sButton.isHidden=false
-            auto90sButton.isHidden=false
+            manualButton.isHidden=true
+            auto20sButton.isHidden=true
+            auto90sButton.isHidden=true
             manualButton.setTitleColor(UIColor.systemGray2,for: .normal)
             auto20sButton.setTitleColor(UIColor.systemGray2,for:.normal)
             auto90sButton.setTitleColor(UIColor.systemGray2,for:.normal)
@@ -1048,8 +1048,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let sp=realWinWidth/120//間隙
         let bw=(realWinWidth-sp*10)/7//ボタン幅
         let bh=bw*170/440
-        let by1 = realWinHeight - bh - sp - bh*2/3//-height
-        let by = realWinHeight - (bh+sp)*2 - bh*2/3//-height
+        let by1 = realWinHeight - bh - sp// - bh*2/3//-height
+        let by = realWinHeight - (bh+sp)*2// - bh*2/3//-height
         let x0=leftPadding+sp*2
         let y0=topPadding+sp*3
         previewSwitch.frame = CGRect(x:leftPadding+10,y:realWinHeight*2/5-35,width: bw,height: bh)
@@ -1065,23 +1065,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         urlInputField.layer.borderWidth = 1.0
         urlInputField.layer.cornerRadius=5
         urlInputField.layer.masksToBounds = true
-        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
- //       camera.setButtonProperty(bleButton, x: x0, y: by1, w: bw*2, h: bh, UIColor.darkGray,0)
-//        bleButton.alpha=0.02
-//        bleButton.setTitle("Send Motion Data", for: .normal)
-//        bleButton.isHidden=true
-        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
-        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
-        camera.setLabelProperty(exposeValueLabel, x: x0+bw*3+sp*3, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(focusValueLabel, x: x0, y: by-sp/2-bh/2, w: bw, h: bh/2, UIColor.white)
-        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1+sp/2+bh, w: bw, h: bh/2, UIColor.white)
+        camera.setLabelProperty(exposeValueLabel,x:x0+bw*3+sp*3+2*bw/3-2, y: by1, w: bw/3, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
+        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3+2*bw/3-2, y: by, w: bw/3, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
+        camera.setLabelProperty(focusValueLabel, x: x0+2*bw/3-2, y: by, w: bw/3, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
+        camera.setLabelProperty(LEDValueLabel, x: x0+2*bw/3-2, y: by1, w: bw/3, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
         camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
