@@ -549,7 +549,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
         let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
-        if topEndBlank==0{
+       /* if topEndBlank==0{
             let number = (indexPath.row+1).description + ") "
             cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
         }else{
@@ -559,7 +559,25 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             }else{
                 cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row-1]
             }
+        }*/
+        var cellText:String=""
+        if topEndBlank==0{
+            let number = (indexPath.row+1).description + ")"
+           // cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
+            cellText = number + someFunctions.videoDate[indexPath.row]
+        }else{
+            let number = (indexPath.row).description + ")"
+            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
+                cellText = " "
+            }else{
+                cellText = number + someFunctions.videoDate[indexPath.row-1]
+            }
         }
+        cell.textLabel?.font=UIFont(name:"Courier",size: 18)
+    //    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
+           let attributedString = NSMutableAttributedString(string: cellText)
+        attributedString.addAttribute(.kern, value: 0, range: NSRange(location: 0, length: attributedString.length)) // 文字間隔を1.5に設定
+           cell.textLabel?.attributedText = attributedString
         return cell
     }
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
