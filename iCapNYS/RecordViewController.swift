@@ -830,10 +830,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if cameraType==3{
             
         }else{//cameraType:5
-            defaultButton.isHidden=false
-            enterButton.isHidden=false
+            defaultButton.isHidden=true
+            enterButton.isHidden=true
             urlLabel.isHidden=false
-            urlInputField.isHidden=false
+            urlInputField.isHidden=true
             bleButton.isHidden=true//使わない
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
@@ -873,6 +873,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType==5{
+            defaultButton.isHidden=true
+            enterButton.isHidden=true
+            urlInputField.isHidden=true
             focusBar.isHidden=true
             focusLabel.isHidden=true
             focusValueLabel.isHidden=true
@@ -1060,7 +1063,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLabel.frame.size.height=bh
         myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
         myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
-        urlLabel.frame=CGRect(x:x0,y:y0+bh,width:realWinWidth-sp*4,height: bh*2)
+        urlLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
         urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
         urlInputField.layer.borderWidth = 1.0
         urlInputField.layer.cornerRadius=5
