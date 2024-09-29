@@ -72,7 +72,7 @@
 "pbb-NN-cqP.normalTitle" = "Settings";
 
 /* Class = "UILabel"; text = "上枠にwifiカメラのURLを設定して下さい。\n初期値はユニメック(株)wifiカメラのURLアドレスです。"; ObjectID = "psM-lq-5GS"; */
-"psM-lq-5GS.text" = "Set Unimec-SSID";
+"psM-lq-5GS.text" = "Set the Unimec-SSID to WiFi";
 
 /* Class = "UILabel"; text = "LED"; ObjectID = "sYh-14-k4L"; */
 "sYh-14-k4L.text" = "LED";
