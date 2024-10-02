@@ -64,14 +64,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onPreviewSwitch(_ sender: Any) {
         if previewSwitch.isOn==true{
             UserDefaults.standard.set(1, forKey: "previewOn")
-            cameraView.alpha=1.0
+        //  //  cameraView.alpha=1.0
         }else{
             UserDefaults.standard.set(0, forKey: "previewOn")
-            cameraView.alpha=0.2
+         //   if(cameraType==0){
+         //       cameraView.alpha=0.2
+        //    }else{
+         //       cameraView.alpha=1.0
+         //   }
         }
+        setButtonsDisplay()
     }
     
-//    @IBOutlet weak var previewLabel: UILabel!
+    @IBOutlet weak var previewLabel: UILabel!
     //for video input
     var captureSession: AVCaptureSession!
     var videoDevice: AVCaptureDevice?
@@ -296,24 +301,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
         getCameras()
         camera.makeAlbum()
-
+        cameraType=camera.getUserDefaultInt(str: "cameraType", ret: 0)
+        if setteiMode==2{
+             cameraType=0
+         }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
             previewSwitch.isOn=false
-            if(cameraType==0){
-                cameraView.alpha=0.2
-            }else{
-                cameraView.alpha=1.0
-            }
         }else{
             previewSwitch.isOn=true
-            cameraView.alpha=1.0
         }
-        cameraType=camera.getUserDefaultInt(str: "cameraType", ret: 0)
-
-        if setteiMode==2{
-            cameraType=0
-        }
+        onPreviewSwitch(0)
+//        if previewOn==0 && cameraType==0{
+//            cameraView.alpha=0.2
+//        }else{
+//            cameraView.alpha=1.0
+//        }
+   
+ 
 //print("camara:",cameraType)
         set_rpk_ppk()
         setMotion()
@@ -790,8 +795,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if someFunctions.firstLang().contains("ja"){
             explanationLabel.text=explanationText// + "録画設定"
         }else{
-            explanationLabel.text=explanationText + "Record Settings"
-            urlLabel.text = "Set the URL of the wifi camera in the upper frame."
+            explanationLabel.text=explanationText// + "Record Settings"
         }
         setButtonsFrontCameraMode()
         if cameraType==0{
@@ -805,7 +809,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         enterButton.isHidden=true
         urlLabel.isHidden=true
         urlInputField.isHidden=true
-  //      previewLabel.isHidden=true
+        previewLabel.isHidden=true
         previewSwitch.isHidden=true
         zoomBar.isHidden=false
         zoomLabel.isHidden=false
@@ -825,10 +829,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
- //           previewLabel.isHidden=false
+            previewLabel.isHidden=false
             previewSwitch.isHidden=false
+            if previewSwitch.isOn{
+                previewLabel.isHidden=false
+            }else{
+                previewLabel.isHidden=true
+            }
             if setteiMode==2{
-  //              previewLabel.isHidden=true
+                previewLabel.isHidden=true
                 previewSwitch.isHidden=true
             }
         }else if cameraType==1{
@@ -881,6 +890,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         cameraType = cameraChange(cameraType)
+    
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType==5{
@@ -1072,6 +1082,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
    //     previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
    //     previewLabel.frame.size.width=bw*5
    //     previewLabel.frame.size.height=bh
+        previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
         myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
         myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
         urlLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
@@ -1120,10 +1131,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if someFunctions.firstLang().contains("ja"){
             explanationLabel.text=explanationText// + "録画設定"
-            exposeLabel.text="露出"
-            zoomLabel.text="ズーム"
-            focusLabel.text="焦点"
-      //      previewLabel.text="プレビュー"
         }else{
             explanationLabel.text=explanationText// + "Record Settings"
         }

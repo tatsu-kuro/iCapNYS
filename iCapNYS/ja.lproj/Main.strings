@@ -53,8 +53,9 @@
 /* Class = "UILabel"; text = "0:00"; ObjectID = "eJp-tL-Pfc"; */
 "eJp-tL-Pfc.text" = "0:00";
 
-/* Class = "UILabel"; text = "Preview"; ObjectID = "ek5-zF-XSc"; */
-"ek5-zF-XSc.text" = "Preview";
+/* XCs-DI-rah  Class = "UILabel"; text = "Preview"; ObjectID = "ek5-zF-XSc";
+"ek5-zF-XSc.text" = "Preview";*/
+"XCs-DI-rah.text" = "プレビュー";
 
 /* Class = "UIButton"; normalTitle = "Enter"; ObjectID = "hQm-bU-qbl"; */
 "hQm-bU-qbl.normalTitle" = "Enter";
