@@ -391,6 +391,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+
   //      isStarted=false
  //       startMotion()
 //        if PHPhotoLibrary.authorizationStatus() != .authorized {

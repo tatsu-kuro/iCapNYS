@@ -18,10 +18,10 @@
 "HA6-6w-dws.normalTitle" = "Unimec";
 
 /* Class = "UIButton"; normalTitle = "Help"; ObjectID = "IwN-Th-8hI"; */
-"IwN-Th-8hI.normalTitle" = "Help";
+"IwN-Th-8hI.normalTitle" = "使い方";
 
 /* Class = "UILabel"; text = "zoom"; ObjectID = "LNl-JF-QcN"; */
-"LNl-JF-QcN.text" = "zoom";
+"LNl-JF-QcN.text" = "ズーム";
 
 /* Class = "UILabel"; text = "record lying down for 90sec."; ObjectID = "LOn-Kn-JPU"; */
 "LOn-Kn-JPU.text" = "record lying down for 90sec.";
@@ -30,10 +30,10 @@
 "LyS-zd-GKa.text" = "000";
 
 /* Class = "UILabel"; text = "focus"; ObjectID = "U5M-bG-o5r"; */
-"U5M-bG-o5r.text" = "focus";
+"U5M-bG-o5r.text" = "焦点";
 
 /* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "VOs-bS-GtU"; */
-"VOs-bS-GtU.normalTitle" = "Settings";
+"VOs-bS-GtU.normalTitle" = "設定";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "YN8-XD-5kY"; */
 "YN8-XD-5kY.normalTitle" = "Exit";
@@ -48,7 +48,7 @@
 /*"b8u-qq-9Ct.normalTitle" = "Exit";*/
 
 /* Class = "UILabel"; text = "expose"; ObjectID = "bA5-Rt-Jv6"; */
-"bA5-Rt-Jv6.text" = "expose";
+"bA5-Rt-Jv6.text" = "露出";
 
 /* Class = "UILabel"; text = "0:00"; ObjectID = "eJp-tL-Pfc"; */
 "eJp-tL-Pfc.text" = "0:00";
@@ -70,10 +70,10 @@
 "mjm-Rl-jMd.normalTitle" = "Skip commentary";
 
 /* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "pbb-NN-cqP"; */
-"pbb-NN-cqP.normalTitle" = "Settings";
+"pbb-NN-cqP.normalTitle" = "設定";
 
 /* Class = "UILabel"; text = "上枠にwifiカメラのURLを設定して下さい。\n初期値はユニメック(株)wifiカメラのURLアドレスです。"; ObjectID = "psM-lq-5GS"; */
-"psM-lq-5GS.text" = "Set the Unimec-SSID to WiFi";
+"psM-lq-5GS.text" = "WiFiにUnimec-SSIDを設定";
 
 /* Class = "UILabel"; text = "LED"; ObjectID = "sYh-14-k4L"; */
 "sYh-14-k4L.text" = "LED";

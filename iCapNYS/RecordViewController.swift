@@ -277,34 +277,48 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return ret
         }
     }
-    
-    var leftPadding:CGFloat=0// =CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
-    var rightPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
-    var topPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
-    var bottomPadding:CGFloat=0//=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
-    var realWinWidth:CGFloat=0//=view.bounds.width-leftPadding-rightPadding
-    var realWinHeight:CGFloat=0//=view.bounds.height-topPadding-bottomPadding/2
-
-    //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
+    var leftPadding:CGFloat=0
+    var rightPadding:CGFloat=0
+    var topPadding:CGFloat=0
+    var bottomPadding:CGFloat=0
+    var realWinWidth:CGFloat=0
+    var realWinHeight:CGFloat=0
+    /*override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("viewDidLayoutSubviews*******")
+        //        if #available(iOS 11.0, *) {iPhone6以前は無視する。
+        // viewDidLayoutSubviewsではSafeAreaの取得ができている
+        let topPadding = self.view.safeAreaInsets.top
+        let bottomPadding = self.view.safeAreaInsets.bottom
+        let leftPadding = self.view.safeAreaInsets.left
+        let rightPadding = self.view.safeAreaInsets.right
+        UserDefaults.standard.set(topPadding,forKey: "topPadding")
+        UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
+        UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
+        UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
+    }*/
+    func getPaddings(){
+        leftPadding=CGFloat(UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
         bottomPadding=CGFloat(UserDefaults.standard.integer(forKey:"bottomPadding"))
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
+    }
+     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getPaddings()
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
         urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
         frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
-
         getCameras()
         camera.makeAlbum()
         cameraType=camera.getUserDefaultInt(str: "cameraType", ret: 0)
         if setteiMode==2{
              cameraType=0
-         }
+        }
         let previewOn=getUserDefault(str: "previewOn", ret: 0)
         if previewOn==0{
             previewSwitch.isOn=false
@@ -312,13 +326,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isOn=true
         }
         onPreviewSwitch(0)
-//        if previewOn==0 && cameraType==0{
-//            cameraView.alpha=0.2
-//        }else{
-//            cameraView.alpha=1.0
-//        }
-   
- 
+
 //print("camara:",cameraType)
         set_rpk_ppk()
         setMotion()
@@ -798,12 +806,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel.text=explanationText// + "Record Settings"
         }
         setButtonsFrontCameraMode()
-        if cameraType==0{
-            UIScreen.main.brightness = 1
-          
-        }else{
-            UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
-        }
+      //  if cameraType==0{
+      //      UIScreen.main.brightness = 1
+      //  }else{
+      //      UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
+      //  }
 
         defaultButton.isHidden=true
         enterButton.isHidden=true
@@ -890,7 +897,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //    }
     @IBAction func onCameraChangeButton(_ sender: Any) {
         cameraType = cameraChange(cameraType)
-    
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType==5{
