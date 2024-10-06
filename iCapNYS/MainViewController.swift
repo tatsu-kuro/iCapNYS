@@ -29,7 +29,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     @IBOutlet weak var how2Button: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var gyroButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var topLabel: UILabel!
     private var videoCnt: [Int] = [] {
@@ -177,7 +177,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     //これは.isHiddenとする
     @IBOutlet weak var setteiButtonAuto: UIButton!
-    @IBOutlet weak var setteiButtonManual: UIButton!
+    @IBOutlet weak var returnButton: UIButton!
     @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
@@ -223,19 +223,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
     
     @IBAction func onSetteiButtonAuto(_ sender: Any) {
-  //      stopMotion()
-        checkLibraryAuthorized()
-        if authorizedFlag != 2{
-            print("not authorized!!!",authorizedFlag)
-            alertNotAuthorized()
-            return
-        }
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=2
-        nextView.autoRecordMode=false
-        nextView.explanationLabeltextColor=UIColor.systemOrange
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-        self.present(nextView, animated: true, completion: nil)
+ 
+//        checkLibraryAuthorized()
+//        if authorizedFlag != 2{
+//            print("not authorized!!!",authorizedFlag)
+//            alertNotAuthorized()
+//            return
+//        }
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+//        nextView.setteiMode=2
+//        nextView.autoRecordMode=false
+//        nextView.explanationLabeltextColor=UIColor.systemOrange
+//        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+//        self.present(nextView, animated: true, completion: nil)
     }
     
     @IBAction func onSetteiButtonManual(_ sender: Any) {
@@ -481,13 +481,14 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let bh=bw*170/440
         let by=wh-bh-sp
         let by0=topPadding+sp
-        someFunctions.setButtonProperty(setteiButtonManual, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
+        someFunctions.setButtonProperty(returnButton, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
 
         let cx=leftPadding+ww-wh*3/4+wh*5/13//-(x1but+sp/2-bw-sp))-cr
         let a=2*cx-x1but-bw
  //             sendButton.frame=CGRect(x:a/*x1but+sp/2-bw-sp*/, y:topPadding+sp, width: cr, height:cr )
-        someFunctions.setButtonProperty(how2Button, x:/*a*/x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
-        someFunctions.setButtonProperty(sendButton, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
+  //      someFunctions.setButtonProperty(how2Button, x:/*a*/x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
+        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
+        someFunctions.setButtonProperty(gyroButton, x:x1but, y:by0+bh+sp, w: bw, h: bh, UIColor.darkGray,0)
 //        sendButton.isHidden=true
 //        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
         autoRecordButton.frame=CGRect(x:x0but,y:sp,width: wh/2,height: wh/2)
@@ -508,17 +509,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //高さ/20を上下に開ける
   
         if someFunctions.firstLang().contains("ja"){
-            how2Button.setTitle("使い方", for: .normal)
-            setteiButtonAuto.setTitle("録画設定", for: .normal)
-            setteiButtonManual.setTitle("録画設定", for: .normal)
-            steelLabel.text="座って記録\n20秒"
-            postualLabel.text="横になって記録\n90秒"
+          //  how2Button.setTitle("使い方", for: .normal)
+          //  setteiButtonAuto.setTitle("録画設定", for: .normal)
+         //   returnButton.setTitle("録画設定", for: .normal)
+         //   steelLabel.text="座って記録\n20秒"
+         //   postualLabel.text="横になって記録\n90秒"
         }
         postualLabel.isHidden=true
         steelLabel.isHidden=true
         autoRecordButton.isHidden=true
         positioningAutoRecordButton.isHidden=true
         setteiButtonAuto.isHidden=true
+        cameraButton.isHidden=true
     //    sendButton.isHidden=true
     }
   

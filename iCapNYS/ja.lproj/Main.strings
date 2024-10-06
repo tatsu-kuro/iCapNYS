@@ -70,7 +70,7 @@
 "mjm-Rl-jMd.normalTitle" = "Skip commentary";
 
 /* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "pbb-NN-cqP"; */
-"pbb-NN-cqP.normalTitle" = "設定";
+"pbb-NN-cqP.normalTitle" = "戻る";
 
 /* Class = "UILabel"; text = "上枠にwifiカメラのURLを設定して下さい。\n初期値はユニメック(株)wifiカメラのURLアドレスです。"; ObjectID = "psM-lq-5GS"; */
 "psM-lq-5GS.text" = "WiFiにUnimec-SSIDを設定";

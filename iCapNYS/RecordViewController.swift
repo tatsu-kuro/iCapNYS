@@ -11,6 +11,9 @@ import GLKit
 import Photos
 import CoreMotion
 import VideoToolbox
+
+import AssetsLibrary
+
 extension UIColor {
     func image(size: CGSize) -> UIImage {
         return UIGraphicsImageRenderer(size: size).image { rendererContext in
@@ -46,8 +49,67 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
     }
     @IBOutlet weak var playButton: UIButton!
-    
+    func requestAVAsset(asset: PHAsset)-> AVAsset? {
+        guard asset.mediaType == .video else { return nil }
+        let phVideoOptions = PHVideoRequestOptions()
+        phVideoOptions.version = .original
+        let group = DispatchGroup()
+        let imageManager = PHImageManager.default()
+        var avAsset: AVAsset?
+        group.enter()
+        imageManager.requestAVAsset(forVideo: asset, options: phVideoOptions) { (asset, _, _) in
+            avAsset = asset
+            group.leave()
+            
+        }
+        group.wait()
+        
+        return avAsset
+    }
+ //   func thumnailImageForFileUrl(fileUrl: URL) -> UIImage? {
+ //       let asset = AVAsset(url: fileUrl)
+    func thumnailImageForAvasset(asset:AVAsset) -> UIImage{
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        do {
+            let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
+            print("サムネイルの切り取り成功！")
+            return UIImage(cgImage: thumnailCGImage, scale: 0, orientation: .up)
+        }catch let err{
+            print("エラー\(err)")
+        }
+        return UIImage(named:"nul")!
+    }
+  
+    func setPlayButtonImage(){
+        if someFunctions.videoPHAsset.count<1{
+            return
+        }
+        let phasset = someFunctions.videoPHAsset[0]
+        let avasset = requestAVAsset(asset: phasset)
+        let but=thumnailImageForAvasset(asset: avasset!)
+         playButton.setImage(but, for: .normal)
+    }
     @IBAction func onPlayButton(_ sender: UIButton) {
+        if someFunctions.videoPHAsset.count<1{
+            return
+        }
+        let phasset = someFunctions.videoPHAsset[0]
+        let avasset = requestAVAsset(asset: phasset)
+//        let but=thumnailImageForAvasset(asset: avasset!)
+//        playButton.setImage(but, for: .normal)
+ 
+        if avasset == nil {//なぜ？icloudから落ちてきていないのか？
+            return
+        }
+        let storyboard: UIStoryboard = self.storyboard!
+        let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
+      
+//        nextView.videoURL = someFunctions.videoURL[indexPath.row]
+        nextView.phasset = someFunctions.videoPHAsset[0]// indexPath.row]
+        nextView.avasset = avasset
+        nextView.calcDate = someFunctions.videoDate[0]
+        self.present(nextView, animated: true, completion: nil)
     }
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
@@ -150,7 +212,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            Controller.captureSession.stopRunning()
             cameraChangeButton.isHidden=false
             currentTime.isHidden=true
-            onCameraChangeButton(stopButton)
+            onCameraChangeButton(stopButton)//cameratypeを変更せず
+            recordingFlag=false
+            setPlayButtonImage()
             setButtonsDisplay()
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
@@ -393,10 +457,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
      //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
         super.viewDidLoad()
+        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+
         getPaddings()
         setteiMode=1
         autoRecordMode=false
-
+        if someFunctions.videoPHAsset.count<5{
+            someFunctions.getAlbumAssets()
+            print("count<5")
+        }else{
+            someFunctions.getAlbumAssets_last()
+            print("count>4")
+        }
+        setPlayButtonImage()
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
         urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
@@ -461,7 +534,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }
         onExposeValueChange()
         currentTime.isHidden=true
-        startButton.alpha=0.25
+     //   startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
@@ -528,9 +601,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setMotion()
     }
     var timerCnt:Int=0
-    @objc func update(tm: Timer) {
-        timerCnt += 1
-        if timerCnt == 10000{
+    @objc func updateTimer(tm: Timer) {
+        self.timerCnt += 1
+        if self.timerCnt == 10000{
             stopButton.isEnabled=true
 //            UIApplication.shared.isIdleTimerDisabled = true//スリープしない
            //        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
@@ -547,28 +620,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
            setMotion()
         }
         if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
-            currentTime.text=String(format:"%01d",(timerCnt)/60) + ":" + String(format: "%02d",(timerCnt)%60)
-            if timerCnt%2==0{
+            currentTime.text=String(format:"%01d",(self.timerCnt)/60) + ":" + String(format: "%02d",(self.timerCnt)%60)
+            if self.timerCnt%2==0{
                 stopButton.tintColor=UIColor.cyan
             }else{
                 stopButton.tintColor=UIColor.yellow// red
             }
         }
-   //     var maxTimeLimit:Bool=true
-        if timerCnt == 5*60{//sleep
-//            if maxTimeLimit==false{
-//                //将来このflagを設定すると、永遠に録画できる。その時はiphoneのロック機能もオフにしないと使いづらい。
-//                UIApplication.shared.isIdleTimerDisabled = false  // この行
-//            }else{
-                motionManager.stopDeviceMotionUpdates()//tuika
-                if recordingFlag==true{
-                    killTimer()
-                    onClickStopButton(0)
-                }else{
-                    killTimer()
-                    performSegue(withIdentifier: "fromRecord", sender: self)
-                }
-//            }
+        //     var maxTimeLimit:Bool=true
+        if self.timerCnt == 5*60{//sleep
+            //            if maxTimeLimit==false{
+            //                //将来このflagを設定すると、永遠に録画できる。その時はiphoneのロック機能もオフにしないと使いづらい。
+            //                UIApplication.shared.isIdleTimerDisabled = false  // この行
+            //            }else{
+            motionManager.stopDeviceMotionUpdates()//tuika
+            if self.recordingFlag==true{
+                self.killTimer()
+                self.onClickStopButton(0)
+            }else{
+                self.killTimer()
+              //  self.performSegue(withIdentifier: "fromRecord", sender: self)
+            }
+            //            }
         }
     }
     var autholizedFlag:Bool=false
@@ -972,6 +1045,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
       //  }
         if recordingFlag==true {
             hideButtonsSlides()
+            explanationLabel.isHidden=true
             stopButton.isHidden=false
             startButton.isHidden=true
             currentTime.isHidden=false
@@ -982,7 +1056,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             listButton.isHidden=true
             if cameraType==0{
                 quaternionView.alpha=0.1
-                cameraView.alpha=0.1
+                cameraView.alpha=0.3
                 currentTime.alpha=0.1
             }else{
                 currentTime.alpha=1
@@ -990,6 +1064,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 quaternionView.alpha=1
             }
         }else{
+            explanationLabel.isHidden=false
             stopButton.isHidden=true
             startButton.isHidden=false
             currentTime.isHidden=true
@@ -1250,14 +1325,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
         setProperty(label: currentTime, radius: 4)
-        camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bh,UIColor.darkGray,0)
+        camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
-        currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
+        currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bw*240/440)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
        // if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
+        
+        
+        
+        startButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realWinHeight-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
+
        // }else{
        //     explanationLabel.isHidden=true
        //     startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
@@ -1359,32 +1439,29 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
    //     motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
-        onCameraChangeButton(stopButton)
+//        onCameraChangeButton(stopButton)
     //    killTimer()
-      //  while saved2album==false{
-      //      sleep(UInt32(0.1))
-      //  }
+        while saved2album==false{
+            sleep(UInt32(0.1))
+        }
         
         
-        // if someFunctions.videoPHAsset.count<5{
-        //     someFunctions.getAlbumAssets()
-        //     print("count<5")
-        // }else{
-        //     someFunctions.getAlbumAssets_last()
-        //     print("count>4")
-        // }
-    //    cameraChangeButton.isHidden=false
-    //    currentTime.isHidden=true
+        if someFunctions.videoPHAsset.count<5{
+            someFunctions.getAlbumAssets()
+            print("count<5")
+        }else{
+            someFunctions.getAlbumAssets_last()
+            print("count>4")
+        }
+        //    cameraChangeButton.isHidden=false
+        //    currentTime.isHidden=true
         setButtonsDisplay()
-
-   //  print("segue:","\(segue.identifier!)")
-  //   Controller.motionManager.stopDeviceMotionUpdates()
-  //   Controller.captureSession.stopRunning()
-         
-        
-        
-        
-   //     performSegue(withIdentifier: "fromRecord", sender: self)
+        onCameraChangeButton(stopButton)
+        setPlayButtonImage()
+        //  print("segue:","\(segue.identifier!)")
+        //   Controller.motionManager.stopDeviceMotionUpdates()
+        //   Controller.captureSession.stopRunning()
+        //     performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
     func hideButtonsSlides() {
@@ -1410,6 +1487,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onClickStartButton(_ sender: Any) {
         //hideButtonsSlides()
       //  setButtonsDisplay()
+        recordingFlag=true
+        setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
 
         if cameraType==5{
@@ -1421,13 +1500,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
-        explanationLabel.isHidden=true
-        timerCnt=0
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        self.timerCnt=0
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
         //sensorをリセットし、正面に
 //        motionManager.stopDeviceMotionUpdates()
-        recordingFlag=true
-        setButtonsDisplay()
+//        recordingFlag=true
+//        setButtonsDisplay()
         //start recording
     //    startButton.isHidden=true
     //    stopButton.isHidden=false

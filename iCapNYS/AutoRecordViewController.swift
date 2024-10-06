@@ -122,6 +122,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
  
     override func viewDidLoad() {
         super.viewDidLoad()
+  //      UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
 
         UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
