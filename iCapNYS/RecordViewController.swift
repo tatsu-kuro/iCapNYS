@@ -376,14 +376,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         stopButton.isEnabled=false
         urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
-//        setButtonsLocation()
         setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
-//            wifiCam()
-            //ここからwifiCapnys
         }
-    
      }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -395,9 +391,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
  //       setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  // この行
     }
-//    func applicationDidBecomeActive(application:UIApplication){
-//    setButtonsDisplay()
-//    }
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -429,19 +423,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
             LEDValueLabel.text=(Int(LEDBar.value*100)).description
-
         }
     }
     
     func startRecord(){
-        
         stopButton.isEnabled=true
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-        
         fileWriter!.startWriting()
         fileWriter!.startSession(atSourceTime: CMTime.zero)
         setMotion()
@@ -509,10 +500,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             if autholizedFlag==false && PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized{
                 autholizedFlag=true
                 print("authorized!!!")
-                //viewDidLayoutSubviews()
-                //getPaddings()
-                //self.setButtonsLocation()
-                //self.cameraView.layer.frame=CGRect(x:self.leftPadding,y:0,width: 0,height: 0)
                 captureSession.stopRunning()
                 set_rpk_ppk()
                 initSession(fps: 60)
@@ -1133,13 +1120,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.frame = CGRect(x:x0+bw*4+sp*4,y:by,width:bw*2+sp,height: bh)
         exposeBar.frame = CGRect(x:x0+bw*4+sp*4,y:by1,width:bw*2+sp,height: bh)
         camera.setLabelProperty(exposeLabel, x: x0+bw*3+sp*3, y: by1, w: bw, h: bh, UIColor.white)
-        camera.setLabelProperty(exposeValueLabel,x:x0+bw*3+sp*3, y: by1, w: bw-2, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(exposeValueLabel,x:x0+bw*3.5+sp*3, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setLabelProperty(zoomLabel,x:x0+bw*3+sp*3,y:by,w:bw,h:bh,UIColor.white)
-        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3+sp*3, y: by, w: bw-2, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(zoomValueLabel, x: x0+bw*3.5+sp*3, y: by, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setLabelProperty(focusLabel,x:x0,y:by,w:bw,h:bh,UIColor.white)
-        camera.setLabelProperty(focusValueLabel, x: x0, y: by, w: bw-2, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(focusValueLabel, x: x0+bw/2, y: by, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
-        camera.setLabelProperty(LEDValueLabel, x: x0, y: by1, w: bw-2, h: bh/2, UIColor.white,0)
+        camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
         camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
