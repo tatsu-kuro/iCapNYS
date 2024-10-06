@@ -64,14 +64,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onPreviewSwitch(_ sender: Any) {
         if previewSwitch.isOn==true{
             UserDefaults.standard.set(1, forKey: "previewOn")
-        //  //  cameraView.alpha=1.0
         }else{
             UserDefaults.standard.set(0, forKey: "previewOn")
-         //   if(cameraType==0){
-         //       cameraView.alpha=0.2
-        //    }else{
-         //       cameraView.alpha=1.0
-         //   }
         }
         setButtonsDisplay()
     }
@@ -283,7 +277,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var bottomPadding:CGFloat=0
     var realWinWidth:CGFloat=0
     var realWinHeight:CGFloat=0
-    /*override func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews*******")
         //        if #available(iOS 11.0, *) {iPhone6以前は無視する。
@@ -296,8 +290,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
         UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
         UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-    }*/
+    }
     func getPaddings(){
+        viewDidLayoutSubviews()
         leftPadding=CGFloat(UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
         topPadding=CGFloat(UserDefaults.standard.integer(forKey:"topPadding"))
@@ -309,6 +304,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         getPaddings()
+        setteiMode=1
+        autoRecordMode=false
+
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
         urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
@@ -319,13 +317,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if setteiMode==2{
              cameraType=0
         }
-        let previewOn=getUserDefault(str: "previewOn", ret: 0)
-        if previewOn==0{
+        if getUserDefault(str: "previewOn", ret: 0) == 0{
             previewSwitch.isOn=false
         }else{
             previewSwitch.isOn=true
         }
-        onPreviewSwitch(0)
+        setPreviewLabel()
 
 //print("camara:",cameraType)
         set_rpk_ppk()
@@ -379,21 +376,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isHidden=true
         stopButton.isEnabled=false
         urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
-        setButtonsLocation()
+//        setButtonsLocation()
         setButtonsDisplay()
         if cameraType==5{
             captureSession.stopRunning()
 //            wifiCam()
             //ここからwifiCapnys
         }
+    
      }
+    
     override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
       UIApplication.shared.isIdleTimerDisabled = false  // この行
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//      super.viewWillAppear(animated)
-//      UIApplication.shared.isIdleTimerDisabled = true  // この行
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+ //       setButtonsDisplay()
+        UIApplication.shared.isIdleTimerDisabled = true  // この行
+    }
+//    func applicationDidBecomeActive(application:UIApplication){
+//    setButtonsDisplay()
 //    }
     override var prefersStatusBarHidden: Bool {
         return true
@@ -418,7 +421,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
        }else{
             UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-
        }
         setZoom(level: zoomBar.value)
     }
@@ -488,6 +490,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            }
         }
     }
+    var autholizedFlag:Bool=false
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
@@ -503,7 +506,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 usleep(1000)//0.001sec
             }
             let quat = motion.attitude.quaternion
-            
+            if autholizedFlag==false && PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized{
+                autholizedFlag=true
+                print("authorized!!!")
+                //viewDidLayoutSubviews()
+                //getPaddings()
+                //self.setButtonsLocation()
+                //self.cameraView.layer.frame=CGRect(x:self.leftPadding,y:0,width: 0,height: 0)
+                captureSession.stopRunning()
+                set_rpk_ppk()
+                initSession(fps: 60)
+                self.setButtonsDisplay()
+            }
             let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 
             if landscapeSide==0{
@@ -796,28 +810,26 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     func setButtonsDisplay(){
+        getPaddings()
+        setButtonsLocation()
         var explanationText = cameraTypeStrings[cameraType]
         if explanationLabeltextColor==UIColor.systemOrange{
             explanationText=""
         }
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text=explanationText// + "録画設定"
+            explanationLabel.text=explanationText
         }else{
-            explanationLabel.text=explanationText// + "Record Settings"
+            explanationLabel.text=explanationText
         }
         setButtonsFrontCameraMode()
-      //  if cameraType==0{
-      //      UIScreen.main.brightness = 1
-      //  }else{
-      //      UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
-      //  }
-
+        
         defaultButton.isHidden=true
         enterButton.isHidden=true
         urlLabel.isHidden=true
         urlInputField.isHidden=true
-        previewLabel.isHidden=true
-        previewSwitch.isHidden=true
+        setPreviewLabel()
+    //    previewLabel.isHidden=true
+    //    previewSwitch.isHidden=true
         zoomBar.isHidden=false
         zoomLabel.isHidden=false
         zoomValueLabel.isHidden=false
@@ -836,17 +848,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
-            previewLabel.isHidden=false
-            previewSwitch.isHidden=false
-            if previewSwitch.isOn{
-                previewLabel.isHidden=false
-            }else{
-                previewLabel.isHidden=true
-            }
-            if setteiMode==2{
-                previewLabel.isHidden=true
-                previewSwitch.isHidden=true
-            }
+ //           previewLabel.isHidden=false
+ //           previewSwitch.isHidden=false
+ //           setPreviewLabel()
+//            if previewSwitch.isOn{
+//                previewLabel.isHidden=false
+//            }else{
+//                previewLabel.isHidden=true
+//            }
+//            if setteiMode==2{
+//                previewLabel.isHidden=true
+//                previewSwitch.isHidden=true
+//            }
         }else if cameraType==1{
             
         }else if cameraType==2{
@@ -1072,6 +1085,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if sender.state == .ended{
         }*/
     }
+    func setPreviewLabel(){
+        if cameraType==0 && setteiMode != 2{
+            previewLabel.isHidden=false
+            previewSwitch.isHidden=false
+            if previewSwitch.isOn{
+                if someFunctions.firstLang().contains("ja"){
+                    previewLabel.text="プレビュー有"
+                }else{
+                    previewLabel.text="Preview ON"
+                }
+            }else{
+                if someFunctions.firstLang().contains("ja"){
+                    previewLabel.text="プレビュー無"
+                }else{
+                    previewLabel.text="Preview OFF"
+                }
+            }
+        }else{
+            previewLabel.isHidden=true
+            previewSwitch.isHidden=true
+        }
+    }
     func setButtonsLocation(){
 //        let height=CGFloat(camera.getUserDefaultFloat(str: "buttonsHeight", ret: 0))
 //pangestureによるボタンの高さ調整は不能とした。
@@ -1084,10 +1119,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let y0=topPadding+sp*3
         previewSwitch.frame = CGRect(x:leftPadding+10,y:view.bounds.height*3.5/6+sp,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
-   //     previewLabel.frame.origin.x=previewSwitch.frame.maxX+sp
-   //     previewLabel.frame.origin.y=(realWinHeight*2/5-35+switchHeight/2)-bh/2
-   //     previewLabel.frame.size.width=bw*5
-   //     previewLabel.frame.size.height=bh
         previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
         myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
         myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
@@ -1145,7 +1176,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         if setteiMode==2{
             cameraChangeButton.isEnabled=false
-            previewSwitch.isHidden=true
+            //previewSwitch.isHidden=true
           //  previewLabel.isHidden=true
             focusBar.isHidden=true
             focusLabel.isHidden=true
@@ -1162,25 +1193,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            auto90sButton.isHidden=true
         }
     }
-//    func setButtons(){
-//         if cameraType==5{
-//            setButtons5(true)
-//            return
-//        }
-//        if cameraType==0{
-//            if autoRecordMode==true{
-//                previewLabel.isEnabled=false
-//                previewSwitch.isEnabled=false
-//                previewSwitch.isOn=false
-//            }else{
-//                previewSwitch.isHidden=false
-//                previewLabel.isHidden=false
-//            }
-//        }else if cameraType<5{
-//            previewSwitch.isHidden=true
-//            previewLabel.isHidden=true
-//        }
-//    }
   
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
@@ -1292,8 +1304,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.isHidden=false
         exitButton.isHidden=true
         stopButton.alpha=0.025
-  //      previewLabel.isHidden=true
-        previewSwitch.isHidden=true
+     //   previewSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
