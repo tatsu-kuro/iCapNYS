@@ -502,7 +502,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
-        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: ww-wh*3/4,height: wh-sp*2)
+        tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: x1but-leftPadding-sp*2,height: wh-sp*2)
    
         cameraButton.frame=CGRect( x: tableView.frame.maxX, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
 //        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
@@ -577,7 +577,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
                 cellText = number + someFunctions.videoDate[indexPath.row-1]
             }
         }
-        cell.textLabel?.font=UIFont(name:"Courier",size: 18)
+        cell.textLabel?.font=UIFont(name:"Courier",size: 24)
     //    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
            let attributedString = NSMutableAttributedString(string: cellText)
         attributedString.addAttribute(.kern, value: 0, range: NSRange(location: 0, length: attributedString.length)) // 文字間隔を1.5に設定

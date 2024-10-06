@@ -163,7 +163,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         print("segueWhatRecord:",segue)
-        if let vc = segue.source as? RecordViewController{
+     /*   if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit / not recorded")
@@ -186,30 +186,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
-        }else if let vc1 = segue.source as? WifiViewController{
+        }else*/
+        if let vc1 = segue.source as? WifiViewController{
             let Controller:WifiViewController = vc1
             if Controller.stopButton.isHidden==true{//Exit
                 print("Exit / not recorded")
             }else{
                 print("Exit / recorded")
-                if someFunctions.videoPHAsset.count<5{
+              //  if someFunctions.videoPHAsset.count<5{
                     someFunctions.getAlbumAssets()
-                    print("count<5")
-                }else{
+              //      print("count<5")
+              //  }else{
                     someFunctions.getAlbumAssets_last()
-                    print("count>4")
-                }
-//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
-//                DispatchQueue.main.async { [self] in
-//                    self.tableView.contentOffset.y=0
-//                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
-//
-//                }
+               //     print("count>4")
+               // }
             }
    
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
-//            Controller.captureSession.stopRunning()
             cameraChangeButton.isHidden=false
             currentTime.isHidden=true
             onCameraChangeButton(stopButton)//cameratypeを変更せず
@@ -239,14 +233,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("segue:","\(segue.identifier!)")
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
-        }else if let vc = segue.source as? AutoRecordViewController{
-        }else if let vc = segue.source as? BLEViewController{
-            let Controller:BLEViewController = vc
-            Controller.motionManager.stopDeviceMotionUpdates()
+            
+            
+   //     }else if let vc = segue.source as? AutoRecordViewController{
+   //     }else if let vc = segue.source as? MainViewController{
+            
+     //   }else if let vc = segue.source as? BLEViewController{
+     //       let Controller:BLEViewController = vc
+     //       Controller.motionManager.stopDeviceMotionUpdates()
         }
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         print("unwind")
+        someFunctions.getAlbumAssets()
+        someFunctions.getAlbumAssets_last()
+        setPlayButtonImage()
+        setButtonsDisplay()
 //        setButtonsDisplay()
 //        isStarted=false
 //        startMotion()
@@ -543,7 +545,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==5{
             captureSession.stopRunning()
         }
-     }
+        var timer = Timer
+            .scheduledTimer(
+                withTimeInterval: 1.0,
+                repeats: true
+            ) { _ in
+         //       print("実行しました")
+                self.timerCnt += 1
+                if self.recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
+                    self.currentTime.text=String(format:"%01d",(self.timerCnt)/60) + ":" + String(format: "%02d",(self.timerCnt)%60)
+                    if self.timerCnt%2==0{
+                        self.stopButton.tintColor=UIColor.cyan
+                    }else{
+                        self.stopButton.tintColor=UIColor.yellow// red
+                    }
+                }
+                if self.timerCnt == 5*60{//sleep
+                    self.onClickStopButton(0)
+                }
+   //             self.doTimer()
+            }
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
@@ -601,7 +623,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setMotion()
     }
     var timerCnt:Int=0
-    @objc func updateTimer(tm: Timer) {
+ /*   func doTimer(){
+        self.timerCnt += 1
+        if recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
+            currentTime.text=String(format:"%01d",(self.timerCnt)/60) + ":" + String(format: "%02d",(self.timerCnt)%60)
+            if self.timerCnt%2==0{
+                stopButton.tintColor=UIColor.cyan
+            }else{
+                stopButton.tintColor=UIColor.yellow// red
+            }
+        }
+        if self.timerCnt == 5*60{//sleep
+            onClickStopButton(0)
+        }
+    }*/
+    
+/*    @objc func updateTimer(tm: Timer) {
         self.timerCnt += 1
         if self.timerCnt == 10000{
             stopButton.isEnabled=true
@@ -643,7 +680,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             //            }
         }
-    }
+    }*/
     var autholizedFlag:Bool=false
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
@@ -1446,13 +1483,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         
-        if someFunctions.videoPHAsset.count<5{
+       // if someFunctions.videoPHAsset.count<5{
             someFunctions.getAlbumAssets()
-            print("count<5")
-        }else{
+       //     print("count<5")
+       // }else{
             someFunctions.getAlbumAssets_last()
-            print("count>4")
-        }
+      //      print("count>4")
+      //  }
         //    cameraChangeButton.isHidden=false
         //    currentTime.isHidden=true
         setButtonsDisplay()
@@ -1487,6 +1524,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onClickStartButton(_ sender: Any) {
         //hideButtonsSlides()
       //  setButtonsDisplay()
+        timerCnt=0
+        currentTime.text="0:00"
         recordingFlag=true
         setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
@@ -1500,28 +1539,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraType==0{
             UIScreen.main.brightness = 1
         }
-        self.timerCnt=0
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
-        //sensorをリセットし、正面に
-//        motionManager.stopDeviceMotionUpdates()
-//        recordingFlag=true
-//        setButtonsDisplay()
-        //start recording
-    //    startButton.isHidden=true
-    //    stopButton.isHidden=false
+    //    self.timerCnt=0
+   //     timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
         stopButton.isEnabled=false//timerで３秒後にtrue
-    //    startButton.isEnabled=false
-    //    currentTime.isHidden=false
         listButton.isHidden=true
         stopButton.alpha=0.025
-     //   previewSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true
             currentTime.alpha=0.1
         }
         try? FileManager.default.removeItem(atPath: TempFilePath)
-        startRecord()
+  //      startRecord()
+        stopButton.isEnabled=true
+        if let soundUrl = URL(string:
+                                "/System/Library/Audio/UISounds/begin_record.caf"/*photoShutter.caf*/){
+            AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
+            AudioServicesPlaySystemSound(soundIdx)
+        }
+        fileWriter!.startWriting()
+        fileWriter!.startSession(atSourceTime: CMTime.zero)
+        setMotion()
+ //       timerCnt=0
     }
 
     var tapInterval=CFAbsoluteTimeGetCurrent()
