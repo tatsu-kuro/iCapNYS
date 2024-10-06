@@ -45,7 +45,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
     }
+    @IBOutlet weak var playButton: UIButton!
     
+    @IBAction func onPlayButton(_ sender: UIButton) {
+    }
     var soundIdstart:SystemSoundID = 1117
     var soundIdstop:SystemSoundID = 1118
     var soundIdpint:SystemSoundID = 1109//1009//7
@@ -222,7 +225,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         -22,-26,0, -23,-25,0, -24,-24,1,//eye dots 3
         -19,32,0, -14,31,0, -9,31,0, -4,31,0, 0,30,0, 4,31,0, 9,31,0, 14,31,0, 19,32,1]//mouse 9
     
-    @IBOutlet weak var exitButton: UIButton!
+    @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!
 
     @IBOutlet weak var focusLabel: UILabel!
@@ -974,10 +977,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.isHidden=false
             previewLabel.isHidden=true
             previewSwitch.isHidden=true
+            playButton.isHidden=true
+            cameraChangeButton.isHidden=true
+            listButton.isHidden=true
+            if cameraType==0{
+                quaternionView.alpha=0.1
+                cameraView.alpha=0.1
+                currentTime.alpha=0.1
+            }else{
+                currentTime.alpha=1
+                cameraView.alpha=1
+                quaternionView.alpha=1
+            }
         }else{
             stopButton.isHidden=true
             startButton.isHidden=false
             currentTime.isHidden=true
+            playButton.isHidden=false
+            cameraChangeButton.isHidden=false
+            listButton.isHidden=false
+            currentTime.alpha=1
+            cameraView.alpha=1
+            quaternionView.alpha=1
         }
         
     }
@@ -1223,12 +1244,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(focusValueLabel, x: x0+bw/2, y: by, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
-        camera.setButtonProperty(exitButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
+        camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
         camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
         setProperty(label: currentTime, radius: 4)
+        camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bh,UIColor.darkGray,0)
+
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
@@ -1350,8 +1373,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //     someFunctions.getAlbumAssets_last()
         //     print("count>4")
         // }
-        cameraChangeButton.isHidden=false
-        currentTime.isHidden=true
+    //    cameraChangeButton.isHidden=false
+    //    currentTime.isHidden=true
         setButtonsDisplay()
 
    //  print("segue:","\(segue.identifier!)")
@@ -1411,7 +1434,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         stopButton.isEnabled=false//timerで３秒後にtrue
     //    startButton.isEnabled=false
     //    currentTime.isHidden=false
-        exitButton.isHidden=true
+        listButton.isHidden=true
         stopButton.alpha=0.025
      //   previewSwitch.isHidden=true
         if cameraType==0 && previewSwitch.isOn==false{

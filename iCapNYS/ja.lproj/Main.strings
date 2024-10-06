@@ -12,14 +12,14 @@
 "9KR-ld-QTe.text" = "record settings";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "GaH-k7-GlQ"; */
-"GaH-k7-GlQ.normalTitle" = "Exit";
+"GaH-k7-GlQ.normalTitle" = "一覧";
 
 /* Class = "UIButton"; normalTitle = "Unimec"; ObjectID = "HA6-6w-dws"; */
 "HA6-6w-dws.normalTitle" = "Unimec";
 
 /* Class = "UIButton"; normalTitle = "Help"; ObjectID = "IwN-Th-8hI"; */
 "IwN-Th-8hI.normalTitle" = "使い方";
-
+"tzk-p7-bEt.normalTitle" = "再生";
 /* Class = "UILabel"; text = "zoom"; ObjectID = "LNl-JF-QcN"; */
 "LNl-JF-QcN.text" = "ズーム";
 

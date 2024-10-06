@@ -708,12 +708,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Exit">
+                                <state key="normal" title="List">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <segue destination="jGz-hQ-j5Z" kind="unwind" identifier="fromRecord" unwindAction="unwindActionWithSegue:" id="PhQ-AU-gG7"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znc-Gv-DbE">
                                 <rect key="frame" x="478" y="235" width="66" height="35"/>
@@ -908,6 +905,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzk-p7-bEt">
+                                <rect key="frame" x="488" y="52" width="56" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Play">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onPlayButton:" destination="Hp4-gK-9UW" eventType="touchUpInside" id="PCG-Az-UFx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQ7-Kf-AuZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -938,7 +947,6 @@
                         <outlet property="currentTime" destination="eJp-tL-Pfc" id="vx3-sB-2CR"/>
                         <outlet property="defaultButton" destination="HA6-6w-dws" id="bee-gs-3Wb"/>
                         <outlet property="enterButton" destination="hQm-bU-qbl" id="i9w-w5-9Pc"/>
-                        <outlet property="exitButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
                         <outlet property="explanationLabel" destination="9KR-ld-QTe" id="3nb-BG-87L"/>
                         <outlet property="exposeBar" destination="eyO-Ha-uOO" id="3lu-Wt-KNJ"/>
                         <outlet property="exposeLabel" destination="bA5-Rt-Jv6" id="W87-mN-K1S"/>
@@ -946,7 +954,9 @@
                         <outlet property="focusBar" destination="Cn2-Mn-Pzg" id="rb0-lh-zAT"/>
                         <outlet property="focusLabel" destination="U5M-bG-o5r" id="Vpx-lR-lmA"/>
                         <outlet property="focusValueLabel" destination="5P7-2H-0RH" id="N2B-CB-jbN"/>
+                        <outlet property="listButton" destination="GaH-k7-GlQ" id="P3d-YT-pSI"/>
                         <outlet property="manualButton" destination="Hlb-B8-tbX" id="h3Y-eD-6Ls"/>
+                        <outlet property="playButton" destination="tzk-p7-bEt" id="cQe-YM-EbK"/>
                         <outlet property="previewLabel" destination="XCs-DI-rah" id="Blx-pW-QuR"/>
                         <outlet property="previewSwitch" destination="pv5-1c-4YX" id="Wab-l4-LJB"/>
                         <outlet property="quaternionView" destination="E7F-hC-6hQ" id="fMB-sK-wwe"/>
@@ -961,7 +971,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7qf-8F-FDG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="jGz-hQ-j5Z" userLabel="Exit" sceneMemberID="exit"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="Qhd-kv-Jkz">
                     <connections>
                         <action selector="panGesture:" destination="Hp4-gK-9UW" id="WxF-pm-Vrv"/>
