@@ -122,7 +122,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
-    let cameraTypeStrings : Array<String> = ["frontCam","backCam1","ultraWideCam","backCam2","none","wifiCam"]
+    let cameraTypeStrings : Array<String> = ["frontCamera","backCamera1","ultraWideCam","backCamera2","none","wifiCamera"]
 
     @IBOutlet weak var previewSwitch: UISwitch!
     
