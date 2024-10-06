@@ -96,7 +96,94 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var shouldAutorotate: Bool {
         return false
     }
+    @IBAction func unwindAction(segue: UIStoryboardSegue) {
+        print("segueWhatRecord:",segue)
+        if let vc = segue.source as? RecordViewController{
+            let Controller:RecordViewController = vc
+            if Controller.stopButton.isHidden==true{//Exit
+                print("Exit / not recorded")
+            }else{
+                print("Exit / recorded")
+                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
+//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+//                DispatchQueue.main.async { [self] in
+//                    self.tableView.contentOffset.y=0
+//                }
+            }
+            onCameraChangeButton(stopButton)
 
+            print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
+            Controller.captureSession.stopRunning()
+        }else if let vc1 = segue.source as? WifiViewController{
+            let Controller:WifiViewController = vc1
+            if Controller.stopButton.isHidden==true{//Exit
+                print("Exit / not recorded")
+            }else{
+                print("Exit / recorded")
+                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
+//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+//                DispatchQueue.main.async { [self] in
+//                    self.tableView.contentOffset.y=0
+//                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
+//
+//                }
+            }
+   
+            print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
+//            Controller.captureSession.stopRunning()
+            cameraChangeButton.isHidden=false
+            currentTime.isHidden=true
+            onCameraChangeButton(stopButton)
+            setButtonsDisplay()
+        }else if let vc = segue.source as? AutoRecordViewController{
+            let Controller:AutoRecordViewController = vc
+            Controller.killTimer()//念の為
+            if (Controller.isPositional==false && Controller.movieTimerCnt>25) ||
+                (Controller.isPositional==true && Controller.movieTimerCnt>112){
+                print("Exit / Auto recorded")
+                if someFunctions.videoPHAsset.count<5{
+                    someFunctions.getAlbumAssets()
+                    print("count<5")
+                }else{
+                    someFunctions.getAlbumAssets_last()
+                    print("count>4")
+                }
+//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
+//                DispatchQueue.main.async { [self] in
+//                    self.tableView.contentOffset.y=0
+//                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
+//                }
+            }
+  
+            print("segue:","\(segue.identifier!)")
+            Controller.motionManager.stopDeviceMotionUpdates()
+            Controller.captureSession.stopRunning()
+        }else if let vc = segue.source as? AutoRecordViewController{
+        }else if let vc = segue.source as? BLEViewController{
+            let Controller:BLEViewController = vc
+            Controller.motionManager.stopDeviceMotionUpdates()
+        }
+        UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
+        UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
+        print("unwind")
+//        setButtonsDisplay()
+//        isStarted=false
+//        startMotion()
+    }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
         if landscapeSide==0{
@@ -188,18 +275,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var cameraChangeButton: UIButton!
    
     func setBars(){
-        if setteiMode==2{
-            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
-            setZoom(level: zoomBar.value)
-            
-        }else{
+//        if setteiMode==2{
+//            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
+//            setZoom(level: zoomBar.value)
+//            
+//        }else{
             zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
             focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
             setFocus(focus: focusBar.value)
             setZoom(level: zoomBar.value)
 //            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
 //            setFlashlevel(level: LEDBar.value)
-        }
+//        }
     }
     func setZoom(level:Float){//0.0-0.1
 //        var zoom=0.017//level*level/4
@@ -314,9 +401,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         getCameras()
         camera.makeAlbum()
         cameraType=camera.getUserDefaultInt(str: "cameraType", ret: 0)
-        if setteiMode==2{
-             cameraType=0
-        }
+//        if setteiMode==2{
+//             cameraType=0
+//        }
         if getUserDefault(str: "previewOn", ret: 0) == 0{
             previewSwitch.isOn=false
         }else{
@@ -355,20 +442,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.minimumValue = 0
         zoomBar.maximumValue = 0.1
         zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-        if setteiMode==2{
-            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
-        }else{
+//        if setteiMode==2{
+//            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
+//        }else{
             zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.0)
-        }
+//        }
         setZoom(level: zoomBar.value)
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-        if setteiMode==2{
-            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
-        }else{
+//        if setteiMode==2{
+//            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
+//        }else{
             exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:1.6)
-        }
+//        }
         onExposeValueChange()
         currentTime.isHidden=true
         startButton.alpha=0.25
@@ -409,13 +496,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     
     @objc func onZoomValueChange(){
-        if setteiMode==2{
-            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-       }else{
+//        if setteiMode==2{
+//            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
+//            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
+//       }else{
             UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-       }
+//       }
         setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
@@ -809,14 +896,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel.text=explanationText
         }
         setButtonsFrontCameraMode()
-        
         defaultButton.isHidden=true
         enterButton.isHidden=true
         urlLabel.isHidden=true
         urlInputField.isHidden=true
         setPreviewLabel()
-    //    previewLabel.isHidden=true
-    //    previewSwitch.isHidden=true
         zoomBar.isHidden=false
         zoomLabel.isHidden=false
         zoomValueLabel.isHidden=false
@@ -854,49 +938,61 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if cameraType==3{
             
         }else{//cameraType:5
-            focusBar.isHidden=true
-            focusLabel.isHidden=true
-            focusValueLabel.isHidden=true
+            hideButtonsSlides()
+            cameraChangeButton.isHidden=false
+            currentTime.isHidden=true
+
             defaultButton.isHidden=true
             enterButton.isHidden=true
             urlLabel.isHidden=false
             urlInputField.isHidden=true
             bleButton.isHidden=true//使わない
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-            zoomBar.isHidden=true
-            zoomLabel.isHidden=true
-            zoomValueLabel.isHidden=true
-            exposeBar.isHidden=true
-            exposeLabel.isHidden=true
-            exposeValueLabel.isHidden=true
+
             cameraView.isHidden=true
-            quaternionView.isHidden=true
+//            quaternionView.isHidden=true
         }
-        if setteiMode==0{
-             zoomBar.isHidden=true
-            zoomLabel.isHidden=true
-            zoomValueLabel.isHidden=true
-            exposeBar.isHidden=true
-            exposeLabel.isHidden=true
-            exposeValueLabel.isHidden=true
-            LEDBar.isHidden=true
-            LEDLabel.isHidden=true
-            LEDValueLabel.isHidden=true
-        }
-        if setteiMode==2{
-            startButton.isEnabled=false
+//        if setteiMode==0{
+//            zoomBar.isHidden=true
+//            zoomLabel.isHidden=true
+//            zoomValueLabel.isHidden=true
+//            exposeBar.isHidden=true
+//            exposeLabel.isHidden=true
+//            exposeValueLabel.isHidden=true
+//            LEDBar.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDValueLabel.isHidden=true
+//        }
+      //  if setteiMode==2{
+      //      startButton.isEnabled=false
+      //  }else{
+      //      startButton.isEnabled=true
+      //  }
+        if recordingFlag==true {
+            hideButtonsSlides()
+            stopButton.isHidden=false
+            startButton.isHidden=true
+            currentTime.isHidden=false
+            previewLabel.isHidden=true
+            previewSwitch.isHidden=true
         }else{
-            startButton.isEnabled=true
+            stopButton.isHidden=true
+            startButton.isHidden=false
+            currentTime.isHidden=true
         }
+        
     }
 //    func wifiCam(){
 ////        cameraView.isHidden=true
 //
 //    }
-    @IBAction func onCameraChangeButton(_ sender: Any) {
-        cameraType = cameraChange(cameraType)
+    @IBAction func onCameraChangeButton(_ sender: UIButton) {
+        
+        print(sender.frame.minX)
+//        let kkk=sender
+//        print(kkk)
+        if sender.frame.minX>view.bounds.width/2{//camerachangebutton
+            cameraType = cameraChange(cameraType)
+        }
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType==5{
@@ -1137,12 +1233,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bh)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-        if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
+       // if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
             startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
-        }else{
-            explanationLabel.isHidden=true
-            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-        }
+       // }else{
+       //     explanationLabel.isHidden=true
+       //     startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
+       // }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
 //        let ex1=realWinWidth/3
 //        let ey1=sp
@@ -1158,31 +1254,35 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             explanationLabel.text=explanationText// + "Record Settings"
         }
-        if setteiMode == 0{//slider labelを隠す 0:record
-                hideButtonsSlides()
-        }
-        if setteiMode==2{
-            cameraChangeButton.isEnabled=false
-            //previewSwitch.isHidden=true
-          //  previewLabel.isHidden=true
-            focusBar.isHidden=true
-            focusLabel.isHidden=true
-            focusValueLabel.isHidden=true
-            LEDLabel.isHidden=true
-            LEDBar.isHidden=true
-            LEDValueLabel.isHidden=true
-            urlLabel.isHidden=true
-            urlInputField.isHidden=true
-            enterButton.isHidden=true
-            defaultButton.isHidden=true
-//            manualButton.isHidden=true
-//            auto20sButton.isHidden=true
-//            auto90sButton.isHidden=true
-        }
+    //    if setteiMode == 0{//slider labelを隠す 0:record
+    //            hideButtonsSlides()
+    //    }
+//        if setteiMode==2{
+//            cameraChangeButton.isEnabled=false
+//            //previewSwitch.isHidden=true
+//          //  previewLabel.isHidden=true
+//            focusBar.isHidden=true
+//            focusLabel.isHidden=true
+//            focusValueLabel.isHidden=true
+//            LEDLabel.isHidden=true
+//            LEDBar.isHidden=true
+//            LEDValueLabel.isHidden=true
+//            urlLabel.isHidden=true
+//            urlInputField.isHidden=true
+//            enterButton.isHidden=true
+//            defaultButton.isHidden=true
+////            manualButton.isHidden=true
+////            auto20sButton.isHidden=true
+////            auto90sButton.isHidden=true
+//        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
+        setButtonsDisplay()
+//        stopButton.isHidden=true
+//        startButton.isHidden=false
+        UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
 
         if let soundUrl = URL(string:
                                 "/System/Library/Audio/UISounds/begin_record.caf"){
@@ -1190,7 +1290,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             AudioServicesPlaySystemSound(soundIdx)
         }
         
-        motionManager.stopDeviceMotionUpdates()
+     //   motionManager.stopDeviceMotionUpdates()
 
         if fileWriter!.status == .writing {
             fileWriter!.finishWriting {
@@ -1234,28 +1334,48 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             stopButton.isHidden=true
             //と変更することで、Exitボタンで帰った状態にする。
         }
-        motionManager.stopDeviceMotionUpdates()
+   //     motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
-        killTimer()
-        while saved2album==false{
-            sleep(UInt32(0.1))
-        }
-        performSegue(withIdentifier: "fromRecord", sender: self)
+        onCameraChangeButton(stopButton)
+    //    killTimer()
+      //  while saved2album==false{
+      //      sleep(UInt32(0.1))
+      //  }
+        
+        
+        // if someFunctions.videoPHAsset.count<5{
+        //     someFunctions.getAlbumAssets()
+        //     print("count<5")
+        // }else{
+        //     someFunctions.getAlbumAssets_last()
+        //     print("count>4")
+        // }
+        cameraChangeButton.isHidden=false
+        currentTime.isHidden=true
+        setButtonsDisplay()
+
+   //  print("segue:","\(segue.identifier!)")
+  //   Controller.motionManager.stopDeviceMotionUpdates()
+  //   Controller.captureSession.stopRunning()
+         
+        
+        
+        
+   //     performSegue(withIdentifier: "fromRecord", sender: self)
     }
     
     func hideButtonsSlides() {
         zoomLabel.isHidden=true
         zoomValueLabel.isHidden=true
+        zoomBar.isHidden=true
         focusLabel.isHidden=true
         focusValueLabel.isHidden=true
         focusBar.isHidden=true
-        zoomBar.isHidden=true
         LEDLabel.isHidden=true
         LEDBar.isHidden=true
         LEDValueLabel.isHidden=true
         exposeLabel.isHidden=true
         exposeValueLabel.isHidden=true
-//        explanationLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         currentTime.isHidden=false
@@ -1265,7 +1385,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-        hideButtonsSlides()
+        //hideButtonsSlides()
+      //  setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
 
         if cameraType==5{
@@ -1283,12 +1404,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //sensorをリセットし、正面に
 //        motionManager.stopDeviceMotionUpdates()
         recordingFlag=true
+        setButtonsDisplay()
         //start recording
-        startButton.isHidden=true
-        stopButton.isHidden=false
+    //    startButton.isHidden=true
+    //    stopButton.isHidden=false
         stopButton.isEnabled=false//timerで３秒後にtrue
-        startButton.isEnabled=false
-        currentTime.isHidden=false
+    //    startButton.isEnabled=false
+    //    currentTime.isHidden=false
         exitButton.isHidden=true
         stopButton.alpha=0.025
      //   previewSwitch.isHidden=true
@@ -1383,13 +1505,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
  
     @objc func onExposeValueChange(){//setteiMode==0 record, 1:manual 2:auto
         setExpose(expose:exposeBar.value)
-        if setteiMode==2{
-            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
-            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")//add
-        }else{
+//        if setteiMode==2{
+//            UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
+//            UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")//add
+//        }else{
             UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
             UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")//add
-        }
+//        }
     }
 
     func setExpose(expose:Float) {
