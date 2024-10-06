@@ -122,7 +122,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
     var explanationLabeltextColor:UIColor=UIColor.systemGreen
-    let cameraTypeStrings : Array<String> = ["frontCamera","wideAngleCamera","ultraWideCamera","telePhotoCamera","none","wifiCamera"]
+    let cameraTypeStrings : Array<String> = ["frontCam","backCam1","ultraWideCam","backCam2","none","wifiCam"]
 
     @IBOutlet weak var previewSwitch: UISwitch!
     
@@ -976,18 +976,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             type=1//wideAngle
         }else if type==1{
             if telephotoCamera == true{
-                type=2//ultraWide
-            }else if ultrawideCamera == true{
+          //      type=2//ultraWide
+          //  }else if ultrawideCamera == true{
                 type=3//telePhoto
             }else{
                 type=5
             }
-        }else if type==2{
-            if ultrawideCamera==true{
-                type=3
-            }else{
-                type=5
-          }
+     //   }else if type==2{
+     //       if ultrawideCamera==true{
+      //          type=3
+     //       }else{
+     //           type=5
+     //     }
         }else if type==3{
             type=5//wifiCamera
         }else{
@@ -1383,8 +1383,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        let ex1=realWinWidth/3
 //        let ey1=sp
 //        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
-
-        explanationLabel.frame=CGRect(x:0,y:y0,width:view.bounds.width,height:bh)
+//       camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
+        
+        explanationLabel.frame=CGRect(x:x0+bw*6+sp*6-sp*2,y:by-sp-bh,width:bw+sp*4,height:bh)
         var explanationText = cameraTypeStrings[cameraType]
         if explanationLabeltextColor==UIColor.systemOrange{
            explanationText=""
