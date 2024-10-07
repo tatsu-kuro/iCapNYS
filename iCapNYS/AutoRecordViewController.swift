@@ -438,6 +438,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         videoView.layer.addSublayer(layer)
  //       videoPlayer.seek(to: CMTime.zero)
         videoPlayer.play()
+        
     //    videoPlayer.seek(to: CMTimeMakeWithSeconds(Float64(0), preferredTimescale: Int32(NSEC_PER_SEC)))
    //     videoPlayer.seek(to: CMTime.zero)
     }
@@ -469,7 +470,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     var movieTimerCnt:Int=0
     @objc func movieUpdate_jap(tm: Timer){
         movieTimerCnt += 1
-        if isPositional==false{
+      /*  if isPositional==false{
             if movieTimerCnt == 1{
                 playMoviePath("steel1")
                 videoView.frame = self.view.bounds
@@ -507,7 +508,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 25+22+22{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
-        }else{
+        }else{*/
             if movieTimerCnt == 1{
                 playMoviePath("positional")
                 videoView.frame = self.view.bounds
@@ -552,23 +553,27 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == movCnt{//100+12+23+23+22+25{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3")
+                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+  
+          //      playMoviePath("steel3")
             }
             movCnt += 1
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+1{
                 videoView.frame = self.view.bounds
+                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+
             }
             movCnt += 21
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+22{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
-        }
+  //      }
     }
     
     
     @objc func movieUpdate_eng(tm: Timer){
         movieTimerCnt += 1
-        if isPositional==false{
+       /* if isPositional==false{
             if movieTimerCnt == 1{
                 playMoviePath("steel1_eng")
                 videoView.frame = self.view.bounds
@@ -607,7 +612,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == 25+22+22-4{
                 performSegue(withIdentifier: "fromAutoRecord", sender: self)
             }
-        }else{
+        }else{*/
              if movieTimerCnt == 1{
                 playMoviePath("positional_eng")//_new")
                 videoView.frame = self.view.bounds
@@ -653,22 +658,24 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == movCnt{//100+12+23+23+22+25-20+1{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                playMoviePath("steel3_eng")//_new")
+          //      playMoviePath("steel3_eng")//_new")
             }
             movCnt += 1
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+1-20+1{
                 videoView.frame = self.view.bounds
+                performSegue(withIdentifier: "AUTORECORD", sender: self)
             }
             movCnt += 17
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+22-20-3{
-                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+                performSegue(withIdentifier: "AUTORECORD", sender: self)
             }
-        }
+      //  }
     }
-    func onExitButton(){
-   
+  
+    @IBAction func onExitButtonClicked(_ sender: UIButton) {
+        performSegue(withIdentifier: "AUTORECORD", sender: self)
     }
-
+    
     func setMotion(){
         guard motionManager.isDeviceMotionAvailable else { return }
         motionManager.deviceMotionUpdateInterval = 1 / 100//が最速の模様
@@ -803,7 +810,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @IBAction func onClickExitButton(_ sender: Any) {
         print("onClickEixtButton****")
         onClickStopButton()
-        performSegue(withIdentifier: "fromAutoRecord", sender: self)
+     //   performSegue(withIdentifier: "fromAutoRecord", sender: self)
     }
     override func viewDidAppear(_ animated: Bool) {
 
@@ -1055,7 +1062,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         while saved2album==false{
             sleep(UInt32(0.1))
         }
-//        performSegue(withIdentifier: "fromAutoRecord", sender: self)
+        performSegue(withIdentifier: "AUTORECORD", sender: self)
     }
     func onClickStartButton() {
 

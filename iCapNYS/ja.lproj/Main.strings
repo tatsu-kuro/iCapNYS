@@ -36,7 +36,7 @@
 "VOs-bS-GtU.normalTitle" = "設定";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "YN8-XD-5kY"; */
-"YN8-XD-5kY.normalTitle" = "Exit";
+"YN8-XD-5kY.normalTitle" = "戻る";
 
 /* Class = "UILabel"; text = "record sitting for 20sec."; ObjectID = "aBV-ql-gTR"; */
 "aBV-ql-gTR.text" = "record sitting for 20sec.";
@@ -67,7 +67,7 @@
 "lzB-Ie-6Qy.text" = "000";
 
 /* Class = "UIButton"; normalTitle = "Skip commentary"; ObjectID = "mjm-Rl-jMd"; */
-"mjm-Rl-jMd.normalTitle" = "Skip commentary";
+"mjm-Rl-jMd.normalTitle" = "解説を スキップ";
 
 /* Class = "UIButton"; normalTitle = "Settings"; ObjectID = "pbb-NN-cqP"; */
 "pbb-NN-cqP.normalTitle" = "戻る";
@@ -79,10 +79,10 @@
 "sYh-14-k4L.text" = "LED";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "swt-4C-G4l"; */
-"swt-4C-G4l.normalTitle" = "Exit";
+"swt-4C-G4l.normalTitle" = "戻る";
 
 /* Class = "UIButton"; normalTitle = "Exit"; ObjectID = "us7-si-304"; */
-"us7-si-304.normalTitle" = "Exit";
+"us7-si-304.normalTitle" = "戻る";
 "Hlb-B8-tbX.normalTitle" = "手動";
 "lbI-2i-GHw.normalTitle" = "自動20秒";
 "LI7-8u-g4E.normalTitle" = "自動90秒";

@@ -192,13 +192,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 print("Exit / not recorded")
             }else{
                 print("Exit / recorded")
-              //  if someFunctions.videoPHAsset.count<5{
-                    someFunctions.getAlbumAssets()
-              //      print("count<5")
-              //  }else{
-                    someFunctions.getAlbumAssets_last()
-               //     print("count>4")
-               // }
             }
    
             print("segue:","\(segue.identifier!)")
@@ -212,14 +205,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
-            if (Controller.isPositional==false && Controller.movieTimerCnt>25) ||
-                (Controller.isPositional==true && Controller.movieTimerCnt>112){
-                print("Exit / Auto recorded")
+       //     if (Controller.isPositional==false && Controller.movieTimerCnt>25) ||
+       //         (Controller.isPositional==true && Controller.movieTimerCnt>112){
+       //         print("Exit / Auto recorded")
        //         if someFunctions.videoPHAsset.count<5{
-                    someFunctions.getAlbumAssets()
+       //             someFunctions.getAlbumAssets()
        //             print("count<5")
        //         }else{
-                    someFunctions.getAlbumAssets_last()
+        //            someFunctions.getAlbumAssets_last()
        //             print("count>4")
        //         }
 //                UserDefaults.standard.set(0,forKey: "contentOffsetY")
@@ -227,12 +220,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //                    self.tableView.contentOffset.y=0
 //                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
 //                }
-            }
-  
-            print("segue:","\(segue.identifier!)")
-        //    Controller.motionManager.stopDeviceMotionUpdates()
+//            }
+            Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
-            recordingFlag=false
+            print("segue:","\(segue.identifier!)")
+         //   Controller.killTimer()
+         //   Controller.soundPlayer?.stop()
+         //   Controller.videoPlayer.pause()
+        //    Controller.motionManager.stopDeviceMotionUpdates()
+         //   Controller.captureSession.stopRunning()
+         //   recordingFlag=false
             
    //     }else if let vc = segue.source as? AutoRecordViewController{
    //     }else if let vc = segue.source as? MainViewController{
@@ -459,7 +456,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-
+        stopButton.alpha=0.025
         getPaddings()
         setteiMode=1
         autoRecordMode=false
@@ -549,9 +546,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 withTimeInterval: 1.0,
                 repeats: true
             ) { _ in
-         //       print("実行しました")
-                self.timerCnt += 1
-                if self.recordingFlag==true{//} && timerCnt>3{//trueになった時 0にリセットされる
+                //       print("実行しました")
+                if self.recordingFlag{
+                    self.timerCnt += 1
+                }
+                if self.recordingFlag{//} && timerCnt>3{//trueになった時 0にリセットされる
                     self.currentTime.text=String(format:"%01d",(self.timerCnt)/60) + ":" + String(format: "%02d",(self.timerCnt)%60)
                     if self.timerCnt%2==0{
                         self.stopButton.tintColor=UIColor.cyan
@@ -560,7 +559,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     }
                 }
                 if self.timerCnt == 5*60{//sleep
-                    self.onClickStopButton(0)
+                    if self.recordingFlag{
+                        self.onClickStopButton(0)
+                    }
                 }
    //             self.doTimer()
             }
@@ -972,6 +973,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func cameraChange(_ cameraType:Int)->Int{
         var type=cameraType
         if type==0{
+            type=4//auto90
+        }else if type==4{
             type=1//wideAngle
         }else if type==1{
             if telephotoCamera == true{
@@ -992,23 +995,24 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else{
             type=0//frontCamera
         }
+        print("cameraType:",type)
         return type
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
-    let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultraWideCam","背面\nカメラ2","none","WiFi\nカメラ","解説付き\n自動20秒","解説付き\n自動90秒"]
-    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultraWideCam","Back\nCamera2","none","WiFi\nCamera","\nAuto20s","\nAuto90s"]
+    let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultraWideCam","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
+    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultraWideCam","Back\nCamera2","withVideo\nAuto90s","WiFi\nCamera"]
 
     func setButtonsDisplay(){
         getPaddings()
         setButtonsLocation()
-        var explanationText = cameraTypeStrings[cameraType]
-        if explanationLabeltextColor==UIColor.systemOrange{
-            explanationText=""
-        }
+ //       var explanationText = cameraTypeStrings[cameraType]
+//        if explanationLabeltextColor==UIColor.systemOrange{
+//            explanationText=""
+//        }
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text=explanationText
+            explanationLabel.text=cameraTypeStrings[cameraType]
         }else{
-            explanationLabel.text=explanationText
+            explanationLabel.text=cameraTypeStringsE[cameraType]
         }
         setButtonsFrontCameraMode()
         defaultButton.isHidden=true
@@ -1533,18 +1537,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  //スリープさせない
 //***************説明ビデオの後半部分の削除
-        if cameraType==6{
-            let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-            nextView.isPositional=false
-            UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-            self.present(nextView, animated: true, completion: nil)
-            return
-        }
-        if cameraType==7{
+        if cameraType==4{
             let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
             nextView.isPositional=true
             UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")//cgfloat-double?
-            self.present(nextView, animated: true, completion: nil)
+            self.present(nextView, animated: false, completion: nil)
             return
         }
 //***************
@@ -1559,7 +1556,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
           stopButton.isEnabled=false//timerで３秒後にtrue
         listButton.isHidden=true
-        stopButton.alpha=0.025
         if cameraType==0 && previewSwitch.isOn==false{
             quaternionView.isHidden=true
             cameraView.isHidden=true

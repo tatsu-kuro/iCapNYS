@@ -18,20 +18,20 @@ import AssetsLibrary
 import CoreMotion
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    @IBOutlet weak var steelLabel: UILabel!
-    @IBOutlet weak var postualLabel: UILabel!
-    @IBOutlet weak var autoRecordButton: UIButton!
+//    @IBOutlet weak var steelLabel: UILabel!
+///    @IBOutlet weak var postualLabel: UILabel!
+//    @IBOutlet weak var autoRecordButton: UIButton!
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
     var videoCurrentCount:Int = 0
     var videoDate = Array<String>()
     @IBOutlet weak var how2Button: UIButton!
-    @IBOutlet weak var cameraButton: UIButton!
+//    @IBOutlet weak var cameraButton: UIButton!
     
     @IBOutlet weak var gyroButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topLabel: UILabel!
+//    @IBOutlet weak var topLabel: UILabel!
     private var videoCnt: [Int] = [] {
         didSet {
             tableView?.reloadData()
@@ -280,7 +280,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        self.present(nextView, animated: true, completion: nil)
 //    }
     
-    @IBAction func unwindAction(segue: UIStoryboardSegue) {
+/*    @IBAction func unwindAction(segue: UIStoryboardSegue) {
         print("segueWhat:",segue)
         if let vc = segue.source as? RecordViewController{
             let Controller:RecordViewController = vc
@@ -363,7 +363,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        isStarted=false
 //        startMotion()
     }
-    
+*/
 //    func camera_alert(){
 //        if PHPhotoLibrary.authorizationStatus() != .authorized {
 //            PHPhotoLibrary.requestAuthorization { status in
@@ -484,19 +484,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         someFunctions.setButtonProperty(returnButton, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
 
         let cx=leftPadding+ww-wh*3/4+wh*5/13//-(x1but+sp/2-bw-sp))-cr
-        let a=2*cx-x1but-bw
+  //      let a=2*cx-x1but-bw
  //             sendButton.frame=CGRect(x:a/*x1but+sp/2-bw-sp*/, y:topPadding+sp, width: cr, height:cr )
   //      someFunctions.setButtonProperty(how2Button, x:/*a*/x1but+sp/2-bw-sp, y: by, w: bw, h: bh, UIColor.darkGray,0)
         someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
         someFunctions.setButtonProperty(gyroButton, x:x1but, y:by0+bh+sp, w: bw, h: bh, UIColor.darkGray,0)
 //        sendButton.isHidden=true
 //        someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
-        autoRecordButton.frame=CGRect(x:x0but,y:sp,width: wh/2,height: wh/2)
-        positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
-        let upCircleX0=sp+wh/4
-        let downCircleX0=wh/2-sp+wh/4
-        steelLabel.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
-        postualLabel.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
+ //       autoRecordButton.frame=CGRect(x:x0but,y:sp,width: wh/2,height: wh/2)
+ //       positioningAutoRecordButton.frame=CGRect(x:x0but,y:wh/2-sp,width: wh/2,height: wh/2)
+  //      let upCircleX0=sp+wh/4
+  //      let downCircleX0=wh/2-sp+wh/4
+ //       steelLabel.frame=CGRect(x:x0but,y:upCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
+ //       postualLabel.frame=CGRect(x:x0but,y:downCircleX0-wh/9-bh/2,width: wh/2,height: bh*3.5)
        //下ボタンを有効にするとLandscapeLeft,Rightを変更可能となる。infoに(left home button),(right home button)両方指定
 //        changeLandscapeSideButton.isHidden=true
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
@@ -504,7 +504,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: x1but-leftPadding-sp*2,height: wh-sp*2)
    
-        cameraButton.frame=CGRect( x: tableView.frame.maxX, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
+   //     cameraButton.frame=CGRect( x: tableView.frame.maxX, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
 //        cameraButton.frame=CGRect( x: view.bounds.width-rightPadding-wh*3/4, y:topPadding+wh*3/26,width:wh*10/13, height: wh*10/13)
         //高さ/20を上下に開ける
   
@@ -515,12 +515,12 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
          //   steelLabel.text="座って記録\n20秒"
          //   postualLabel.text="横になって記録\n90秒"
         }
-        postualLabel.isHidden=true
-        steelLabel.isHidden=true
-        autoRecordButton.isHidden=true
-        positioningAutoRecordButton.isHidden=true
+  //      postualLabel.isHidden=true
+  //      steelLabel.isHidden=true
+  //      autoRecordButton.isHidden=true
+  //      positioningAutoRecordButton.isHidden=true
         setteiButtonAuto.isHidden=true
-        cameraButton.isHidden=true
+    //    cameraButton.isHidden=true
     //    sendButton.isHidden=true
     }
   
