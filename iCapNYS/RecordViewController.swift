@@ -374,7 +374,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     func setFlashlevel(level:Float){
-        if cameraType != 0{
+        if cameraType != 0 && cameraType != 4{
             if let device = videoDevice{
                 do {
                     if device.hasTorch {
@@ -495,7 +495,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDBar.maximumValue = 1
         LEDBar.addTarget(self, action: #selector(onLEDValueChange), for: UIControl.Event.valueChanged)
         LEDBar.value=UserDefaults.standard.float(forKey: "")
-        if cameraType != 0{
+        if cameraType != 0 && cameraType != 4{
             LEDBar.value=UserDefaults.standard.float(forKey: "ledValue")
         }
         onLEDValueChange()
@@ -604,7 +604,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
-        if cameraType != 0{
+        if cameraType != 0 && cameraType != 4{
             setFlashlevel(level: LEDBar.value)
             UserDefaults.standard.set(LEDBar.value, forKey: "ledValue")
             LEDValueLabel.text=(Int(LEDBar.value*100)).description
@@ -723,9 +723,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //drawHeadで顔を描くとき利用する。
             if degreeAtResetHead == -1{
                 if motion.gravity.z > 0{
-                    degreeAtResetHead = cameraType != 0 ? 1:0
+                    degreeAtResetHead = (cameraType != 0 && cameraType != 4) ? 1:0
                 }else{
-                    degreeAtResetHead = cameraType != 0 ? 0:1
+                    degreeAtResetHead = (cameraType != 0 && cameraType != 4) ? 0:1
                 }
             }
         })
@@ -736,7 +736,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         var frontBack:Int = 0
 //        let camera = Int(camera.getUserDefaultInt(str: "cameraType", ret: 0))
 //        i
-        if cameraType == 0{//front camera
+        if cameraType == 0 || cameraType == 4{//front camera
             frontBack = 180
         }
         // convert draw data to radian
@@ -1034,7 +1034,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         bleButton.isHidden=true
 
 //print("setteimode:******:",setteiMode)
-        if cameraType==0{
+        if cameraType==0 || cameraType==4{
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
@@ -1190,7 +1190,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // カメラ入力 : 背面カメラ
 //        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
 
-        if cameraType == 0 || cameraType==5{//wifiCamera : 5
+        if cameraType == 0 || cameraType == 4 || cameraType == 5{//wifiCamera : 5
         videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)//.back)
         }else if cameraType==1{
             videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
