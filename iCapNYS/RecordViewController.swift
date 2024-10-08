@@ -405,6 +405,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+        let url="http://192.168.82.1"
+        //        }
+        UserDefaults.standard.set(url,forKey: "urlAdress")
+        
+        
         stopButton.alpha=0.025
         getPaddings()
         setteiMode=1
