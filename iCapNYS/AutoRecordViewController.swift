@@ -553,19 +553,21 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             if movieTimerCnt == movCnt{//100+12+23+23+22+25{
                 exitButton.alpha=0.5
                 onClickStopButton()
-                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+           //     performSegue(withIdentifier: "AUTORECORD", sender: self)
   
           //      playMoviePath("steel3")
             }
             movCnt += 1
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+1{
                 videoView.frame = self.view.bounds
-                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+                onClickStopButton()
+//                performSegue(withIdentifier: "AUTORECORD", sender: self)
 
             }
             movCnt += 21
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+22{
-                performSegue(withIdentifier: "fromAutoRecord", sender: self)
+                onClickStopButton()
+//                performSegue(withIdentifier: "AUTORECORD", sender: self)
             }
   //      }
     }
@@ -663,17 +665,20 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             movCnt += 1
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+1-20+1{
                 videoView.frame = self.view.bounds
-                performSegue(withIdentifier: "AUTORECORD", sender: self)
+                onClickStopButton()
+//                performSegue(withIdentifier: "AUTORECORD", sender: self)
             }
             movCnt += 17
             if movieTimerCnt == movCnt{//100+12+23+23+22+25+22-20-3{
-                performSegue(withIdentifier: "AUTORECORD", sender: self)
+                onClickStopButton()
+//                performSegue(withIdentifier: "AUTORECORD", sender: self)
             }
       //  }
     }
   
     @IBAction func onExitButtonClicked(_ sender: UIButton) {
-        performSegue(withIdentifier: "AUTORECORD", sender: self)
+        onClickStopButton()
+//        performSegue(withIdentifier: "AUTORECORD", sender: self)
     }
     
     func setMotion(){
