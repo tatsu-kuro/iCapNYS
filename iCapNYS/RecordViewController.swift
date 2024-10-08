@@ -27,27 +27,27 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let camera = myFunctions()
     var cameraType:Int = 0
     
-    @IBOutlet weak var defaultButton: UIButton!
+//    @IBOutlet weak var defaultButton: UIButton!
     @IBOutlet weak var urlLabel: UILabel!
     
-    @IBOutlet weak var urlInputField: UITextField!
+//    @IBOutlet weak var urlInputField: UITextField!
     var tempURL:String=""
-    @IBAction func onEnterButton(_ sender: Any) {
-        urlInputField.endEditing(true)
-        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
-        print(urlInputField.text)
-    }
+//    @IBAction func onEnterButton(_ sender: Any) {
+//        urlInputField.endEditing(true)
+//        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
+//        print(urlInputField.text)
+//    }
     
-    @IBOutlet weak var enterButton: UIButton!
-    @IBAction func onDefaultButton(_ sender: Any) {
-        if urlInputField.text=="http://192.168.82.1"{
-            urlInputField.text=tempURL
-        }else{
-            tempURL=urlInputField.text!
-            urlInputField.text="http://192.168.82.1"
-        }
-        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
-    }
+//    @IBOutlet weak var enterButton: UIButton!
+ //   @IBAction func onDefaultButton(_ sender: Any) {
+//        if urlInputField.text=="http://192.168.82.1"{
+//            urlInputField.text=tempURL
+//        }else{
+//            tempURL=urlInputField.text!
+//            urlInputField.text="http://192.168.82.1"
+//        }
+ //       UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
+//    }
     @IBOutlet weak var playButton: UIButton!
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
         guard asset.mediaType == .video else { return nil }
@@ -308,25 +308,25 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var LEDLabel: UILabel!
     @IBOutlet weak var LEDValueLabel: UILabel!
    
-    @IBOutlet weak var bleButton: UIButton!
+//    @IBOutlet weak var bleButton: UIButton!
    
-    @IBAction func onAuto90sButton(_ sender: Any) {
-        frontCameraMode=2
-        setButtonsFrontCameraMode()
-    }
-    @IBAction func onAuto20sButton(_ sender: Any) {
-        frontCameraMode=1
-        setButtonsFrontCameraMode()
-
-    }
-    @IBAction func onManualButton(_ sender: Any) {
-        frontCameraMode=0
-        setButtonsFrontCameraMode()
-
-    }
-    @IBOutlet weak var auto90sButton: UIButton!
-    @IBOutlet weak var auto20sButton: UIButton!
-    @IBOutlet weak var manualButton: UIButton!
+//    @IBAction func onAuto90sButton(_ sender: Any) {
+//        frontCameraMode=2
+//        setButtonsFrontCameraMode()
+//    }
+//    @IBAction func onAuto20sButton(_ sender: Any) {
+//        frontCameraMode=1
+//        setButtonsFrontCameraMode()
+//
+//    }
+//    @IBAction func onManualButton(_ sender: Any) {
+//        frontCameraMode=0
+//        setButtonsFrontCameraMode()
+//
+//    }
+//    @IBOutlet weak var auto90sButton: UIButton!
+ //   @IBOutlet weak var auto20sButton: UIButton!
+ //   @IBOutlet weak var manualButton: UIButton!
     var frontCameraMode:Int = 0//0:manual 1:20s 2:90s
  
     @IBOutlet weak var currentTime: UILabel!
@@ -473,7 +473,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setPlayButtonImage()
         explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
-        urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
+  //      urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
         frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
         getCameras()
         camera.makeAlbum()
@@ -539,7 +539,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-        urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
+  //      urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
         setButtonsDisplay()
         if cameraType == 5{
             captureSession.stopRunning()
@@ -958,23 +958,23 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
 
         if cameraType == 0 && setteiMode != 0{
-            manualButton.isHidden=true
-            auto20sButton.isHidden=true
-            auto90sButton.isHidden=true
-            manualButton.setTitleColor(UIColor.systemGray2,for: .normal)
-            auto20sButton.setTitleColor(UIColor.systemGray2,for:.normal)
-            auto90sButton.setTitleColor(UIColor.systemGray2,for:.normal)
+//            manualButton.isHidden=true
+//            auto20sButton.isHidden=true
+//            auto90sButton.isHidden=true
+ //           manualButton.setTitleColor(UIColor.systemGray2,for: .normal)
+//            auto20sButton.setTitleColor(UIColor.systemGray2,for:.normal)
+//            auto90sButton.setTitleColor(UIColor.systemGray2,for:.normal)
             if frontCameraMode==0{
-                manualButton.setTitleColor(UIColor.white,for:.normal)
+   //             manualButton.setTitleColor(UIColor.white,for:.normal)
             }else if frontCameraMode==1{
-                auto20sButton.setTitleColor(UIColor.white,for:.normal)
+//auto20sButton.setTitleColor(UIColor.white,for:.normal)
             }else{
-                auto90sButton.setTitleColor(UIColor.white,for:.normal)
+ //               auto90sButton.setTitleColor(UIColor.white,for:.normal)
             }
         }else{
-            manualButton.isHidden=true
-            auto20sButton.isHidden=true
-            auto90sButton.isHidden=true
+   //         manualButton.isHidden=true
+   //         auto20sButton.isHidden=true
+   //         auto90sButton.isHidden=true
         }
         UserDefaults.standard.set(frontCameraMode, forKey: "frontCameraMode")
     }
@@ -1024,10 +1024,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             explanationLabel.text = cameraTypeStringsE[cameraType]
         }
         setButtonsFrontCameraMode()
-        defaultButton.isHidden=true
-        enterButton.isHidden=true
+  //      defaultButton.isHidden=true
+ //       enterButton.isHidden=true
         urlLabel.isHidden=true
-        urlInputField.isHidden=true
+ //       urlInputField.isHidden=true
         setPreviewLabel()
         zoomBar.isHidden=false
         zoomLabel.isHidden=false
@@ -1040,7 +1040,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         LEDValueLabel.isHidden=false
         cameraView.isHidden=false
         quaternionView.isHidden=false
-        bleButton.isHidden=true
+ //       bleButton.isHidden=true
 
 //print("setteimode:******:",setteiMode)
         if cameraType == 0 || cameraType == 4{
@@ -1070,11 +1070,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             cameraChangeButton.isHidden=false
             currentTime.isHidden=true
 
-            defaultButton.isHidden=true
-            enterButton.isHidden=true
+  //          defaultButton.isHidden=true
+ //           enterButton.isHidden=true
             urlLabel.isHidden=false
-            urlInputField.isHidden=true
-            bleButton.isHidden=true//使わない
+  //          urlInputField.isHidden=true
+   //         bleButton.isHidden=true//使わない
 
             cameraView.isHidden=true
             quaternionView.isHidden=true
@@ -1144,9 +1144,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType == 5{
-            defaultButton.isHidden=true
-            enterButton.isHidden=true
-            urlInputField.isHidden=true
+ //           defaultButton.isHidden=true
+ //           enterButton.isHidden=true
+ //           urlInputField.isHidden=true
             focusBar.isHidden=true
             focusLabel.isHidden=true
             focusValueLabel.isHidden=true
@@ -1351,13 +1351,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewSwitch.frame = CGRect(x:leftPadding+10,y:view.bounds.height*3.5/6+sp,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
-        myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
-        myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
+ //       myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
+ //       myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
         urlLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
-        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
-        urlInputField.layer.borderWidth = 1.0
-        urlInputField.layer.cornerRadius=5
-        urlInputField.layer.masksToBounds = true
+  //      urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
+  //      urlInputField.layer.borderWidth = 1.0
+  //      urlInputField.layer.cornerRadius=5
+  //      urlInputField.layer.masksToBounds = true
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
@@ -1373,9 +1373,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
-        camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
-        camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
-        camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
+  //      camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
+ //       camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
+ //       camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
         setProperty(label: currentTime, radius: 4)
         camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
@@ -1532,9 +1532,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
         currentTime.isHidden=false
-        manualButton.isHidden=true
-        auto20sButton.isHidden=true
-        auto90sButton.isHidden=true
+//        manualButton.isHidden=true
+   //     auto20sButton.isHidden=true
+ //       auto90sButton.isHidden=true
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
