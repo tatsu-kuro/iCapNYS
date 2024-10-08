@@ -162,30 +162,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         print("segueWhatRecord:",segue)
-     /*   if let vc = segue.source as? RecordViewController{
-            let Controller:RecordViewController = vc
-            if Controller.stopButton.isHidden==true{//Exit
-                print("Exit / not recorded")
-            }else{
-                print("Exit / recorded")
-                if someFunctions.videoPHAsset.count<5{
-                    someFunctions.getAlbumAssets()
-                    print("count<5")
-                }else{
-                    someFunctions.getAlbumAssets_last()
-                    print("count>4")
-                }
-//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
-//                DispatchQueue.main.async { [self] in
-//                    self.tableView.contentOffset.y=0
-//                }
-            }
-            onCameraChangeButton(stopButton)
-
-            print("segue:","\(segue.identifier!)")
-            Controller.motionManager.stopDeviceMotionUpdates()
-            Controller.captureSession.stopRunning()
-        }else*/
+   
         if let vc1 = segue.source as? WifiViewController{
             let Controller:WifiViewController = vc1
             if Controller.stopButton.isHidden==true{//Exit
@@ -193,7 +170,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }else{
                 print("Exit / recorded")
             }
-   
             print("segue:","\(segue.identifier!)")
   //          Controller.motionManager.stopDeviceMotionUpdates()
             cameraChangeButton.isHidden=false
@@ -205,38 +181,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
-       //     if (Controller.isPositional==false && Controller.movieTimerCnt>25) ||
-       //         (Controller.isPositional==true && Controller.movieTimerCnt>112){
-       //         print("Exit / Auto recorded")
-       //         if someFunctions.videoPHAsset.count<5{
-       //             someFunctions.getAlbumAssets()
-       //             print("count<5")
-       //         }else{
-        //            someFunctions.getAlbumAssets_last()
-       //             print("count>4")
-       //         }
-//                UserDefaults.standard.set(0,forKey: "contentOffsetY")
-//                DispatchQueue.main.async { [self] in
-//                    self.tableView.contentOffset.y=0
-//                    self.tableView.reloadData()//こちらだけこれが必要なのはどうして
-//                }
-//            }
+ 
              Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
             print("segue:","\(segue.identifier!)")
-         //   Controller.killTimer()
-         //   Controller.soundPlayer?.stop()
-         //   Controller.videoPlayer.pause()
-        //    Controller.motionManager.stopDeviceMotionUpdates()
-         //   Controller.captureSession.stopRunning()
-         //   recordingFlag=false
-            
-   //     }else if let vc = segue.source as? AutoRecordViewController{
-   //     }else if let vc = segue.source as? MainViewController{
-            
-     //   }else if let vc = segue.source as? BLEViewController{
-     //       let Controller:BLEViewController = vc
-     //       Controller.motionManager.stopDeviceMotionUpdates()
+   
         }
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
@@ -247,9 +196,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         setPlayButtonImage()
         setButtonsDisplay()
         onCameraChangeButton(stopButton)
-//        setButtonsDisplay()
-//        isStarted=false
-//        startMotion()
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         let landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)

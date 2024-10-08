@@ -67,7 +67,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="1tp-Pv-lNK" kind="unwind" unwindAction="unwindActionWithSegue:" id="yLA-iP-RNe"/>
+                                    <action selector="onExitButton:" destination="x93-Is-wG7" eventType="touchUpInside" id="69S-pe-qUD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yA-qE-UYO">
@@ -96,7 +96,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Z8-K4-WMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="1tp-Pv-lNK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="26" y="-379"/>
         </scene>
@@ -939,20 +938,6 @@
                                     <segue destination="eL6-VO-9Mc" kind="show" id="lIi-V7-BL5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOs-bS-GtU">
-                                <rect key="frame" x="514" y="0.0" width="44" height="47"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Settings">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="onSetteiButtonAuto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jeq-oO-rgc"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pbb-NN-cqP">
                                 <rect key="frame" x="488" y="55" width="85" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -990,7 +975,6 @@
                         <outlet property="gyroButton" destination="mfh-ET-y2e" id="MWB-O8-2u5"/>
                         <outlet property="how2Button" destination="IwN-Th-8hI" id="e7H-zu-JVL"/>
                         <outlet property="returnButton" destination="pbb-NN-cqP" id="d7G-vb-AEl"/>
-                        <outlet property="setteiButtonAuto" destination="VOs-bS-GtU" id="Utm-tP-tzA"/>
                         <outlet property="tableView" destination="doJ-Ju-u1K" id="oD8-Nq-4nq"/>
                     </connections>
                 </viewController>
@@ -1037,7 +1021,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="pLX-6O-bBD" kind="unwind" unwindAction="unwindActionWithSegue:" id="u5N-ES-V5l"/>
+                                    <action selector="onExitButton:" destination="eL6-VO-9Mc" eventType="touchUpInside" id="ycD-mX-Bo6"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1054,7 +1038,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNe-KU-a0d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="pLX-6O-bBD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1334.1549295774648" y="386.25"/>
         </scene>

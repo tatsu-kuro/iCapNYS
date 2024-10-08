@@ -22,7 +22,10 @@ class PlayViewController: UIViewController{
     var timer:Timer?
     var url:URL?
     
-//    @IBOutlet weak var mailAddressInputField: UITextField!
+    @IBAction func onExitButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    //    @IBOutlet weak var mailAddressInputField: UITextField!
     @IBOutlet weak var paperPlaneButton: UIButton!
     @IBAction func onPaperPlaneButton(_ sender: Any) {
 //        mailAddressInputField.endEditing(true)

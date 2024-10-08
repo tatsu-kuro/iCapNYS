@@ -176,9 +176,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return true
     }
     //これは.isHiddenとする
-    @IBOutlet weak var setteiButtonAuto: UIButton!
+ //   @IBOutlet weak var //Auto: UIButton!
     @IBOutlet weak var returnButton: UIButton!
-    @IBOutlet weak var positioningAutoRecordButton: UIButton!
+ //   @IBOutlet weak var positioningAutoRecordButton: UIButton!
     
 //    override var shouldAutorotate: Bool {
 //        return false
@@ -193,81 +193,81 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 //        }
 //    }
     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
-    @IBAction func onCameraButton(_ sender: Any) {
-        checkLibraryAuthorized()
-        if authorizedFlag != 2{
-            print("not authorized!!!")
-            alertNotAuthorized()
-            return
-        }
- //       stopMotion()
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-        let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
-        let frontCameraMode=someFunctions.getUserDefaultInt(str:"frontCameraMode",ret: 0)
-        if cameraType==0 && frontCameraMode==1{
-            onAutoRecordButton(0)
-            return
-        }else if cameraType==0 && frontCameraMode==2{
-            onPositioningRecordButton(0)
-            return
-        }
-        if cameraType==5{
-            let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
-            self.present(nextView1, animated: true, completion: nil)
-        }else{
-            let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-            nextView.setteiMode=0
-            nextView.autoRecordMode=false
-            self.present(nextView, animated: true, completion: nil)
-        }
-    }
+//    @IBAction func onCameraButton(_ sender: Any) {
+//        checkLibraryAuthorized()
+//        if authorizedFlag != 2{
+//            print("not authorized!!!")
+//            alertNotAuthorized()
+//            return
+//        }
+// //       stopMotion()
+//        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+//        let cameraType=someFunctions.getUserDefaultInt(str: "cameraType", ret: 0)
+//        let frontCameraMode=someFunctions.getUserDefaultInt(str:"frontCameraMode",ret: 0)
+//        if cameraType==0 && frontCameraMode==1{
+//   //         onAutoRecordButton(0)
+//            return
+//        }else if cameraType==0 && frontCameraMode==2{
+//            onPositioningRecordButton(0)
+//            return
+//        }
+//        if cameraType==5{
+//            let nextView1 = storyboard?.instantiateViewController(withIdentifier: "WIFI") as! WifiViewController
+//            self.present(nextView1, animated: true, completion: nil)
+//        }else{
+//            let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+//            nextView.setteiMode=0
+//            nextView.autoRecordMode=false
+//            self.present(nextView, animated: true, completion: nil)
+//        }
+//    }
+//    
+//    @IBAction func onSetteiButtonAuto(_ sender: Any) {
+// 
+////        checkLibraryAuthorized()
+////        if authorizedFlag != 2{
+////            print("not authorized!!!",authorizedFlag)
+////            alertNotAuthorized()
+////            return
+////        }
+////        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
+////        nextView.setteiMode=2
+////        nextView.autoRecordMode=false
+////        nextView.explanationLabeltextColor=UIColor.systemOrange
+////        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+////        self.present(nextView, animated: true, completion: nil)
+//    }
     
-    @IBAction func onSetteiButtonAuto(_ sender: Any) {
- 
+//    @IBAction func onSetteiButtonManual(_ sender: Any) {
 //        checkLibraryAuthorized()
 //        if authorizedFlag != 2{
 //            print("not authorized!!!",authorizedFlag)
 //            alertNotAuthorized()
 //            return
 //        }
+// //       stopMotion()
 //        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-//        nextView.setteiMode=2
+//        nextView.setteiMode=1
 //        nextView.autoRecordMode=false
-//        nextView.explanationLabeltextColor=UIColor.systemOrange
+//        nextView.explanationLabeltextColor=UIColor.systemGreen
 //        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
 //        self.present(nextView, animated: true, completion: nil)
-    }
+//    }
     
-    @IBAction func onSetteiButtonManual(_ sender: Any) {
-        checkLibraryAuthorized()
-        if authorizedFlag != 2{
-            print("not authorized!!!",authorizedFlag)
-            alertNotAuthorized()
-            return
-        }
- //       stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "RECORD") as! RecordViewController
-        nextView.setteiMode=1
-        nextView.autoRecordMode=false
-        nextView.explanationLabeltextColor=UIColor.systemGreen
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-        self.present(nextView, animated: true, completion: nil)
-    }
-    
-    @IBAction func onPositioningRecordButton(_ sender: Any) {
-//        stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-        nextView.isPositional=true
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")//cgfloat-double?
-        self.present(nextView, animated: true, completion: nil)
-    }
-    @IBAction func onAutoRecordButton(_ sender: Any) {
- //       stopMotion()
-        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
-        nextView.isPositional=false
-        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-        self.present(nextView, animated: true, completion: nil)
-    }
+//    @IBAction func onPositioningRecordButton(_ sender: Any) {
+////        stopMotion()
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+//        nextView.isPositional=true
+//        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")//cgfloat-double?
+//        self.present(nextView, animated: true, completion: nil)
+//    }
+//    @IBAction func onAutoRecordButton(_ sender: Any) {
+// //       stopMotion()
+//        let nextView = storyboard?.instantiateViewController(withIdentifier: "AUTORECORD") as! AutoRecordViewController
+//        nextView.isPositional=false
+//        UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
+//        self.present(nextView, animated: true, completion: nil)
+//    }
 //    @IBAction func onChangeLandscapeSide(_ sender: Any) {
 //        var landscapeSide=someFunctions.getUserDefaultInt(str: "landscapeSide", ret: 0)
 //        if landscapeSide==0{
@@ -519,7 +519,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
   //      steelLabel.isHidden=true
   //      autoRecordButton.isHidden=true
   //      positioningAutoRecordButton.isHidden=true
-        setteiButtonAuto.isHidden=true
+ //       setteiButtonAuto.isHidden=true
     //    cameraButton.isHidden=true
     //    sendButton.isHidden=true
     }

@@ -65,6 +65,10 @@ class How2ViewController: UIViewController {
         // スクロールの跳ね返り無し
         scrollView.bounces = true
     }*/
+    @IBAction func onExitButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
