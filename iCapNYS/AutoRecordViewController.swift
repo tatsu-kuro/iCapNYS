@@ -20,6 +20,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     @IBOutlet weak var exitButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     
+    @IBOutlet weak var forSegueButton: UIButton!
     //    @IBOutlet weak var currentTime: UILabel!
    
     func killTimer(){
@@ -123,7 +124,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     override func viewDidLoad() {
         super.viewDidLoad()
   //      UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-
+        forSegueButton.isHidden=true
         UIScreen.main.brightness=1.0
         leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))

@@ -1077,7 +1077,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             bleButton.isHidden=true//使わない
 
             cameraView.isHidden=true
-//            quaternionView.isHidden=true
+            quaternionView.isHidden=true
         }
 //        if setteiMode==0{
 //            zoomBar.isHidden=true
