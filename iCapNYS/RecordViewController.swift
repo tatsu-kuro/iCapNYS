@@ -28,7 +28,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var cameraType:Int = 0
     
 //    @IBOutlet weak var defaultButton: UIButton!
-    @IBOutlet weak var urlLabel: UILabel!
+    @IBOutlet weak var explanationLabel: UILabel!
     
 //    @IBOutlet weak var urlInputField: UITextField!
     var tempURL:String=""
@@ -121,7 +121,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var setteiMode:Int = 0//0:camera, 1:setteimanual, 2:setteiauto
     var autoRecordMode:Bool = false
     let motionManager = CMMotionManager()
-    var explanationLabeltextColor:UIColor=UIColor.systemGreen
+  //  var explanationLabeltextColor:UIColor=UIColor.systemGreen
     
     @IBOutlet weak var previewSwitch: UISwitch!
     
@@ -280,7 +280,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var quaternionView: UIImageView!
     @IBOutlet weak var cameraView:UIImageView!
     
-    @IBOutlet weak var explanationLabel: UILabel!
+    @IBOutlet weak var cameraTypeLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
     
 //    @IBOutlet weak var arrowUpDown: UIImageView!
@@ -422,7 +422,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("count>4")
         }
         setPlayButtonImage()
-        explanationLabel.textColor=explanationLabeltextColor
+   //     explanationLabel.textColor=explanationLabeltextColor
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
   //      urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
         frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
@@ -971,14 +971,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //            explanationText=""
 //        }
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text = cameraTypeStrings[cameraType]
+            cameraTypeLabel.text = cameraTypeStrings[cameraType]
         }else{
-            explanationLabel.text = cameraTypeStringsE[cameraType]
+            cameraTypeLabel.text = cameraTypeStringsE[cameraType]
         }
         setButtonsFrontCameraMode()
   //      defaultButton.isHidden=true
  //       enterButton.isHidden=true
-        urlLabel.isHidden=true
+        explanationLabel.isHidden=true
  //       urlInputField.isHidden=true
         setPreviewLabel()
         zoomBar.isHidden=false
@@ -1024,7 +1024,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 
   //          defaultButton.isHidden=true
  //           enterButton.isHidden=true
-            urlLabel.isHidden=false
+            explanationLabel.isHidden=false
   //          urlInputField.isHidden=true
    //         bleButton.isHidden=true//使わない
 
@@ -1049,7 +1049,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
       //  }
         if recordingFlag==true {
             hideButtonsSlides()
-            explanationLabel.isHidden=true
+            cameraTypeLabel.isHidden=true
             stopButton.isHidden=false
             startButton.isHidden=true
             currentTime.isHidden=false
@@ -1068,7 +1068,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 quaternionView.alpha=1
             }
         }else{
-            explanationLabel.isHidden=false
+            cameraTypeLabel.isHidden=false
             stopButton.isHidden=true
             startButton.isHidden=false
             currentTime.isHidden=true
@@ -1182,7 +1182,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         cameraView.layer.frame=CGRect(x:0,y:0,width:view.bounds.width,height:view.bounds.height)
         cameraView.layer.addSublayer(   whiteView.layer)
         let videoLayer : AVCaptureVideoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        if cameraType == 0{
+        if cameraType == 0 || cameraType == 4{
             let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
             let width=view.bounds.width
             let height=view.bounds.height
@@ -1303,13 +1303,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewSwitch.frame = CGRect(x:leftPadding+10,y:view.bounds.height*3.5/6+sp,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
- //       myFunctions().setButtonProperty(defaultButton, x: x0, y: y0, w: bw, h: bh, UIColor.darkGray,0)
- //       myFunctions().setButtonProperty(enterButton,x:x0+bw*6+sp*6,y:y0,w:bw,h:bh,UIColor.darkGray,0)
-        urlLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
-  //      urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
-  //      urlInputField.layer.borderWidth = 1.0
-  //      urlInputField.layer.cornerRadius=5
-  //      urlInputField.layer.masksToBounds = true
+        explanationLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
@@ -1325,9 +1319,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
-  //      camera.setButtonProperty(manualButton,x:x0+bw*6+sp*6,y:by-bh-sp*2,w:bw,h:bh,UIColor.darkGray,0)
- //       camera.setButtonProperty(auto20sButton,x:x0+bw*6+sp*6,y:by-bh*2-sp*3,w:bw,h:bh,UIColor.darkGray,0)
- //       camera.setButtonProperty(auto90sButton,x:x0+bw*6+sp*6,y:by-bh*3-sp*4,w:bw,h:bh,UIColor.darkGray,0)
         setProperty(label: currentTime, radius: 4)
         camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
@@ -1335,54 +1326,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.frame = CGRect(x:x0+sp*6+bw*6, y: topPadding+sp, width: bw, height: bw*240/440)
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
-       // if setteiMode != 0{//setteiMode==0 record, 1:manual 2:auto
-            startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
-        
-        
-        
+        startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
         startButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realWinHeight-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
-
-       // }else{
-       //     explanationLabel.isHidden=true
-       //     startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-       // }
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
-//        let ex1=realWinWidth/3
-//        let ey1=sp
-//        urlInputField.frame=CGRect(x:x0+bw+sp,y:y0,width:bw*5+sp*4,height: bh)
-//       camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
-        
-        explanationLabel.frame=CGRect(x:x0+bw*6+sp*6-sp*2,y:by-1.5*bh,width:bw+sp*4,height:bh*1.5)
-        var explanationText = cameraTypeStrings[cameraType]
-        if explanationLabeltextColor==UIColor.systemOrange{
-           explanationText=""
-        }
+        cameraTypeLabel.frame=CGRect(x:x0+bw*6+sp*6-sp*2,y:by-1.5*bh,width:bw+sp*4,height:bh*1.5)
+        var cameraTypeText = cameraTypeStrings[cameraType]
         if someFunctions.firstLang().contains("ja"){
-            explanationLabel.text=explanationText// + "録画設定"
+            cameraTypeLabel.text=cameraTypeText
         }else{
-            explanationLabel.text=explanationText// + "Record Settings"
+            cameraTypeLabel.text=cameraTypeText
         }
-    //    if setteiMode == 0{//slider labelを隠す 0:record
-    //            hideButtonsSlides()
-    //    }
-//        if setteiMode==2{
-//            cameraChangeButton.isEnabled=false
-//            //previewSwitch.isHidden=true
-//          //  previewLabel.isHidden=true
-//            focusBar.isHidden=true
-//            focusLabel.isHidden=true
-//            focusValueLabel.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDBar.isHidden=true
-//            LEDValueLabel.isHidden=true
-//            urlLabel.isHidden=true
-//            urlInputField.isHidden=true
-//            enterButton.isHidden=true
-//            defaultButton.isHidden=true
-////            manualButton.isHidden=true
-////            auto20sButton.isHidden=true
-////            auto90sButton.isHidden=true
-//        }
     }
   
     @IBAction func onClickStopButton(_ sender: Any) {
