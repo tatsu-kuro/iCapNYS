@@ -963,8 +963,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
     let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
-    let explanationStrings : Array<String> = ["録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","ultra","録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","WiFiにUnimec-SSIDを設定してください"]
-    let explanationStringsE : Array<String> = ["Stop Button is in the center of the screen","Stop Button is in the center of the screen","ultra","Stop Button is in the center of the screen","Stop Button is in the center of the screen","Set the  Unimec-SSID to WiFi"]
+    let explanationStrings : Array<String> = ["録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","ultra","録画ストップボタンは画面中央にあります","90秒後に自動的に録画終了します","WiFiにUnimec-SSIDを設定してください"]
+    let explanationStringsE : Array<String> = ["Stop Button is in the center of the screen","Stop Button is in the center of the screen","ultra","Recording will end automatically after 90 second","Stop Button is in the center of the screen","Set the  Unimec-SSID to WiFi"]
 
     func setButtonsDisplay(){
         getPaddings()
