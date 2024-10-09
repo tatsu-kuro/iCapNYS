@@ -141,7 +141,9 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
         }
 
         getCameras()
-        camera.makeAlbum()
+      //  if(PHPhotoLibrary.authorizationStatus(for: .readWrite) != .authorized){
+      //      camera.makeAlbum()//
+      //  }
         cameraType=0
 
         set_rpk_ppk()
@@ -678,8 +680,11 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
     }
   
     @IBAction func onExitButtonClicked(_ sender: UIButton) {
-        onClickStopButton()
-//        performSegue(withIdentifier: "AUTORECORD", sender: self)
+        if recordingFlag{
+            onClickStopButton()
+        }else{
+            performSegue(withIdentifier: "AUTORECORD", sender: self)
+        }
     }
     
     func setMotion(){

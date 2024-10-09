@@ -427,7 +427,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   //      urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
         frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
         getCameras()
-        camera.makeAlbum()
+  //      camera.makeAlbum()
         cameraType = camera.getUserDefaultInt(str: "cameraType", ret: 0)
 //        if setteiMode==2{
 //             cameraType=0
@@ -658,6 +658,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             let quat = motion.attitude.quaternion
             if autholizedFlag==false && PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized{
+                someFunctions.makeAlbum()//
                 autholizedFlag=true
                 print("authorized!!!")
                 captureSession.stopRunning()
@@ -960,7 +961,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultraWideCam","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
-    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultraWideCam","Back\nCamera2","withVideo\nAuto90s","WiFi\nCamera"]
+    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultraWideCam","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
     func setButtonsDisplay(){
         getPaddings()
