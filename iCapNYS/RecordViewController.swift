@@ -960,8 +960,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return type
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
-    let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultraWideCam","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
-    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultraWideCam","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
+    let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
+    let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
+
+    let explanationStrings : Array<String> = ["録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","ultra","録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","WiFiにUnimec-SSIDを設定してください"]
+    let explanationStringsE : Array<String> = ["Stop Button is in the center of the screen","Stop Button is in the center of the screen","ultra","Stop Button is in the center of the screen","Stop Button is in the center of the screen","Set the  Unimec-SSID to WiFi"]
 
     func setButtonsDisplay(){
         getPaddings()
