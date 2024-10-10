@@ -406,11 +406,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let url="http://192.168.82.1"
-        //        }
         UserDefaults.standard.set(url,forKey: "urlAdress")
         
-        
-        stopButton.alpha=0.025
         getPaddings()
         setteiMode=1
         autoRecordMode=false
@@ -422,16 +419,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("count>4")
         }
         setPlayButtonImage()
-   //     explanationLabel.textColor=explanationLabeltextColor
+
         print("setteiMode,autoRecordMode",setteiMode,autoRecordMode)
-  //      urlInputField.text=camera.getUserDefaultString(str: "urlAdress", ret: "http://192.168.82.1")
+
         frontCameraMode=someFunctions.getUserDefaultInt(str: "frontCameraMode", ret: 0)
         getCameras()
-  //      camera.makeAlbum()
         cameraType = camera.getUserDefaultInt(str: "cameraType", ret: 0)
-//        if setteiMode==2{
-//             cameraType=0
-//        }
+
         if getUserDefault(str: "previewOn", ret: 0) == 0{
             previewSwitch.isOn=false
         }else{
@@ -439,7 +433,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         setPreviewLabel()
 
-//print("camara:",cameraType)
         set_rpk_ppk()
         setMotion()
         initSession(fps: 60)//遅ければ30fpsにせざるを得ないかも、30fpsだ！
@@ -470,27 +463,20 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         zoomBar.minimumValue = 0
         zoomBar.maximumValue = 0.1
         zoomBar.addTarget(self, action: #selector(onZoomValueChange), for: UIControl.Event.valueChanged)
-//        if setteiMode==2{
-//            zoomBar.value = camera.getUserDefaultFloat(str: "autoZoomValue", ret: 0.002)
-//        }else{
-            zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.0)
-//        }
+
+        zoomBar.value = camera.getUserDefaultFloat(str: "zoomValue", ret: 0.0)
         setZoom(level: zoomBar.value)
         exposeBar.minimumValue = Float(videoDevice!.minExposureTargetBias)
         exposeBar.maximumValue = Float(videoDevice!.maxExposureTargetBias)
         exposeBar.addTarget(self, action: #selector(onExposeValueChange), for: UIControl.Event.valueChanged)
-//        if setteiMode==2{
-//            exposeBar.value=camera.getUserDefaultFloat(str:"autoExposeValue",ret:1.6)
-//        }else{
-            exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:1.6)
-//        }
+
+        exposeBar.value=camera.getUserDefaultFloat(str:"exposeValue",ret:1.6)
+
         onExposeValueChange()
         currentTime.isHidden=true
-     //   startButton.alpha=0.25
         startButton.isHidden=false
         stopButton.isHidden=true
         stopButton.isEnabled=false
-  //      urlInputField.keyboardType = UIKeyboardType.numbersAndPunctuation//phonePad//asciiCapableNumberPad
         setButtonsDisplay()
         if cameraType == 5{
             captureSession.stopRunning()
@@ -501,11 +487,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 repeats: true
             ) { _ in
                 //       print("実行しました")
-              //  if self.recordingFlag{
-                    self.timerCnt += 1
-              //  }else{
-              //      self.timerCnt=0
-              //  }
+                self.timerCnt += 1
+                
                 if self.recordingFlag{//} && timerCnt>3{//trueになった時 0にリセットされる
                     self.currentTime.text=String(format:"%01d",(self.timerCnt)/60) + ":" + String(format: "%02d",(self.timerCnt)%60)
                     if self.timerCnt%2==0{
@@ -521,9 +504,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                 if self.timerCnt == 1 && !self.recordingFlag{//こんなところでズーム処理、どうにかしたいが分からない
                     self.setZoom(level: self.zoomBar.value)
-  //                  self.setBars()
+                    
                 }
-   //             self.doTimer()//
+                
             }
     }
     
@@ -533,7 +516,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
- //       setButtonsDisplay()
         UIApplication.shared.isIdleTimerDisabled = true  // この行
     }
 
@@ -963,26 +945,22 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
     let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
-    let explanationStrings : Array<String> = ["録画ストップボタンは画面中央にあります","録画ストップボタンは画面中央にあります","ultra","録画ストップボタンは画面中央にあります","90秒後に自動的に録画終了します","WiFiにUnimec-SSIDを設定してください"]
-    let explanationStringsE : Array<String> = ["Stop Button is in the center of the screen","Stop Button is in the center of the screen","ultra","Recording will end automatically after 90 second","Stop Button is in the center of the screen","Set the  Unimec-SSID to WiFi"]
+    let explanationStrings : Array<String> = ["録画中は、画面中央部分を押すと録画終了します","","ultra","","録画は90秒後に自動的に終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
+    let explanationStringsE : Array<String> = ["Tap the center of the screen to stop recording","","ultra","","Recording will end automatically after 90s","Set the Unimec-SSID to iPhone-WiFi"]
 
     func setButtonsDisplay(){
         getPaddings()
         setButtonsLocation()
- //       var explanationText = cameraTypeStrings[cameraType]
-//        if explanationLabeltextColor==UIColor.systemOrange{
-//            explanationText=""
-//        }
+
         if someFunctions.firstLang().contains("ja"){
             cameraTypeLabel.text = cameraTypeStrings[cameraType]
+            explanationLabel.text = explanationStrings[cameraType]
         }else{
             cameraTypeLabel.text = cameraTypeStringsE[cameraType]
+            explanationLabel.text = explanationStringsE[cameraType]
         }
         setButtonsFrontCameraMode()
-  //      defaultButton.isHidden=true
- //       enterButton.isHidden=true
-        explanationLabel.isHidden=true
- //       urlInputField.isHidden=true
+ 
         setPreviewLabel()
         zoomBar.isHidden=false
         zoomLabel.isHidden=false
@@ -1002,18 +980,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             LEDBar.isHidden=true
             LEDLabel.isHidden=true
             LEDValueLabel.isHidden=true
- //           previewLabel.isHidden=false
- //           previewSwitch.isHidden=false
- //           setPreviewLabel()
-//            if previewSwitch.isOn{
-//                previewLabel.isHidden=false
-//            }else{
-//                previewLabel.isHidden=true
-//            }
-//            if setteiMode==2{
-//                previewLabel.isHidden=true
-//                previewSwitch.isHidden=true
-//            }
         }else if cameraType == 1{
             
         }else if cameraType == 2{
@@ -1021,37 +987,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }else if cameraType == 3{
             
         }else{//cameraType:5
-            hideButtonsSlides()
             cameraChangeButton.isHidden=false
             currentTime.isHidden=true
-
-  //          defaultButton.isHidden=true
- //           enterButton.isHidden=true
-            explanationLabel.isHidden=false
-  //          urlInputField.isHidden=true
-   //         bleButton.isHidden=true//使わない
-
+           // explanationLabel.isHidden=false
             cameraView.isHidden=true
             quaternionView.isHidden=true
         }
-//        if setteiMode==0{
-//            zoomBar.isHidden=true
-//            zoomLabel.isHidden=true
-//            zoomValueLabel.isHidden=true
-//            exposeBar.isHidden=true
-//            exposeLabel.isHidden=true
-//            exposeValueLabel.isHidden=true
-//            LEDBar.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDValueLabel.isHidden=true
-//        }
-      //  if setteiMode==2{
-      //      startButton.isEnabled=false
-      //  }else{
-      //      startButton.isEnabled=true
-      //  }
+
         if recordingFlag==true {
             hideButtonsSlides()
+            explanationLabel.isHidden=true
             cameraTypeLabel.isHidden=true
             stopButton.isHidden=false
             startButton.isHidden=true
@@ -1065,12 +1010,15 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 quaternionView.alpha=0.1
                 cameraView.alpha=0.3
                 currentTime.alpha=0.1
+                stopButton.alpha=0.02
             }else{
                 currentTime.alpha=1
                 cameraView.alpha=1
                 quaternionView.alpha=1
+                stopButton.alpha=0.08
             }
         }else{
+            explanationLabel.isHidden=false
             cameraTypeLabel.isHidden=false
             stopButton.isHidden=true
             startButton.isHidden=false
@@ -1082,32 +1030,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             cameraView.alpha=1
             quaternionView.alpha=1
         }
-        
     }
-//    func wifiCam(){
-////        cameraView.isHidden=true
-//
-//    }
+
     @IBAction func onCameraChangeButton(_ sender: UIButton) {
-        
         print(sender.frame.minX)
-//        let kkk=sender
-//        print(kkk)
+
         if sender.frame.minX>view.bounds.width/2{//camerachangebutton
             cameraType = cameraChange(cameraType)
         }
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
-        if cameraType == 5{
- //           defaultButton.isHidden=true
- //           enterButton.isHidden=true
- //           urlInputField.isHidden=true
+        if cameraType == 5{//wifi
             focusBar.isHidden=true
             focusLabel.isHidden=true
             focusValueLabel.isHidden=true
             captureSession.stopRunning()
-//            wifiCam()
-            //ここからwifiCapnys
             return
         }
         captureSession.stopRunning()
@@ -1117,15 +1054,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         onFocusValueChange()
         zoomBar.value=UserDefaults.standard.float(forKey: "zoomValue")
         setZoom(level: zoomBar.value)
-//        if cameraType==0{
-//            LEDBar.isHidden=true
-//            LEDLabel.isHidden=true
-//            LEDValueLabel.isHidden=true
-//        }else{
-//            LEDBar.isHidden=false
-//            LEDLabel.isHidden=false
-//            LEDValueLabel.isHidden=false
-//        }
+
         if focusChangeable==false{
             focusBar.isHidden=true
             focusLabel.isHidden=true
@@ -1135,19 +1064,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             focusLabel.isHidden=false
             focusValueLabel.isHidden=false
         }
-
         onExposeValueChange()
-//        setButtons()
-//        cameraType=UserDefaults.standard.integer(forKey:"cameraType")
-//        var explanationText = cameraTypeStrings[cameraType]
-//        if explanationLabeltextColor==UIColor.systemOrange{
-//            explanationText=""
-//        }
-//        if someFunctions.firstLang().contains("ja"){
-//            explanationLabel.text=explanationText + "録画設定"
-//        }else{
-//            explanationLabel.text=explanationText + "Record Settings"
-//        }
     }
     
     func initSession(fps:Double) {
@@ -1330,7 +1247,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         currentTime.alpha=0.5
         quaternionView.frame=CGRect(x:leftPadding+sp,y:sp,width:realWinHeight/5,height:realWinHeight/5)
         startButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/4,y:realWinHeight/4+topPadding,width: realWinHeight/2,height: realWinHeight/2)
-        startButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realWinHeight-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
+   //     startButton.frame=CGRect(x:x0+bw*6+sp*6-sp,y:(realWinHeight-bw)/2-sp,width: bw+2*sp,height:bw+2*sp)
         stopButton.frame=CGRect(x:leftPadding+realWinWidth/2-realWinHeight/2,y:sp+topPadding,width: realWinHeight,height: realWinHeight)
         cameraTypeLabel.frame=CGRect(x:x0+bw*6+sp*6-sp*2,y:by-1.5*bh,width:bw+sp*4,height:bh*1.5)
         var cameraTypeText = cameraTypeStrings[cameraType]
