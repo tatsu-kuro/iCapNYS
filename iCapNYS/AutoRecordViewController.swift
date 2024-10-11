@@ -1040,6 +1040,7 @@ class AutoRecordViewController: UIViewController, AVCaptureVideoDataOutputSample
             print("tempFileExists")
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
+        self.saved2album=false
         if camera.albumExists()==true{
             PHPhotoLibrary.shared().performChanges({ [self] in
                 //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)

@@ -544,6 +544,7 @@ print("stopbutton******")
             print("tempFileExists")
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
+        saved2album=false
         if camera.albumExists()==true{
             PHPhotoLibrary.shared().performChanges({ [self] in
                 //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)

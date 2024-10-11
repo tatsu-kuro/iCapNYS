@@ -146,6 +146,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             // 2. 遷移先のViewControllerを取得
             let next = segue.destination as? ViewController
             print("to main view cotroller*****")
+            next?.videoPHAsset.removeAll()
+            next?.videoDate.removeAll()
+            for i in 0..<someFunctions.videoDate.count {
+                next?.videoDate.append(someFunctions.videoDate[i])
+                next?.videoPHAsset.append(someFunctions.videoPHAsset[i])
+            }
+            
             // 3. １で用意した遷移先の変数に値を渡す
         //    next?.outputValue = self.inputField.text
         }
@@ -1232,6 +1239,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("tempFileExists")
         }
         let fileURL = URL(fileURLWithPath: TempFilePath)
+        self.saved2album=false
         if camera.albumExists()==true{
             PHPhotoLibrary.shared().performChanges({ [self] in
                 let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
@@ -1274,6 +1282,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         //    cameraChangeButton.isHidden=false
         //    currentTime.isHidden=true
+        setPlayButtonImage()
         setButtonsDisplay()
         onCameraChangeButton(stopButton)
         setPlayButtonImage()

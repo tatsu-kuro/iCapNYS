@@ -11,27 +11,27 @@ import AssetsLibrary
 import CoreMotion
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
+
     let someFunctions = myFunctions()
     let TempFilePath: String = "\(NSTemporaryDirectory())temp.mp4"
     let albumName:String = "iCapNYS"
     var videoCurrentCount:Int = 0
     var videoDate = Array<String>()
     var videoPHAsset = Array<PHAsset>()
-    
+
     @IBOutlet weak var how2Button: UIButton!
     
     @IBOutlet weak var gyroButton: UIButton!
     @IBOutlet weak var tableView: UITableView!
-    
+
     private var videoCnt: [Int] = [] {
         didSet {
             tableView?.reloadData()
         }
     }
+
     
-    
-    override func viewDidLayoutSubviews() {
+ /*   override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("viewDidLayoutSubviews*******")
         
@@ -46,7 +46,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
         UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
         setButtons()
-    }
+    }*/
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -56,20 +56,26 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBOutlet weak var returnButton: UIButton!
     
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad*******")
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
-        
+        setButtons()
         someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
         
+  /*      for i in 0..<videoDate.count {
+            someFunctions.videoDate.append(videoDate[i])
+            someFunctions.videoPHAsset.append(videoPHAsset[i])
+        }
+  */
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(foreground(notification:)),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil
         )
-    }
+     }
     @objc func foreground(notification: Notification) {
         print("フォアグラウンド")
     }
@@ -81,7 +87,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             self.tableView.contentOffset.y=contentOffsetY
         }
     }
-    
+ 
     func setButtons(){
         let leftPadding=CGFloat( UserDefaults.standard.integer(forKey:"leftPadding"))
         let rightPadding=CGFloat(UserDefaults.standard.integer(forKey:"rightPadding"))
@@ -97,20 +103,20 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         let by=wh-bh-sp
         let by0=topPadding+sp
         someFunctions.setButtonProperty(returnButton, x:x1but, y: by, w: bw, h: bh, UIColor.darkGray,0)
-        
+
         someFunctions.setButtonProperty(how2Button, x:x1but, y:by0, w: bw, h: bh, UIColor.darkGray,0)
         someFunctions.setButtonProperty(gyroButton, x:x1but, y:by0+bh+sp, w: bw, h: bh, UIColor.darkGray,0)
-        
+
         //以下2行ではRightに設定。leftに変更するときは、infoにもlandscape(left home button)を設定
         let landscapeSide=0//0:right 1:left
         UserDefaults.standard.set(landscapeSide,forKey: "landscapeSide")
         tableView.frame = CGRect(x:leftPadding,y:topPadding+sp,width: x1but-leftPadding-sp*2,height: wh-sp*2)
-        
+ 
     }
-    
+ 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+    
         let contentOffsetY = tableView.contentOffset.y
         print("offset:",contentOffsetY)
         UserDefaults.standard.set(contentOffsetY,forKey: "contentOffsetY")
@@ -129,11 +135,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath:IndexPath) -> UITableViewCell{
         let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier:"cell",for :indexPath)
         let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
-        
+     
         var cellText:String=""
         if topEndBlank==0{
             let number = (indexPath.row+1).description + ")"
-            // cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
+           // cell.textLabel!.text = number + someFunctions.videoDate[indexPath.row]
             cellText = number + someFunctions.videoDate[indexPath.row]
         }else{
             let number = (indexPath.row).description + ")"
@@ -144,6 +150,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             }
         }
         cell.textLabel?.font=UIFont(name:"Courier",size: 24)
+        //    let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath)
         let attributedString = NSMutableAttributedString(string: cellText)
         attributedString.addAttribute(.kern, value: 0, range: NSRange(location: 0, length: attributedString.length)) // 文字間隔を1.5に設定
         cell.textLabel?.attributedText = attributedString
@@ -167,7 +174,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return avAsset
     }
     //play item
-    //    var contentOffsetY:CGFloat=0
+//    var contentOffsetY:CGFloat=0
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         var indexPathRow = indexPath.row
@@ -175,10 +182,10 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
                 return
             }else{
-                indexPathRow -= 1
+             indexPathRow -= 1
             }
         }
-        
+
         videoCurrentCount=indexPathRow// indexPath.row
         print("video:",videoCurrentCount)
         let contentOffsetY = tableView.contentOffset.y
@@ -191,7 +198,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
-        
+      
         nextView.phasset = someFunctions.videoPHAsset[indexPathRow]// indexPath.row]
         nextView.avasset = avasset
         nextView.calcDate = someFunctions.videoDate[indexPathRow]
