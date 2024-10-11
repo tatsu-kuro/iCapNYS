@@ -26,28 +26,12 @@ extension UIColor {
 class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     let camera = myFunctions()
     var cameraType:Int = 0
-    
-//    @IBOutlet weak var defaultButton: UIButton!
+//    var videoDate = Array<String>()
+//    var videoPHAsset = Array<PHAsset>()
+
     @IBOutlet weak var explanationLabel: UILabel!
-    
-//    @IBOutlet weak var urlInputField: UITextField!
     var tempURL:String=""
-//    @IBAction func onEnterButton(_ sender: Any) {
-//        urlInputField.endEditing(true)
-//        UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
-//        print(urlInputField.text)
-//    }
-    
-//    @IBOutlet weak var enterButton: UIButton!
- //   @IBAction func onDefaultButton(_ sender: Any) {
-//        if urlInputField.text=="http://192.168.82.1"{
-//            urlInputField.text=tempURL
-//        }else{
-//            tempURL=urlInputField.text!
-//            urlInputField.text="http://192.168.82.1"
-//        }
- //       UserDefaults.standard.set(urlInputField.text,forKey: "urlAdress")
-//    }
+
     @IBOutlet weak var playButton: UIButton!
     func requestAVAsset(asset: PHAsset)-> AVAsset? {
         guard asset.mediaType == .video else { return nil }
@@ -66,8 +50,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         return avAsset
     }
- //   func thumnailImageForFileUrl(fileUrl: URL) -> UIImage? {
- //       let asset = AVAsset(url: fileUrl)
+ 
     func thumnailImageForAvasset(asset:AVAsset) -> UIImage{
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         
@@ -96,16 +79,12 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         let phasset = someFunctions.videoPHAsset[0]
         let avasset = requestAVAsset(asset: phasset)
-//        let but=thumnailImageForAvasset(asset: avasset!)
-//        playButton.setImage(but, for: .normal)
  
         if avasset == nil {//なぜ？icloudから落ちてきていないのか？
             return
         }
         let storyboard: UIStoryboard = self.storyboard!
         let nextView = storyboard.instantiateViewController(withIdentifier: "playView") as! PlayViewController
-      
-//        nextView.videoURL = someFunctions.videoURL[indexPath.row]
         nextView.phasset = someFunctions.videoPHAsset[0]// indexPath.row]
         nextView.avasset = avasset
         nextView.calcDate = someFunctions.videoDate[0]
@@ -160,6 +139,17 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var shouldAutorotate: Bool {
         return false
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // segueのIDを確認して特定のsegueのときのみ動作させる
+        if segue.identifier == "toMainView" {
+            // 2. 遷移先のViewControllerを取得
+            let next = segue.destination as? ViewController
+            print("to main view cotroller*****")
+            // 3. １で用意した遷移先の変数に値を渡す
+        //    next?.outputValue = self.inputField.text
+        }
+    }
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         print("segueWhatRecord:",segue)
    
@@ -171,18 +161,16 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 print("Exit / recorded")
             }
             print("segue:","\(segue.identifier!)")
-  //          Controller.motionManager.stopDeviceMotionUpdates()
             cameraChangeButton.isHidden=false
             currentTime.isHidden=true
             onCameraChangeButton(stopButton)//cameratypeを変更せず
             recordingFlag=false
-         //   setPlayButtonImage()
-         //   setButtonsDisplay()
+       //  //   setPlayButtonImage()
+       //  //   setButtonsDisplay()
         }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
- 
-             Controller.motionManager.stopDeviceMotionUpdates()
+            Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
             print("segue:","\(segue.identifier!)")
    
@@ -191,8 +179,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
         recordingFlag=false
         print("unwind")
-        someFunctions.getAlbumAssets()
-        someFunctions.getAlbumAssets_last()
+        if someFunctions.videoPHAsset.count<5{
+            someFunctions.getAlbumAssets()
+            print("count<5")
+        }else{
+            someFunctions.getAlbumAssets_last()
+            print("count>4")
+        }
         setPlayButtonImage()
         setButtonsDisplay()
         onCameraChangeButton(stopButton)
@@ -253,26 +246,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBOutlet weak var LEDBar: UISlider!
     @IBOutlet weak var LEDLabel: UILabel!
     @IBOutlet weak var LEDValueLabel: UILabel!
-   
-//    @IBOutlet weak var bleButton: UIButton!
-   
-//    @IBAction func onAuto90sButton(_ sender: Any) {
-//        frontCameraMode=2
-//        setButtonsFrontCameraMode()
-//    }
-//    @IBAction func onAuto20sButton(_ sender: Any) {
-//        frontCameraMode=1
-//        setButtonsFrontCameraMode()
-//
-//    }
-//    @IBAction func onManualButton(_ sender: Any) {
-//        frontCameraMode=0
-//        setButtonsFrontCameraMode()
-//
-//    }
-//    @IBOutlet weak var auto90sButton: UIButton!
- //   @IBOutlet weak var auto20sButton: UIButton!
- //   @IBOutlet weak var manualButton: UIButton!
+
     var frontCameraMode:Int = 0//0:manual 1:20s 2:90s
  
     @IBOutlet weak var currentTime: UILabel!
@@ -282,30 +256,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBOutlet weak var cameraTypeLabel: UILabel!
     @IBOutlet weak var whiteView: UIImageView!
-    
-//    @IBOutlet weak var arrowUpDown: UIImageView!
-   
+       
     @IBOutlet weak var cameraChangeButton: UIButton!
    
     func setBars(){
-//        if setteiMode==2{
-//            zoomBar.value=camera.getUserDefaultFloat(str: "AutoZoomValue", ret: 0)
-//            setZoom(level: zoomBar.value)
-//            
-//        }else{
+
             zoomBar.value=camera.getUserDefaultFloat(str: "zoomValue", ret: 0)
             focusBar.value=camera.getUserDefaultFloat(str: "focusValue", ret: 0)
             setFocus(focus: focusBar.value)
             setZoom(level: zoomBar.value)
-//            LEDBar.value=camera.getUserDefaultFloat(str: "ledValue", ret: 0)
-//            setFlashlevel(level: LEDBar.value)
-//        }
+
     }
     func setZoom(level:Float){//0.0-0.1
-//        var zoom=0.017//level*level/4
-//        if cameraType==1{
-//            zoom=0.007
-//        }
+
         print("setZoom*****:",level)
         if let device = videoDevice {
             zoomValueLabel.text=(Int(level*1000)).description
@@ -525,24 +488,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var prefersHomeIndicatorAutoHidden: Bool {
         return true
     }
-    /*  @objc func onExposeValueChange(){
-     setExpose(expose:exposeBar.value)
-     if setteiMode==2{
-         UserDefaults.standard.set(exposeBar.value, forKey: "autoExposeValue")
-     }else{
-         UserDefaults.standard.set(exposeBar.value, forKey: "exposeValue")
-     }
- }*/
-    
     
     @objc func onZoomValueChange(){
-//        if setteiMode==2{
-//            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-//            UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
-//       }else{
             UserDefaults.standard.set(zoomBar.value, forKey: "zoomValue")
            UserDefaults.standard.set(zoomBar.value, forKey: "autoZoomValue")
-//       }
         setZoom(level: zoomBar.value)
     }
     @objc func onLEDValueChange(){
@@ -1261,8 +1210,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onClickStopButton(_ sender: Any) {
         recordingFlag=false
         setButtonsDisplay()
-//        stopButton.isHidden=true
-//        startButton.isHidden=false
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
 
         if let soundUrl = URL(string:
@@ -1270,10 +1217,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             AudioServicesCreateSystemSoundID(soundUrl as CFURL, &soundIdx)
             AudioServicesPlaySystemSound(soundIdx)
         }
-        
-     //   motionManager.stopDeviceMotionUpdates()
-
-        if fileWriter!.status == .writing {
+         if fileWriter!.status == .writing {
             fileWriter!.finishWriting {
                 debugPrint("trying to finish")
                 return
@@ -1290,12 +1234,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let fileURL = URL(fileURLWithPath: TempFilePath)
         if camera.albumExists()==true{
             PHPhotoLibrary.shared().performChanges({ [self] in
-                //let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: avAsset)
                 let assetRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileURL)!
                 let albumChangeRequest = PHAssetCollectionChangeRequest(for:camera.getPHAssetcollection())
                 let placeHolder = assetRequest.placeholderForCreatedAsset
                 albumChangeRequest?.addAssets([placeHolder!] as NSArray)
-                //imageID = assetRequest.placeholderForCreatedAsset?.localIdentifier
                 print("file add to album")
             }) { [self] (isSuccess, error) in
                 if isSuccess {
@@ -1323,14 +1265,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             sleep(UInt32(0.1))
         }
         
-        
-       // if someFunctions.videoPHAsset.count<5{
+        if someFunctions.videoPHAsset.count<5{
             someFunctions.getAlbumAssets()
-       //     print("count<5")
-       // }else{
+            print("count<5")
+        }else{
             someFunctions.getAlbumAssets_last()
-      //      print("count>4")
-      //  }
+            print("count>4")
+        }
         //    cameraChangeButton.isHidden=false
         //    currentTime.isHidden=true
         setButtonsDisplay()
