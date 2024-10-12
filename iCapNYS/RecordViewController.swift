@@ -901,8 +901,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
     let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
-    let explanationStrings : Array<String> = ["録画中は、画面中央部分を押すと録画終了します","","ultra","","録画は90秒後に自動的に終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
-    let explanationStringsE : Array<String> = ["Tap the center of the screen to stop recording","","ultra","","Recording will end automatically after 90s","Set the Unimec-SSID to iPhone-WiFi"]
+    let explanationStrings : Array<String> = ["録画中は、画面中央部分を押すと録画終了します","","ultra","","録画を開始すると\n90秒後に自動的に録画終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
+        let explanationStringsE : Array<String> = ["Tap the center of the screen to stop recording","","ultra","","After starting recording\nit will automatically stop recording in 90 seconds","Set the Unimec-SSID to iPhone-WiFi"]
 
     func setButtonsDisplay(){
         getPaddings()
@@ -987,7 +987,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             quaternionView.alpha=1
         }
     }
-
+    @IBOutlet weak var cameraChangeButtonDown: UIButton!
+    
+    @IBAction func onCameraChangeButtonDown(_ sender: Any) {
+    }
     @IBAction func onCameraChangeButton(_ sender: UIButton) {
         print(sender.frame.minX)
 
@@ -1179,7 +1182,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewSwitch.frame = CGRect(x:leftPadding+10,y:view.bounds.height*3.5/6+sp,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
-        explanationLabel.frame=CGRect(x:x0,y:sp*2+bh,width:realWinWidth-sp*4,height: bh)
+        explanationLabel.frame=CGRect(x:x0,y:sp*2+bh/2,width:realWinWidth-sp*4,height: bh*2)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
@@ -1194,8 +1197,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
-        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
-        setProperty(label: currentTime, radius: 4)
+        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
+        camera.setButtonProperty(cameraChangeButtonDown,x:x0+bw*6+sp*6+bw/2+2,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
+ setProperty(label: currentTime, radius: 4)
         camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
