@@ -137,7 +137,7 @@ class How2ViewController: UIViewController {
         textViewOnScrollView.text="1: 眼振を撮影するためのiPhoneを眼前に固定する装具が必要です。\n"
         textViewOnScrollView.text.append("バックカメラを利用するときは左上写真のような透明のプラスチックケースが使えます。両面粘着ゲルテープでiPhoneをケースに固定しています。フロントカメラの場合は、慣れれば手で固定することも可能ですが、右上写真のような固定具を厚紙で自作するとブレの少ない眼振が撮れます。\n\n")
         textViewOnScrollView.text.append("2: 眼振録画\n")
-        textViewOnScrollView.text.append("右下の緑色ボタンで使用するカメラを選択し、ズーム、露出などを設定します。解説動画付自動90秒では撮影方法の説明映像が流れ、それを見ながら録画できます。Unimec社のWiFiカメラも選択できます。その場合は、iPhoneのWiFiをUnimec社のSSIDに設定する必要があります。録画中は画面中央に大きなストップボタン（色が薄く、見えにくいです）があり、それをタップすると録画終了します。\n\n")
+        textViewOnScrollView.text.append("右下の緑色ボタンで使用するカメラを選択し、ズーム、露出などを設定します。解説動画付自動90秒では撮影方法の説明映像が流れ、説明を聞きながら録画できます。録画中は画面中央に大きな半透明の薄い色のストップボタンがあり、それをタップすると録画終了します。Unimec社のWiFiカメラも選択できます。その場合は、iPhoneのWiFiをUnimec社のSSIDに設定する必要があります。\n\n")
         textViewOnScrollView.text.append("3: 眼振再生\n")
         textViewOnScrollView.text.append("最後に撮影した眼振動画は右上のサムネイルをタップすると再生出来ます。\n右下のボタンで動画一覧画面に移動します。動画は撮影日時（長さ）で一覧表示されます。項目をタップすると再生出来ます。項目を左にスワイプスすると削除できます。眼振動画はiCapNYSアルバムの中に入っていますので、写真アプリでも再生、削除、送信などの管理ができます。\n再生画面から再生中の動画をメールで送信できます。\n\n")
         textViewOnScrollView.text.append("4: Gyroボタン（一覧表示画面）\n")
