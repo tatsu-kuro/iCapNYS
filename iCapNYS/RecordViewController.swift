@@ -386,14 +386,28 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
 //        }
 //    
 //    
-    @objc func handleSingleTap(_ sender:UITapGestureRecognizer){
-        print("singletap")
+//    @objc func handleSingleTap(_ sender:UITapGestureRecognizer){
+//        print("singletap")
+//        onCameraChange(1)
+//    }
+//    var longTapButton:false
+    @IBAction func onChangeCameraButtonLong(_ sender: UILongPressGestureRecognizer) {
+        print("longbutton****")
+        //if sender.state == .began{
+          //
+//        }else
+        if sender.state == .ended{
+            onCameraChange(-1)
+        }
+    }
+    
+    @IBAction func onChangeCameraButton(_ sender: Any) {
         onCameraChange(1)
     }
-    @objc func handleDoubleTap(_ sender:UITapGestureRecognizer){
-        print("doubletap")
-        onCameraChange(-1)
-    }
+//    @objc func handleDoubleTap(_ sender:UITapGestureRecognizer){
+//        print("doubletap")
+//        onCameraChange(-1)
+//    }
      //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -401,14 +415,14 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let url="http://192.168.82.1"
         UserDefaults.standard.set(url,forKey: "urlAdress")
         
-        let singleTap=UITapGestureRecognizer(target: self, action:#selector(handleSingleTap(_:)))
-        singleTap.numberOfTapsRequired = 1
-        cameraChangeButton.addGestureRecognizer(singleTap)
-        let doubleTap=UITapGestureRecognizer(target: self, action:#selector(handleDoubleTap(_:)))
-        doubleTap.numberOfTapsRequired = 2
-        cameraChangeButton.addGestureRecognizer(doubleTap)
-        singleTap.require(toFail: doubleTap)
-        getPaddings()
+//        let singleTap=UITapGestureRecognizer(target: self, action:#selector(handleSingleTap(_:)))
+//        singleTap.numberOfTapsRequired = 1
+//        cameraChangeButton.addGestureRecognizer(singleTap)
+//        let doubleTap=UITapGestureRecognizer(target: self, action:#selector(handleDoubleTap(_:)))
+//        doubleTap.numberOfTapsRequired = 2
+//        cameraChangeButton.addGestureRecognizer(doubleTap)
+//        singleTap.require(toFail: doubleTap)
+//        getPaddings()
         setteiMode=1
         autoRecordMode=false
         if someFunctions.videoPHAsset.count<5{
