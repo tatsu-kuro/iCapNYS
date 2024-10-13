@@ -169,12 +169,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             print("segue:","\(segue.identifier!)")
             cameraChangeButton.isHidden=false
+            cameraChangeButtonDown.isHidden=false
             currentTime.isHidden=true
             onCameraChangeButton(stopButton)//cameratypeを変更せず
             recordingFlag=false
-       //  //   setPlayButtonImage()
-       //  //   setButtonsDisplay()
-        }else if let vc = segue.source as? AutoRecordViewController{
+          }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
             Controller.motionManager.stopDeviceMotionUpdates()
@@ -869,40 +868,34 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         UserDefaults.standard.set(frontCameraMode, forKey: "frontCameraMode")
     }
     //"frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
-    func cameraChange(_ cameraType:Int)->Int{
+    let camerasIsTelePhoto : Array<Int> = [0,4,1,3,5,0,4,1]
+    let camerasNoTelePhoto : Array<Int> = [0,4,1,5,0,4,1,5]
+
+    func cameraChange(_ cameraType:Int,incDec: Int)->Int{
         var type = cameraType
-        if type == 0{
-            type = 4//auto90
-        }else if type == 4{
-            type = 1//wideAngle
-        }else if type == 1{
-            if telephotoCamera == true{
-          //      type=2//ultraWide
-          //  }else if ultrawideCamera == true{
-                type = 3//telePhoto
-            }else{
-                type = 5
+        if telephotoCamera == true{
+            for i in 1...6{
+                if camerasIsTelePhoto[i]==type{
+                    return camerasIsTelePhoto[i+incDec]
+                }
             }
-     //   }else if type==2{
-     //       if ultrawideCamera==true{
-      //          type=3
-     //       }else{
-     //           type=5
-     //     }
-        }else if type == 3{
-            type = 5//wifiCamera
+            return 0
         }else{
-            type = 0//frontCamera
+            for i in 1...6{
+                if camerasNoTelePhoto[i]==type{
+                    return camerasNoTelePhoto[i+incDec]
+                }
+            }
+            return 0
         }
-        print("cameraType:",type)
-        return type
+      
     }
 //    "frontCamera:","wideAngleCamera:","ultraWideCamera:","telePhotoCamera:","none","wifiCamera"
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
     let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
-    let explanationStrings : Array<String> = ["録画中は、画面中央部分を押すと録画終了します","","ultra","","録画を開始すると\n90秒後に自動的に録画終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
-        let explanationStringsE : Array<String> = ["Tap the center of the screen to stop recording","","ultra","","After starting recording\nit will automatically stop recording in 90 seconds","Set the Unimec-SSID to iPhone-WiFi"]
+    let explanationStrings : Array<String> = ["録画中、中央に極薄い色のストップボタンがあります\nその画面中央部分を押すと録画終了します","録画中、中央に薄い色のストップボタンがあります\nその画面中央部分を押すと録画終了します","ultra","録画中、中央に薄い色のストップボタンがあります\nその画面中央部分を押すと録画終了します","録画を開始すると\n90秒後に自動的に録画終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
+        let explanationStringsE : Array<String> = ["While recording, a faintly visible stop button is in the center\nPress the center part of the screen to stop recording","While recording, a faintly visible stop button is in the center\nPress the center part of the screen to stop recording","ultra","While recording, a faintly visible stop button is in the center\nPress the center part of the screen to stop recording","After starting recording\nit will automatically stop recording in 90 seconds","Set the Unimec-SSID to iPhone-WiFi"]
 
     func setButtonsDisplay(){
         getPaddings()
@@ -944,6 +937,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             
         }else{//cameraType:5
             cameraChangeButton.isHidden=false
+            cameraChangeButtonDown.isHidden=false
             currentTime.isHidden=true
            // explanationLabel.isHidden=false
             cameraView.isHidden=true
@@ -961,6 +955,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isHidden=true
             playButton.isHidden=true
             cameraChangeButton.isHidden=true
+            cameraChangeButtonDown.isHidden=true
             listButton.isHidden=true
             if cameraType == 0{
                 quaternionView.alpha=0.1
@@ -971,7 +966,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 currentTime.alpha=1
                 cameraView.alpha=1
                 quaternionView.alpha=1
-                stopButton.alpha=0.08
+                stopButton.alpha=0.05
             }
         }else{
             explanationLabel.isHidden=false
@@ -981,6 +976,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.isHidden=true
             playButton.isHidden=false
             cameraChangeButton.isHidden=false
+            cameraChangeButtonDown.isHidden=false
             listButton.isHidden=false
             currentTime.alpha=1
             cameraView.alpha=1
@@ -989,14 +985,21 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     @IBOutlet weak var cameraChangeButtonDown: UIButton!
     
-    @IBAction func onCameraChangeButtonDown(_ sender: Any) {
+    @IBAction func onCameraChangeButtonDown(_ sender: UIButton) {
+        print(sender.frame.minX)
+        if sender.frame.minX>view.bounds.width/2{//camerachangebutton
+            cameraType = cameraChange(cameraType,incDec: -1)
+        }
+        onCameraChange_sub()
     }
     @IBAction func onCameraChangeButton(_ sender: UIButton) {
         print(sender.frame.minX)
-
         if sender.frame.minX>view.bounds.width/2{//camerachangebutton
-            cameraType = cameraChange(cameraType)
+            cameraType = cameraChange(cameraType,incDec: 1)
         }
+        onCameraChange_sub()
+    }
+    func onCameraChange_sub(){
         UserDefaults.standard.set(cameraType, forKey: "cameraType")
         setButtonsDisplay()
         if cameraType == 5{//wifi
@@ -1197,9 +1200,18 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDLabel,x:x0,y:by1,w:bw,h:bh,UIColor.white)
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
-        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
-        camera.setButtonProperty(cameraChangeButtonDown,x:x0+bw*6+sp*6+bw/2+2,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
- setProperty(label: currentTime, radius: 4)
+        camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6+bw/2+2,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
+        camera.setButtonProperty(cameraChangeButtonDown,x:x0+bw*6+sp*6,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
+        if let image=cameraChangeButton.image(for:.normal){
+            if let cgImage = image.cgImage{
+                let flippedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .upMirrored)
+                cameraChangeButtonDown.setImage(flippedImage, for: .normal)
+                //cameraChangeButton.tintColor = .white//1どうしても白色にならない、黒になる？？
+            }
+        }
+        
+      //    cameraChangeButtonDown.tintColor = UIColor.white// titleColor(for: UIColor.white)// currentTitleColor=UIColor.white
+        setProperty(label: currentTime, radius: 4)
         camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
         currentTime.font = UIFont.monospacedDigitSystemFont(ofSize: view.bounds.width/30, weight: .medium)
@@ -1284,17 +1296,11 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             someFunctions.getAlbumAssets_last()
             print("count>4")
         }
-        //    cameraChangeButton.isHidden=false
-        //    currentTime.isHidden=true
-        setPlayButtonImage()
+          setPlayButtonImage()
         setButtonsDisplay()
         onCameraChangeButton(stopButton)
         setPlayButtonImage()
-        //  print("segue:","\(segue.identifier!)")
-        //   Controller.motionManager.stopDeviceMotionUpdates()
-        //   Controller.captureSession.stopRunning()
-        //     performSegue(withIdentifier: "fromRecord", sender: self)
-    }
+       }
     
     func hideButtonsSlides() {
         zoomLabel.isHidden=true
@@ -1310,10 +1316,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
+        cameraChangeButtonDown.isHidden=true
         currentTime.isHidden=false
-//        manualButton.isHidden=true
-   //     auto20sButton.isHidden=true
- //       auto90sButton.isHidden=true
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
