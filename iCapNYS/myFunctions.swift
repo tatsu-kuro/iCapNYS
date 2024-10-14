@@ -134,39 +134,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
         group.wait()
         return avAsset
     }
-/*    func getAlbumAssets(){
-        let requestOptions = PHImageRequestOptions()
-        videoPHAsset.removeAll()
-        videoDate.removeAll()
-        requestOptions.isSynchronous = true
-        requestOptions.isNetworkAccessAllowed = true//これでもicloud上のvideoを取ってしまう
-        requestOptions.deliveryMode = .highQualityFormat
-        // アルバムをフェッチ
-        let assetFetchOptions = PHFetchOptions()
-        assetFetchOptions.predicate = NSPredicate(format: "title == %@", albumName)
-        let assetCollections = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .smartAlbumVideos, options: assetFetchOptions)
-        if (assetCollections.count > 0) {//アルバムが存在しない時
-            //同じ名前のアルバムは一つしかないはずなので最初のオブジェクトを使用
-            let assetCollection = assetCollections.object(at:0)
-            // creationDate降順でアルバム内のアセットをフェッチ
-            let fetchOptions = PHFetchOptions()
-            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-            let assets = PHAsset.fetchAssets(in: assetCollection, options: fetchOptions)
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            for i in 0..<assets.count{
-                let asset=assets[i]
-                if asset.duration>0{//静止画を省く
-                    videoPHAsset.append(asset)
-                    let date_sub = asset.creationDate
-                    let date = formatter.string(from: date_sub!)
-                    let duration = String(format:"%.1fs",asset.duration)
-                    videoDate.append(date + "(" + duration + ")")
-                }
-            }
-        }
-    }
-    */
+
     var gettingAlbumF:Bool = false
     func getAlbumAssets_last(){
         gettingAlbumF = true
@@ -204,10 +172,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
                     let date = formatter.string(from: date_sub!)
                     let duration = String(format:"%.1fs",asset.duration)
                     videoDate.insert(date + "(" + duration + ")",at:0)
-//                    asset.video
-//                    videoDura.append(duration)
                 }
-//            }
             gettingAlbumF = false
         }else{
             gettingAlbumF = false
@@ -266,77 +231,7 @@ class myFunctions: NSObject, AVCaptureFileOutputRecordingDelegate{
             gettingAlbumF = false
         }
     }
-   
-//    var setURLfromPHAssetFlag:Bool=false
-//    var getURL:URL?
-/*    func getURLfromPHAsset(asset:PHAsset)->URL?{
-        setURLfromPHAssetFlag=false
-        setURLfromPHAsset(phasset: asset)
-        while setURLfromPHAssetFlag == false{
-            sleep(UInt32(0.1))
-        }
-        print("geturl:",getURL)
-        return getURL!
-    }*/
-    /*
-   func getURLfromPHAsset(asset:PHAsset)->URL?{
-        setURLfromPHAssetFlag=false
-        setURLfromPHAsset(asset: asset)
-        while setURLfromPHAssetFlag == false{
-            sleep(UInt32(0.1))
-        }
-        return getURL!
-    }
-    func setURLfromPHAsset(asset:PHAsset){
-        //        let asset = PHAsset.fetchAssets(withLocalIdentifiers: localID, options: nil).object(at: num)
-        let options = PHVideoRequestOptions()
-        options.version = .original
-        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { [self] (asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
-            if let urlAsset = asset as? AVURLAsset {//on iphone?
-                let localVideoUrl = urlAsset.url as URL
-                getURL = localVideoUrl
-                setURLfromPHAssetFlag=true
-            }else{//on cloud?
-//                getURL = nil//tempFileURL!// URL(string: tempFilePath)
-                getURL = URL(string: tempFilePath)
-                setURLfromPHAssetFlag=true
-            }
-        }
-    }
-    */
- /*   func setURLfromPHAsset(phasset:PHAsset){
-        setURLfromPHAssetFlag=false
-        PHCachingImageManager().requestAVAsset(forVideo: phasset, options: nil) { (asset, audioMix, args) in
-            let asset = asset as! AVURLAsset
-            DispatchQueue.main.async {
-                self.getURL=asset.url
-                self.setURLfromPHAssetFlag=true
-                print("url:",self.getURL as Any)
-            }
-        }
-    }*/
-    /*
-     func playVideo (view: UIViewController, videoAsset: PHAsset) {
-
-         guard (videoAsset.mediaType == .video) else {
-             print("Not a valid video media type")
-             return
-         }
-
-         PHCachingImageManager().requestAVAsset(forVideo: videoAsset, options: nil) { (asset, audioMix, args) in
-             let asset = asset as! AVURLAsset
-
-             DispatchQueue.main.async {
-                 let player = AVPlayer(url: asset.url)
-                 let playerViewController = AVPlayerViewController()
-                 playerViewController.player = player
-                 view.present(playerViewController, animated: true) {
-                     playerViewController.player!.play()
-                 }
-             }
-         }
-     }
-     */
+ 
     
     func setZoom(level:Float){//
         if cameraMode==2{

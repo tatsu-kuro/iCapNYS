@@ -30,23 +30,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         }
     }
 
-    
- /*   override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print("viewDidLayoutSubviews*******")
-        
-        //        if #available(iOS 11.0, *) {
-        // viewDidLayoutSubviewsではSafeAreaの取得ができている
-        let topPadding = self.view.safeAreaInsets.top
-        let bottomPadding = self.view.safeAreaInsets.bottom
-        let leftPadding = self.view.safeAreaInsets.left
-        let rightPadding = self.view.safeAreaInsets.right
-        UserDefaults.standard.set(topPadding,forKey: "topPadding")
-        UserDefaults.standard.set(bottomPadding,forKey: "bottomPadding")
-        UserDefaults.standard.set(leftPadding,forKey: "leftPadding")
-        UserDefaults.standard.set(rightPadding,forKey: "rightPadding")
-        setButtons()
-    }*/
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -63,12 +46,13 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         setButtons()
         someFunctions.getAlbumAssets()//完了したら戻ってくるようにしたつもり
-        
-  /*      for i in 0..<videoDate.count {
-            someFunctions.videoDate.append(videoDate[i])
-            someFunctions.videoPHAsset.append(videoPHAsset[i])
-        }
-  */
+//        someFunctions.videoDate=videoDate
+//        someFunctions.videoPHAsset=videoPHAsset
+//      for i in 0..<videoDate.count {
+//            someFunctions.videoDate.append(videoDate[i])
+//            someFunctions.videoPHAsset.append(videoPHAsset[i])
+//        }
+  
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(foreground(notification:)),
@@ -213,21 +197,22 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     //セルの削除ボタンが押された時の処理
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
+//        let topEndBlank=0//UserDefaults.standard.integer(forKey:"topEndBlank")
         var indexPathRow:Int=indexPath.row
-        if topEndBlank==1{
-            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
-                return
-            }else{
-                indexPathRow -= 1
-            }
-        }
+//        if topEndBlank==1{
+//            if indexPath.row==0 || indexPath.row==someFunctions.videoDate.count+1{
+//                return
+//            }else{
+//                indexPathRow -= 1
+//            }
+//        }
         //削除するだけなのでindexPath_row = indexPath.rowをする必要はない。
         if editingStyle == UITableViewCell.EditingStyle.delete {
             someFunctions.eraseVideo(number: indexPathRow)
             print("erasevideo:",indexPathRow)
             while someFunctions.dialogStatus==0{
                 sleep(UInt32(0.1))
+                print("deleting")
             }
             if someFunctions.dialogStatus==1{
                 someFunctions.videoPHAsset.remove(at: indexPathRow)

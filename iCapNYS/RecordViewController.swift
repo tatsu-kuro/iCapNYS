@@ -139,24 +139,25 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override var shouldAutorotate: Bool {
         return false
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+  /*  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         // segueのIDを確認して特定のsegueのときのみ動作させる
         if segue.identifier == "toMainView" {
             // 2. 遷移先のViewControllerを取得
             let next = segue.destination as? ViewController
             print("to main view cotroller*****")
-            next?.videoPHAsset.removeAll()
-            next?.videoDate.removeAll()
-            for i in 0..<someFunctions.videoDate.count {
-                next?.videoDate.append(someFunctions.videoDate[i])
-                next?.videoPHAsset.append(someFunctions.videoPHAsset[i])
-            }
+            
+            next?.videoPHAsset=someFunctions.videoPHAsset//.removeAll()
+            next?.videoDate=someFunctions.videoDate//.removeAll()
+//            for i in 0..<someFunctions.videoDate.count {
+//                next?.videoDate.append(someFunctions.videoDate[i])
+//                next?.videoPHAsset.append(someFunctions.videoPHAsset[i])
+//            }
             
             // 3. １で用意した遷移先の変数に値を渡す
         //    next?.outputValue = self.inputField.text
         }
-    }
+    }*/
     @IBAction func unwindAction(segue: UIStoryboardSegue) {
         print("segueWhatRecord:",segue)
    
@@ -169,17 +170,26 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             print("segue:","\(segue.identifier!)")
             cameraChangeButton.isHidden=false
- //           cameraChangeButtonDown.isHidden=false
             currentTime.isHidden=true
             onCameraChange(0)//cameratypeを変更せず
             recordingFlag=false
-          }else if let vc = segue.source as? AutoRecordViewController{
+        }else if let vc = segue.source as? AutoRecordViewController{
             let Controller:AutoRecordViewController = vc
             Controller.killTimer()//念の為
             Controller.motionManager.stopDeviceMotionUpdates()
             Controller.captureSession.stopRunning()
             print("segue:","\(segue.identifier!)")
-   
+        }else if let vc = segue.source as? ViewController{
+           /* let Controller:ViewController = vc
+          
+            someFunctions.videoDate=Controller.videoDate
+            someFunctions.videoPHAsset=Controller.videoPHAsset
+        
+            UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
+            setPlayButtonImage()
+            setButtonsDisplay()
+            onCameraChange(0)
+            return*/
         }
         UIScreen.main.brightness = CGFloat(UserDefaults.standard.double(forKey: "brightness"))
         UIApplication.shared.isIdleTimerDisabled = false//スリープする.監視する
@@ -370,32 +380,9 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         realWinWidth=view.bounds.width-leftPadding-rightPadding
         realWinHeight=view.bounds.height-topPadding-bottomPadding/2
     }
-    //    @IBAction func onCameraChangeButtonDown(_ sender: UIButton) {
-    //        print(sender.frame.minX)
-    //        if sender.frame.minX>view.bounds.width/2{//camerachangebutton
-    //            cameraType = cameraChange(cameraType,incDec: -1)
-    //        }
-    //        onCameraChange_sub()
-    //    }
-//        @IBAction func onCameraChangeButton(_ sender: UIButton) {
-//            print(sender.frame.minX)
-//            if sender.frame.minX>view.bounds.width/2{//camerachangebutton
-//                cameraType = cameraChange(cameraType,incDec: 1)
-//            }
-//            onCameraChange_sub()
-//        }
-//    
-//    
-//    @objc func handleSingleTap(_ sender:UITapGestureRecognizer){
-//        print("singletap")
-//        onCameraChange(1)
-//    }
-//    var longTapButton:false
+
     @IBAction func onChangeCameraButtonLong(_ sender: UILongPressGestureRecognizer) {
         print("longbutton****")
-        //if sender.state == .began{
-          //
-//        }else
         if sender.state == .ended{
             onCameraChange(-1)
         }
@@ -404,25 +391,13 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     @IBAction func onChangeCameraButton(_ sender: Any) {
         onCameraChange(1)
     }
-//    @objc func handleDoubleTap(_ sender:UITapGestureRecognizer){
-//        print("doubletap")
-//        onCameraChange(-1)
-//    }
-     //setteiMode 0:Camera 1:manual_settei(green) 2:auto_settei(orange)
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.set(UIScreen.main.brightness, forKey: "brightness")
         let url="http://192.168.82.1"
         UserDefaults.standard.set(url,forKey: "urlAdress")
-        
-//        let singleTap=UITapGestureRecognizer(target: self, action:#selector(handleSingleTap(_:)))
-//        singleTap.numberOfTapsRequired = 1
-//        cameraChangeButton.addGestureRecognizer(singleTap)
-//        let doubleTap=UITapGestureRecognizer(target: self, action:#selector(handleDoubleTap(_:)))
-//        doubleTap.numberOfTapsRequired = 2
-//        cameraChangeButton.addGestureRecognizer(doubleTap)
-//        singleTap.require(toFail: doubleTap)
-//        getPaddings()
+
+        getPaddings()
         setteiMode=1
         autoRecordMode=false
         if someFunctions.videoPHAsset.count<5{
@@ -982,9 +957,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             
         }else{//cameraType:5
             cameraChangeButton.isHidden=false
-//            cameraChangeButtonDown.isHidden=false
             currentTime.isHidden=true
-           // explanationLabel.isHidden=false
             cameraView.isHidden=true
             quaternionView.isHidden=true
         }
@@ -1000,7 +973,6 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             previewSwitch.isHidden=true
             playButton.isHidden=true
             cameraChangeButton.isHidden=true
-//            cameraChangeButtonDown.isHidden=true
             listButton.isHidden=true
             if cameraType == 0{
                 quaternionView.alpha=0.1
@@ -1021,19 +993,19 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             currentTime.isHidden=true
             playButton.isHidden=false
             cameraChangeButton.isHidden=false
- //           cameraChangeButtonDown.isHidden=false
             listButton.isHidden=false
             currentTime.alpha=1
             cameraView.alpha=1
             quaternionView.alpha=1
         }
     }
-//    @IBOutlet weak var cameraChangeButtonDown: UIButton!
     
-
     func onCameraChange(_ incDec:Int){
-        UserDefaults.standard.set(cameraType, forKey: "cameraType")
+        cameraType = camera.getUserDefaultInt(str: "cameraType", ret: 0)
+
         cameraType = cameraChange(cameraType,incDec: incDec)
+        UserDefaults.standard.set(cameraType, forKey: "cameraType")
+    
         setButtonsDisplay()
         if cameraType == 5{//wifi
             focusBar.isHidden=true
@@ -1234,16 +1206,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         camera.setLabelProperty(LEDValueLabel, x: x0+bw/2, y: by1, w: bw/2-2, h: bh/2, UIColor.white,0)
         camera.setButtonProperty(listButton,x:x0+bw*6+sp*6,y:by1,w:bw,h:bh,UIColor.darkGray,0)
         camera.setButtonProperty(cameraChangeButton,x:x0+bw*6+sp*6,y:by,w:bw,h:bh,UIColor.systemGreen,0)
-//        camera.setButtonProperty(cameraChangeButtonDown,x:x0+bw*6+sp*6,y:by,w:bw/2-1,h:bh,UIColor.systemGreen,0)
- //       cameraChangeButtonDown.frame=CGRect(x:x0+bw*6+sp*6,y:by,width:bw,height:bh)//,UIColor.systemGreen,0)
-   /*     if let image=cameraChangeButton.image(for:.normal){
-            if let cgImage = image.cgImage{
-                let flippedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .upMirrored)
-                cameraChangeButtonDown.setImage(flippedImage, for: .normal)
-                //cameraChangeButton.tintColor = .white//1どうしても白色にならない、黒になる？？
-            }
-        }
-        */
+
         setProperty(label: currentTime, radius: 4)
         camera.setButtonProperty(playButton,x:x0+bw*6+sp*6,y:topPadding+sp,w:bw,h:bw*realWinHeight/realWinWidth,UIColor.darkGray,0)
 
@@ -1314,10 +1277,8 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             stopButton.isHidden=true
             //と変更することで、Exitボタンで帰った状態にする。
         }
-   //     motionManager.stopDeviceMotionUpdates()
         captureSession.stopRunning()
-//        onCameraChangeButton(stopButton)
-    //    killTimer()
+
         while saved2album==false{
             sleep(UInt32(0.1))
         }
@@ -1349,13 +1310,10 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         exposeValueLabel.isHidden=true
         exposeBar.isHidden=true
         cameraChangeButton.isHidden=true
-//        cameraChangeButtonDown.isHidden=true
         currentTime.isHidden=false
     }
 
     @IBAction func onClickStartButton(_ sender: Any) {
-        //hideButtonsSlides()
-      //  setButtonsDisplay()
         timerCnt=0
         currentTime.text="0:00"
         recordingFlag=true
