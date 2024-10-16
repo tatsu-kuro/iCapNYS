@@ -914,7 +914,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     let cameraTypeStrings : Array<String> = ["自撮り用\nカメラ","背面\nカメラ1","ultra","背面\nカメラ2","解説動画付\n自動90秒","WiFi\nカメラ"]
     let cameraTypeStringsE : Array<String> = ["Selfie\nCamera","Back\nCamera1","ultra","Back\nCamera2","with Video\nAuto90s","WiFi\nCamera"]
 
-    let explanationStrings : Array<String> = ["録画中、中央に極薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","録画中、中央に薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","ultra","録画中、中央に薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","録画を開始すると\n90秒後に自動的に録画終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
+    let explanationStrings : Array<String> = ["録画中、中央に極薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","録画中、中央に薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","ultra","録画中、中央に薄い色のボタンがあります\nその画面中央部分を押すと録画終了します","ダンボールゴーグル用\n録画を開始すると\n90秒後に自動的に録画終了します","iPhone-WiFiにUnimec-SSIDを設定してください"]
         let explanationStringsE : Array<String> = ["While recording, a faintly visible button is in the center\nPress the center button of the screen to stop recording","While recording, a faintly visible button is in the center\nPress the center button of the screen to stop recording","ultra","While recording, a faintly visible button is in the center\nPress the center button of the screen to stop recording","After starting recording\nit will automatically stop recording in 90 seconds","Set the Unimec-SSID to iPhone-WiFi"]
 
     func setButtonsDisplay(){
@@ -1190,7 +1190,7 @@ class RecordViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewSwitch.frame = CGRect(x:leftPadding+10,y:view.bounds.height*3.5/6+sp,width: bw,height: bh)
         let switchHeight=previewSwitch.frame.height
         previewLabel.frame=CGRect(x:x0,y:view.bounds.height*2.5/6-bh,width: bw*5,height: bh)
-        explanationLabel.frame=CGRect(x:x0,y:sp*2+bh/2,width:realWinWidth-sp*4,height: bh*2)
+        explanationLabel.frame=CGRect(x:x0,y:sp,width:realWinWidth-sp*4,height: bh*3)
         focusBar.frame = CGRect(x:x0+bw+sp, y: by, width:bw*2+sp, height: bh)
         LEDBar.frame = CGRect(x:x0+bw+sp,y:by1,width:bw*2+sp,height:bh)
         
